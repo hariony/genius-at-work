@@ -1,17 +1,23 @@
 ---
 import { LOCALES, LOCALE_META, switchLocalePath, toLocale, useTranslations } from '@/lib/i18n';
 
-/** Chaque langue est annoncée dans sa propre langue et mène à la même page traduite. */
+/**
+ * Chaque langue est annoncée dans sa propre langue et mène à la même page traduite.
+ * `landmark={false}` : simple groupe, pour une seconde occurrence dans la page (pied de page).
+ */
 interface Props {
   class?: string;
+  landmark?: boolean;
 }
 
-const { class: className } = Astro.props;
+const { class: className, landmark = true } = Astro.props;
+const Tag = landmark ? 'nav' : 'div';
 const current = toLocale(Astro.currentLocale);
 const t = useTranslations(current);
 ---
 
-<nav
+<Tag
+  role={landmark ? undefined : 'group'}
   aria-label={t('a11y.languageSwitcher')}
   class:list={['flex items-center gap-0.5 text-[0.8125rem] font-semibold', className]}
 >
@@ -33,4 +39,4 @@ const t = useTranslations(current);
       </a>
     ),
   )}
-</nav>
+</Tag>

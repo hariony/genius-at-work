@@ -1,15 +1,20 @@
 ---
-import ProjectCard from '@/components/sections/ProjectCard.astro';
+import { Picture } from 'astro:assets';
+import Icon from '@/components/ui/Icon.astro';
 import Container from '@/components/ui/Container.astro';
 import { PROJECTS_PAGE } from '@/content/pages';
-import { CATEGORY_LABELS } from '@/lib/portfolio';
-import { toLocale } from '@/lib/i18n';
-import { getProjects, filterCategories } from '@/services/content';
+import { projectTint } from '@/lib/brand';
+import { localizePath, toLocale } from '@/lib/i18n';
+import { imageSource } from '@/lib/images';
+import { CATEGORY_LABELS, projectPeriod } from '@/lib/portfolio';
+import { filterCategories, getProjects } from '@/services/content';
 
 /**
- * Liste des réalisations, filtrable par catégorie, en deux colonnes décalées (rythme
- * éditorial plutôt qu'une grille uniforme). Sans JS, tout est affiché. Le filtre actif est
- * reflété dans l'URL (?category=…), ce qui reprend les anciennes URL de catégories redirigées.
+ * Liste éditoriale des réalisations, filtrable par catégorie : une ligne par projet (numéro,
+ * titre, client, catégories, période). Avec une souris, la capture du projet survolé suit le
+ * curseur ; sans souris (mobile, tablette), elle est affichée dans la ligne.
+ * Sans JS, tout est affiché. Le filtre actif est reflété dans l'URL (?category=…), ce qui
+ * reprend les anciennes URL de catégories redirigées.
  */
 const locale = toLocale(Astro.currentLocale);
 const copy = PROJECTS_PAGE[locale];
@@ -19,7 +24,7 @@ const categories = filterCategories();
 
 <section data-surface="base" class="py-section" aria-label={copy.hero.eyebrow} data-project-filter>
   <Container width="wide" class="flex flex-col gap-section-gap">
-    <div class="flex flex-col gap-4 border-b border-border pb-6 lg:flex-row lg:items-center lg:justify-between">
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <div class="flex flex-wrap gap-2" role="group" aria-label={copy.filterLabel}>
         <button type="button" class="chip" data-filter="all" aria-pressed="true">
           {copy.all}
@@ -31,7 +36,7 @@ const categories = filterCategories();
         ))}
       </div>
       <p
-        class="type-meta"
+        class="type-mono text-fg-muted"
         aria-live="polite"
         data-filter-status
         data-one={copy.count(1)}
@@ -41,30 +46,111 @@ const categories = filterCategories();
       </p>
     </div>
 
-    <ul class="projects-grid grid gap-16 md:grid-cols-2 md:gap-x-10 md:gap-y-20">
-      {projects.map((project) => (
-        <li data-categories={project.categories.join(' ')}>
-          <ProjectCard project={project} sizes="(min-width: 48rem) 45vw, 100vw" ratio="wide" />
-        </li>
-      ))}
-    </ul>
+    <ol class="project-list relative border-t border-border-strong" data-project-list>
+      {projects.map((project, i) => {
+        const period = projectPeriod(project);
+        return (
+          <li data-categories={project.categories.join(' ')} class="border-b border-border">
+            <a
+              href={localizePath(`/projects/${project.slug}/`, locale)}
+              class="project-row group grid gap-x-8 gap-y-3 py-6 no-underline md:grid-cols-[4rem_minmax(0,1fr)_minmax(0,16rem)_6rem_2rem] md:items-center md:py-7"
+            >
+              <span class="type-mono hidden text-fg-muted md:block">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="flex flex-col gap-1">
+                <span class="project-row__title text-[clamp(1.5rem,1.2rem+1.3vw,2.375rem)] leading-[1.1] font-extrabold tracking-[-0.03em]">
+                  {project.title}
+                </span>
+                {project.client && project.client !== project.title && (
+                  <span class="text-small text-fg-muted">{project.client}</span>
+                )}
+              </span>
+              <span class="type-mono text-fg-muted">
+                {project.categories
+                  .map((category) => CATEGORY_LABELS[category][locale])
+                  .join(' · ')}
+              </span>
+              <span class="type-mono text-fg-muted md:text-right">{period}</span>
+              <span class="hidden justify-self-end md:block" aria-hidden="true">
+                <Icon name="arrow-up-right" size={20} />
+              </span>
+              <span
+                class:list={[
+                  'project-row__preview order-first overflow-hidden rounded-md md:order-none',
+                  projectTint(project),
+                ]}
+                aria-hidden="true"
+              >
+                <span class="browser-frame absolute inset-x-[8%] top-[10%] -bottom-[8%]">
+                  <Picture
+                    {...imageSource(project.cover)}
+                    formats={['avif', 'webp']}
+                    widths={[400, 640, 800]}
+                    sizes="(hover: hover) and (pointer: fine) 22rem, 100vw"
+                    alt=""
+                    loading="lazy"
+                    class="size-full object-cover object-top"
+                  />
+                </span>
+              </span>
+            </a>
+          </li>
+        );
+      })}
+    </ol>
   </Container>
 </section>
 
 <style>
-  /* Deuxième colonne décalée vers le bas : rythme éditorial, ordre de lecture inchangé. */
-  @media (min-width: 48rem) {
-    .projects-grid > li:not([hidden]):nth-child(even of :not([hidden])) {
-      transform: translateY(6rem);
+  /* Aperçu : dans la ligne par défaut (mobile, tablette, clavier). */
+  .project-row__preview {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+  }
+
+  .project-row__title {
+    transition:
+      transform var(--duration-base) var(--ease-out),
+      color var(--duration-base) var(--ease-out);
+  }
+
+  /*
+   * Souris : l'aperçu flotte et suit le curseur (position posée par le script dans
+   * --preview-x / --preview-y sur la liste). Seul celui de la ligne survolée est visible.
+   */
+  @media (hover: hover) and (pointer: fine) and (min-width: 48rem) {
+    .project-row__preview {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      width: 22rem;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate3d(var(--preview-x, 0), var(--preview-y, 0), 0) rotate(-2deg);
+      scale: 0.92;
+      transition:
+        opacity var(--duration-base) var(--ease-out),
+        scale var(--duration-base) var(--ease-out);
+      box-shadow: var(--shadow-lg);
     }
-    .projects-grid {
-      padding-bottom: 6rem;
+
+    .project-row:hover .project-row__preview {
+      opacity: 1;
+      scale: 1;
+    }
+
+    .project-row:hover .project-row__title {
+      transform: translateX(0.5rem);
+      color: var(--surface-accent);
     }
   }
 </style>
 
 <script>
-  import { LAYOUT_CHANGE_EVENT } from '@/animations/core/motion';
+  import { LAYOUT_CHANGE_EVENT, MOTION_OK_QUERY } from '@/animations/core/motion';
 
   const init = () => {
     const root = document.querySelector<HTMLElement>('[data-project-filter]');
@@ -106,5 +192,38 @@ const categories = filterCategories();
     if (initial) apply(initial, false);
   };
 
+  /** L'aperçu suit le curseur, avec un léger retard (aucun retard en mouvement réduit). */
+  const followCursor = () => {
+    const list = document.querySelector<HTMLElement>('[data-project-list]');
+    if (!list || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const smooth = window.matchMedia(MOTION_OK_QUERY).matches;
+    const target = { x: 0, y: 0 };
+    const current = { x: 0, y: 0 };
+    let frame = 0;
+
+    const render = () => {
+      const ease = smooth ? 0.18 : 1;
+      current.x += (target.x - current.x) * ease;
+      current.y += (target.y - current.y) * ease;
+      list.style.setProperty('--preview-x', `${current.x.toFixed(1)}px`);
+      list.style.setProperty('--preview-y', `${current.y.toFixed(1)}px`);
+      const settled = Math.abs(target.x - current.x) < 0.5 && Math.abs(target.y - current.y) < 0.5;
+      frame = settled ? 0 : requestAnimationFrame(render);
+    };
+
+    list.addEventListener(
+      'pointermove',
+      (event) => {
+        const rect = list.getBoundingClientRect();
+        // Aperçu (22rem, 16:10) centré sur le curseur, décalé vers la droite.
+        target.x = event.clientX - rect.left + 32;
+        target.y = event.clientY - rect.top - 110;
+        if (!frame) frame = requestAnimationFrame(render);
+      },
+      { passive: true },
+    );
+  };
+
   init();
+  followCursor();
 </script>

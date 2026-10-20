@@ -22,7 +22,7 @@ const t = useTranslations(locale);
 const year = new Date().getFullYear();
 ---
 
-<footer data-surface="dark">
+<footer data-surface="night">
   <Container class="flex flex-col gap-16 pt-section pb-10">
     {cta && (
       <div
@@ -108,7 +108,7 @@ const year = new Date().getFullYear();
           </a>
         </li>
         <li>
-          <LanguageSwitcher />
+          <LanguageSwitcher landmark={false} />
         </li>
       </ul>
     </div>

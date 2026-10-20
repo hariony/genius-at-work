@@ -1,14 +1,15 @@
 /*
- * Styles typographiques composés. Une seule famille (Manrope) : la hiérarchie vient de la
- * taille, de la graisse et de l'interlettrage, jamais d'une seconde police.
- * Titres extra-gras et serrés (direction « Signal ») ; texte courant en graisse normale.
+ * Styles typographiques composés. Deux voix :
+ *   - Manrope pour tout ce qui se lit (titres extra-gras et serrés, texte en graisse normale) ;
+ *   - JetBrains Mono pour le « système » : surtitres, libellés, numéros, étiquettes, métadonnées.
  *
- *   display  titre du hero d'accueil (68 px max)
- *   h1       titre des pages intérieures (56 px max)
+ *   display  titre du hero d'accueil (58 px max)
+ *   h1       titre des pages intérieures (48 px max)
  *   h2       titre de section (44 px max)
  *   h3       titre de bloc (21 px max)
  *   lead     paragraphe d'introduction
- *   label    surtitre, intitulé : capitales espacées, discret
+ *   label    intitulé « système » : chasse fixe, capitales espacées, discret
+ *   mono     donnée « système » : numéro, compteur, technologie, horloge
  *   meta     information secondaire (dates, compteurs)
  */
 
@@ -33,10 +34,15 @@
 }
 
 @utility type-label {
-  @apply text-label font-semibold uppercase;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
-/* Libellé « système » en chasse fixe : couches, horloge, données d'un projet. */
+/* Donnée « système » en chasse fixe : numéros, couches, horloge, données d'un projet. */
 @utility type-mono {
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -50,7 +56,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Surtitre de section : petite puce de la couleur d'étincelle + libellé. */
+/* Surtitre de section : puce de la couleur d'étincelle + libellé « système ». */
 @utility eyebrow {
   @apply inline-flex items-center gap-2.5 type-label text-fg-muted;
 
@@ -66,10 +72,14 @@
 
 /*
  * Surligneur citron sous un mot ou une expression clé : une bande pleine sur la moitié basse
- * du texte (arrêt net, pas de dégradé), qui ne déborde jamais sur la ligne précédente.
+ * du texte (arrêt net, pas de dégradé), qui ne déborde jamais sur la ligne précédente. La bande
+ * se déroule à l'arrivée (motion.css) ; sans animation, elle est déjà là.
  */
 @utility mark {
-  background-image: linear-gradient(to top, var(--surface-mark) 0 0.46em, transparent 0.46em);
+  background-image: linear-gradient(var(--surface-mark), var(--surface-mark));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 0.46em;
   padding-inline: 0.06em;
   margin-inline: -0.06em;
   box-decoration-break: clone;

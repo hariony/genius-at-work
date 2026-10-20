@@ -3,7 +3,7 @@ import { Picture } from 'astro:assets';
 import { projectTint } from '@/lib/brand';
 import { imageSource } from '@/lib/images';
 import Icon from '@/components/ui/Icon.astro';
-import { CATEGORY_LABELS } from '@/lib/portfolio';
+import { CATEGORY_LABELS, projectPeriod } from '@/lib/portfolio';
 import { localizePath, toLocale } from '@/lib/i18n';
 import type { Project } from '@/types/content';
 
@@ -31,11 +31,7 @@ const {
   class: className,
 } = Astro.props;
 const locale = toLocale(Astro.currentLocale);
-const period = project.period
-  ? project.period.start === project.period.end
-    ? `${project.period.start}`
-    : `${project.period.start}–${project.period.end}`
-  : undefined;
+const period = projectPeriod(project);
 const feature = variant === 'feature';
 ---
 

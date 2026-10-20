@@ -1,22 +1,21 @@
 /*
- * Genius At Work — design tokens (direction « Signal »).
- * Source de vérité : docs/proposal/03-refonte-visuelle.md
+ * Genius At Work — design tokens (direction « Sous charge »).
+ * Référence : docs/design-system.md ; démonstration vivante : /design-system (non indexée).
  *
  * Deux niveaux :
- *   1. Palette brute (--color-ink, --color-blue…) : couleurs de marque, utilisables pour les
- *      aplats décoratifs (formes, pastilles) et dans le styleguide.
+ *   1. Palette brute (--color-ink, --color-blue…) : couleurs de marque.
  *   2. Rôles sémantiques (--color-bg, --color-fg, --color-accent…) : consommés par les
- *      composants. Ils basculent selon la surface de la section : [data-surface="base|subtle|dark"].
+ *      composants. Ils basculent selon la surface de la section :
+ *      [data-surface="base|subtle|night"].
  *
  * Rôles de la palette (contrastes WCAG mesurés) :
- *   Primary    bleu électrique #1F4BFF  liens, boutons, actif (5,5:1 sur papier ; blanc dessus 6:1)
- *   Secondary  encre           #0A0B1E  texte, surfaces sombres
- *   Vives      cyan #00C2FF, lilas #A98BFF, citron #C8F031 : aplats et surlignage,
+ *   Neutres    papier #F6F5F1, sable #EDECE6, encre #0A0B1E, nuit #07081A,
+ *              ardoise #5B5E70 (5,9:1 sur papier), brume #A3A6BD (8,3:1 sur nuit)
+ *   Signal     bleu électrique #1F4BFF sur clair (5,5:1 ; blanc dessus 6:1),
+ *              cyan #00C2FF sur sombre (9,6:1 ; encre dessus 9,4:1) : action, état
+ *   Vives      cyan #00C2FF, lilas #A98BFF, citron #C8F031 : aplats, pastilles, surligneur,
  *              toujours avec de l'encre dessus (9,4 / 7,3 / 14,8:1), jamais en texte sur clair
- *   Background papier          #F6F5F1
- *   Surface    blanc           #FFFFFF
- *   Muted      ardoise         #5B5E70  (5,9:1 sur papier)
- *   Border     ligne           #E2E0D9
+ *   Vermillon  #FF5A36 sur sombre, #C93410 sur clair (4,8:1) : rare (charge, refus)
  */
 
 @theme {
@@ -37,14 +36,14 @@
   --color-cyan: #00c2ff;
   --color-lilac: #a98bff;
   --color-lime: #c8f031;
-  /* Direction « Sous charge » : nuit d'Antananarivo et accent chaud, rare (appels, mot clé). */
+  /* Nuit d'Antananarivo et accent chaud, rare. */
   --color-night: #07081a;
   --color-vermillion: #ff5a36; /* 6,3:1 sur encre ; encre dessus 6,3:1 */
   --color-vermillion-deep: #c93410; /* texte sur papier : 4,8:1 */
   --color-success: #167a4a;
   --color-danger: #b42318;
 
-  /* ---------- Typographie : une seule famille ---------- */
+  /* ---------- Typographie : Manrope pour lire, JetBrains Mono pour le « système » ---------- */
   --font-sans:
     'Manrope Variable', 'Manrope Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
     sans-serif;
@@ -53,11 +52,11 @@
   --font-mono:
     'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 
-  /* Échelle fluide 360 → 1440 px. Titres extra-gras et serrés ; le plus grand plafonne à 68 px. */
+  /* Échelle fluide 360 → 1440 px. Titres extra-gras et serrés : accueil 58 px, pages 48 px max. */
   --text-display: clamp(2.25rem, 1.85rem + 2.1vw, 3.625rem);
   --text-display--line-height: 1;
   --text-display--letter-spacing: -0.045em;
-  --text-h1: clamp(2.25rem, 1.83rem + 1.85vw, 3.5rem);
+  --text-h1: clamp(2rem, 1.72rem + 1.25vw, 3rem);
   --text-h1--line-height: 1.04;
   --text-h1--letter-spacing: -0.04em;
   --text-h2: clamp(1.875rem, 1.6rem + 1.2vw, 2.75rem);
@@ -153,13 +152,13 @@
   --surface-accent-fg: var(--color-white);
   --surface-accent-soft: var(--color-blue-soft);
   --surface-focus: var(--color-blue);
-  /* Texte mis en valeur (« @ » du logo, suffixes de chiffres) : doit rester lisible. */
+  /* Signal : texte mis en valeur (« @ » du logo, chiffres), traits et nœuds actifs. */
   --surface-highlight: var(--color-blue);
-  /* Puces et repères graphiques. */
+  /* Puce des surtitres. */
   --surface-spark: var(--color-blue);
   /* Surligneur : fond citron sous du texte encre (14,8:1). */
   --surface-mark: var(--color-lime);
-  /* Accent chaud (mot clé, signal fort) : lisible en texte sur la surface. */
+  /* Accent chaud (charge, refus) : lisible en texte sur la surface. */
   --surface-hot: var(--color-vermillion-deep);
 }
 
@@ -168,25 +167,8 @@
   --surface-bg-raised: var(--color-white);
 }
 
-[data-surface='dark'] {
-  --surface-bg: var(--color-ink);
-  --surface-bg-raised: var(--color-ink-2);
-  --surface-fg: #f4f3ee;
-  --surface-fg-muted: var(--color-mist);
-  --surface-border: var(--color-ink-line);
-  --surface-border-strong: #3d4166;
-  --surface-accent: var(--color-cyan);
-  --surface-accent-fg: var(--color-ink);
-  --surface-accent-soft: rgb(0 194 255 / 0.12);
-  --surface-focus: var(--color-cyan);
-  --surface-highlight: var(--color-cyan);
-  --surface-spark: var(--color-lime);
-  --surface-mark: var(--color-lime);
-  --surface-hot: var(--color-vermillion);
-}
-
-/* Nuit : surface du hero entre le soir et l'aube à Antananarivo ; l'en-tête la reprend
-   tant qu'il est au-dessus du hero (SiteHeader pose data-past-hero au-delà). */
+/* Nuit : sections sombres et hero entre le soir et l'aube à Antananarivo. L'en-tête la reprend
+   tant qu'il est au-dessus d'un hero de nuit (SiteHeader pose data-past-hero au-delà). */
 [data-surface='night'],
 html[data-hero-surface='night'] [data-site-header]:not([data-past-hero]) {
   --surface-bg: var(--color-night);
@@ -200,7 +182,7 @@ html[data-hero-surface='night'] [data-site-header]:not([data-past-hero]) {
   --surface-accent-soft: rgb(0 194 255 / 0.12);
   --surface-focus: var(--color-cyan);
   --surface-highlight: var(--color-cyan);
-  --surface-spark: var(--color-vermillion);
+  --surface-spark: var(--color-lime);
   --surface-mark: var(--color-lime);
   --surface-hot: var(--color-vermillion);
 }

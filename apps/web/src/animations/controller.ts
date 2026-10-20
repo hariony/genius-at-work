@@ -4,6 +4,7 @@ import parallax from './presets/parallax';
 import revealImage from './presets/reveal-image';
 import revealLines from './presets/reveal-lines';
 import revealUp from './presets/reveal-up';
+import stack from './presets/stack';
 import stagger from './presets/stagger';
 import type { Preset, PresetEnv } from './presets/types';
 import type { Scene } from './scenes/types';
@@ -19,6 +20,7 @@ const PRESETS: Record<string, Preset> = {
   'reveal-lines': revealLines,
   'reveal-image': revealImage,
   stagger,
+  stack,
   parallax,
 };
 
@@ -27,7 +29,6 @@ const PRESETS: Record<string, Preset> = {
  * une seule fois à l'entrée dans l'écran ; aucune boucle permanente, aucun défilement détourné.
  */
 const SCENES: Record<string, () => Promise<{ default: Scene }>> = {
-  'hero-collage': () => import('./scenes/hero-collage'),
   'ai-trace': () => import('./scenes/ai-trace'),
   'ai-chain': () => import('./scenes/ai-chain'),
 };

@@ -864,7 +864,7 @@
           "services": {
             "label": "Services",
             "title": "Ce que nous construisons.",
-            "intro": "Six métiers, une même exigence : du site vitrine au logiciel métier, de la conception à l’hébergement."
+            "intro": "Sept métiers, une même exigence : du site vitrine à l’IA, de la conception à l’hébergement."
           },
           "engineering": {
             "label": "Ingénierie",
@@ -939,7 +939,7 @@
           "services": {
             "label": "Services",
             "title": "What we build.",
-            "intro": "Six disciplines, one standard: from showcase sites to business software, from design to hosting."
+            "intro": "Seven disciplines, one standard: from showcase sites to AI, from design to hosting."
           },
           "engineering": {
             "label": "Engineering",
@@ -963,9 +963,9 @@
       "fr": {
         "hero": {
           "seoTitle": "Services",
-          "seoDescription": "Sites internet, applications mobiles et web, logiciels métier, e-commerce, maintenance et hébergement : les six métiers de Genius At Work.",
+          "seoDescription": "Sites internet, applications mobiles et web, logiciels métier, IA, e-commerce, maintenance et hébergement : les sept métiers de Genius At Work.",
           "eyebrow": "Services",
-          "title": "Six métiers, une même équipe.",
+          "title": "Sept métiers, une même équipe.",
           "lead": "De la conception à l’hébergement, nous prenons en charge tout le cycle de vie de vos produits numériques, avec les mêmes standards de qualité."
         },
         "list": {
@@ -988,9 +988,9 @@
       "en": {
         "hero": {
           "seoTitle": "Services",
-          "seoDescription": "Websites, mobile and web apps, business software, e-commerce, maintenance and hosting: the six disciplines of Genius At Work.",
+          "seoDescription": "Websites, mobile and web apps, business software, AI, e-commerce, maintenance and hosting: the seven disciplines of Genius At Work.",
           "eyebrow": "Services",
-          "title": "Six disciplines, one team.",
+          "title": "Seven disciplines, one team.",
           "lead": "From design to hosting, we handle the whole life cycle of your digital products, to the same quality standards."
         },
         "list": {

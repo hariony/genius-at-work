@@ -16,7 +16,7 @@ const copy = AI_PAGE[toLocale(Astro.currentLocale)].capabilities;
       intro={copy.intro}
       id="ai-capabilities-title"
     />
-    <ol class="border-t border-border-strong" data-anim="stagger">
+    <ol class="border-t border-border-strong" data-anim="stack">
       {copy.items.map((item, i) => (
         <li class="capability grid gap-x-10 gap-y-3 border-b border-border py-8 lg:grid-cols-12">
           <span class="type-mono text-fg-muted tabular-nums lg:col-span-1 lg:pt-1.5">

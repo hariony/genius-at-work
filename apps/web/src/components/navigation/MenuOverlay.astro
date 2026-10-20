@@ -70,7 +70,7 @@ const activePath = activeNavPath(stripLocale(Astro.url.pathname));
         <a href={`mailto:${SITE.email}`} class="no-underline">
           {SITE.email}
         </a>
-        <LanguageSwitcher />
+        <LanguageSwitcher landmark={false} />
       </div>
     </div>
   </div>

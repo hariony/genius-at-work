@@ -23,7 +23,7 @@ const services = getServices();
   <Container class="flex flex-col gap-section-gap">
     <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="services-title" />
 
-    <ol class="border-t border-border" data-anim="stagger">
+    <ol class="border-t border-border" data-anim="stack">
       {services.map((service, i) => (
         <li class="border-b border-border">
           <a

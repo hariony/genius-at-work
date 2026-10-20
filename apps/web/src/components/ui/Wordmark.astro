@@ -5,6 +5,7 @@ import LogoMark from './LogoMark.astro';
 /**
  * Logo : monogramme « G » + « genius@work » en minuscules extra-grasses.
  * L'arobase prend la couleur de mise en valeur (bleu sur clair, cyan sur sombre).
+ * Les lecteurs d'écran entendent le nom du site (« Genius At Work »), pas « genius arobase work ».
  */
 interface Props {
   class?: string;
@@ -24,7 +25,8 @@ const [before, after] = SITE.wordmark.split('@');
   translate="no"
 >
   <LogoMark size={size} />
-  <span>
+  <span class="sr-only">{SITE.name}</span>
+  <span aria-hidden="true">
     {before}
     <span class="text-highlight">@</span>
     {after}

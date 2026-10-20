@@ -1,5 +1,5 @@
 ---
-/** Étiquette discrète (technologie, catégorie) : fond teinté, sans bordure appuyée. */
+/** Étiquette « système » (technologie, catégorie) : chasse fixe, contour fin. */
 interface Props {
   class?: string;
 }
@@ -9,7 +9,7 @@ const { class: className } = Astro.props;
 
 <span
   class:list={[
-    'inline-flex items-center rounded-xs bg-fg/5 px-2 py-0.5 text-[0.8125rem] leading-6 font-medium text-fg-muted',
+    'type-mono inline-flex items-center rounded-xs border border-border-strong px-2 py-1 text-fg-muted',
     className,
   ]}
 >
