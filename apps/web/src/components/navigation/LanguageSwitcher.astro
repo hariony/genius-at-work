@@ -1,0 +1,36 @@
+---
+import { LOCALES, LOCALE_META, switchLocalePath, toLocale, useTranslations } from '@/lib/i18n';
+
+/** Chaque langue est annoncée dans sa propre langue et mène à la même page traduite. */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const current = toLocale(Astro.currentLocale);
+const t = useTranslations(current);
+---
+
+<nav
+  aria-label={t('a11y.languageSwitcher')}
+  class:list={['flex items-center gap-0.5 text-[0.8125rem] font-semibold', className]}
+>
+  {LOCALES.map((locale) =>
+    locale === current ? (
+      <span class="px-1.5 py-2 text-fg" aria-current="true" lang={locale}>
+        <span aria-hidden="true">{locale.toUpperCase()}</span>
+        <span class="sr-only">{LOCALE_META[locale].label}</span>
+      </span>
+    ) : (
+      <a
+        href={switchLocalePath(Astro.url.pathname, locale)}
+        hreflang={locale}
+        lang={locale}
+        class="px-1.5 py-2 text-fg-muted no-underline transition-colors duration-fast hover:text-fg"
+      >
+        <span aria-hidden="true">{locale.toUpperCase()}</span>
+        <span class="sr-only">{LOCALE_META[locale].label}</span>
+      </a>
+    ),
+  )}
+</nav>

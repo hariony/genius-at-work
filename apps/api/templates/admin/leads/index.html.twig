@@ -1,0 +1,129 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Demandes de contact{% endblock %}
+
+{% block main %}
+    {% set in_progress = (counts.qualified ?? 0) + (counts.proposal ?? 0) %}
+    {% set query_params = {status: filters.status ? filters.status.value : null, type: filters.type ? filters.type.value : null, q: filters.q ?: null}|filter(v => v is not null) %}
+
+    <header class="page-head">
+        <p class="eyebrow">CRM</p>
+        <h1 class="page-title">Demandes de contact</h1>
+        <p class="muted">Les demandes envoyées depuis le formulaire du site, de la plus récente à la plus ancienne.</p>
+    </header>
+
+    <section class="kpis" aria-label="Chiffres clés">
+        <a class="kpi kpi--blue" href="{{ path('admin_leads', {status: 'new'}) }}">
+            <span class="kpi-label">À traiter</span>
+            <span class="kpi-value">{{ counts.new ?? 0 }}</span>
+            <span class="kpi-hint">nouvelles demandes</span>
+        </a>
+        <div class="kpi kpi--lilac">
+            <span class="kpi-label">En cours</span>
+            <span class="kpi-value">{{ in_progress }}</span>
+            <span class="kpi-hint">qualifiées ou en proposition</span>
+        </div>
+        <a class="kpi kpi--lime" href="{{ path('admin_leads', {status: 'won'}) }}">
+            <span class="kpi-label">Gagnées</span>
+            <span class="kpi-value">{{ counts.won ?? 0 }}</span>
+            <span class="kpi-hint">sur {{ total }} au total</span>
+        </a>
+        <div class="kpi kpi--cyan">
+            <span class="kpi-label">30 derniers jours</span>
+            <span class="kpi-value">{{ received_last_30_days }}</span>
+            <span class="kpi-hint">demandes reçues</span>
+        </div>
+    </section>
+
+    <section class="panel" aria-labelledby="leads-title">
+        <h2 id="leads-title" class="visually-hidden">Liste des demandes</h2>
+        <div class="toolbar">
+            <nav class="tabs" aria-label="Filtrer par statut">
+                <a class="tab" href="{{ path('admin_leads', query_params|filter((v, k) => k != 'status')) }}"{% if not filters.status %} aria-current="true"{% endif %}>
+                    Toutes <span class="tab-count">{{ total }}</span>
+                </a>
+                {% for status in statuses %}
+                    <a class="tab" href="{{ path('admin_leads', query_params|merge({status: status.value})) }}"{% if filters.status == status %} aria-current="true"{% endif %}>
+                        <span class="dot dot--{{ status.value }}" aria-hidden="true"></span>
+                        {{ status|status_label }} <span class="tab-count">{{ counts[status.value] ?? 0 }}</span>
+                    </a>
+                {% endfor %}
+            </nav>
+
+            <form class="filters" method="get" action="{{ path('admin_leads') }}" role="search" data-autosubmit>
+                {% if filters.status %}<input type="hidden" name="status" value="{{ filters.status.value }}">{% endif %}
+                <label class="search">
+                    <span class="visually-hidden">Rechercher</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input class="input input--search" type="search" name="q" value="{{ filters.q }}" placeholder="Référence, nom, e-mail, entreprise" data-search-shortcut>
+                    <kbd class="kbd" aria-hidden="true">/</kbd>
+                </label>
+                <label class="select-wrap">
+                    <span class="visually-hidden">Type de projet</span>
+                    <select class="input input--select" name="type">
+                        <option value="">Tous les projets</option>
+                        {% for type in project_types %}
+                            <option value="{{ type.value }}"{% if filters.type == type %} selected{% endif %}>{{ type|project_type_label }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <button class="button button--ghost" type="submit">Filtrer</button>
+            </form>
+        </div>
+
+        {% if page.items is empty %}
+            <div class="empty">
+                <span class="empty-shape" aria-hidden="true"></span>
+                {% if filters.q or filters.type or filters.status %}
+                    <p class="empty-title">Aucune demande ne correspond.</p>
+                    <p class="muted"><a href="{{ path('admin_leads') }}">Effacer les filtres</a></p>
+                {% else %}
+                    <p class="empty-title">Aucune demande pour l’instant.</p>
+                    <p class="muted">Les demandes envoyées depuis le site apparaîtront ici.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Demande</th>
+                        <th scope="col">Contact</th>
+                        <th scope="col">Projet</th>
+                        <th scope="col">Budget</th>
+                        <th scope="col">Reçue</th>
+                        <th scope="col">Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lead in page.items %}
+                        <tr class="row{% if lead.status.value == 'new' %} row--new{% endif %}{% if lead.anonymized %} row--anonymized{% endif %}">
+                            <td data-label="Demande">
+                                <a class="row-link ref" href="{{ path('admin_lead_show', {id: lead.id.value}) }}">{{ lead.reference }}</a>
+                            </td>
+                            <td data-label="Contact">
+                                <span class="strong">{{ lead.fullName }}</span>
+                                {% if lead.company %}<span class="muted small">{{ lead.company }}</span>{% endif %}
+                            </td>
+                            <td data-label="Projet">{{ lead.projectType|project_type_label }}</td>
+                            <td data-label="Budget" class="muted">{{ lead.budgetRange|budget_label }}</td>
+                            <td data-label="Reçue"><time datetime="{{ lead.createdAt|date('c') }}" title="{{ lead.createdAt|date('d/m/Y à H:i') }}">{{ lead.createdAt|ago }}</time></td>
+                            <td data-label="Statut">{% include 'admin/leads/_status.html.twig' with {status: lead.status} %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if page.pageCount > 1 %}
+                <nav class="pagination" aria-label="Pagination">
+                    {% if page.page > 1 %}
+                        <a class="button button--ghost" href="{{ path('admin_leads', query_params|merge({page: page.page - 1})) }}" rel="prev">← Précédentes</a>
+                    {% endif %}
+                    <span class="muted">Page {{ page.page }} sur {{ page.pageCount }} · {{ page.total }} demandes</span>
+                    {% if page.page < page.pageCount %}
+                        <a class="button button--ghost" href="{{ path('admin_leads', query_params|merge({page: page.page + 1})) }}" rel="next">Suivantes →</a>
+                    {% endif %}
+                </nav>
+            {% endif %}
+        {% endif %}
+    </section>
+{% endblock %}

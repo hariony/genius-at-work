@@ -1,0 +1,46 @@
+MagicStay | Genius at work Services
+Home
+Services
+Projects
+Stacks
+Contact
+Home
+Services
+Projects
+Stacks
+Contact
+# MagicStay
+Home
+Réalisations
+MagicStay
+##
+Vacation rental, short-term rental, seasonal rental and apartment hotel
+Date de début :
+15 July , 2022
+Date de fin :
+27 July , 2022
+Client :
+Magistay
+Catégories :
+Web app, Design UX/UI, Innovation, Showcase site, Travel
+Technologies :
+Bootstrap, Cordova, Framework7, Jquery, Wordpress, Zend
+[link:https://www.magicstay.com/] Voir le projet
+##### Détails du projet
+### MagicStay, the best accommodation for your business trips or professional mobility
+The adventure began in 2013. At that time Valéry was working in an event management group which organized many international trade shows. He travelled a lot, alone and with his team, and was not allowed to book apartments because they were not referenced in the SBT (Self Booking Tool) used by his company. The apartments did not meet security requirements and could not be booked immediately. However, Valery used this type of accommodation during his holidays and appreciated the space, independence and feeling of being at home.
+## Prêt à discuter un projet avec nous ?
+######
+Vous avez des besoins spécifiques ? Nous avons des solutions techniques !
+Contactez-nous
+[link:https://www.facebook.com/geniusatworksarl]
+[link:https://www.linkedin.com/in/genius-at-work-com/]
+© Genius at work Services 2026
+
+--- IMAGES ---
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo-dark.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/flag/french.png | Sun images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/sun-01.svg | Sun images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/vector.svg | Vector Images
+https://genius-at-work.com/wp-content/uploads/2022/07/magicstay.jpg | MagicStay

@@ -1,0 +1,24 @@
+---
+import PageHero from '@/components/sections/PageHero.astro';
+import Button from '@/components/ui/Button.astro';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { NOT_FOUND_PAGE } from '@/content/not-found';
+import { localizePath, toLocale } from '@/lib/i18n';
+
+const locale = toLocale(Astro.currentLocale);
+const copy = NOT_FOUND_PAGE[locale];
+const [first, ...others] = copy.links;
+---
+
+<PageLayout title={copy.seoTitle} description={copy.seoDescription} noindex>
+  <PageHero eyebrow={copy.eyebrow} title={copy.title} lead={copy.lead}>
+    <nav aria-label={copy.seoTitle} class="flex flex-wrap items-center gap-x-8 gap-y-4 pt-4">
+      {first && <Button href={localizePath(first.href, locale)}>{first.label}</Button>}
+      {others.map((link) => (
+        <Button href={localizePath(link.href, locale)} variant="secondary" icon={false}>
+          {link.label}
+        </Button>
+      ))}
+    </nav>
+  </PageHero>
+</PageLayout>

@@ -1,0 +1,10 @@
+doctrine_migrations:
+    migrations_paths:
+        # namespace is arbitrary but should be different from App\Migrations
+        # as migrations classes should NOT be autoloaded
+        'DoctrineMigrations': '%kernel.project_dir%/migrations'
+    enable_profiler: false
+    # MySQL valide implicitement chaque instruction de structure (CREATE, ALTER…) :
+    # une migration ne peut pas être annulée par transaction. Le filet de sécurité est la
+    # sauvegarde prise par infra/deploy/deploy.sh avant chaque migration.
+    transactional: false

@@ -1,0 +1,36 @@
+---
+import Container from '@/components/ui/Container.astro';
+import { HOME_SECTIONS } from '@/content/home';
+import { toLocale } from '@/lib/i18n';
+
+/** Le studio en quelques lignes, puis les chiffres réels (audit §3). */
+const locale = toLocale(Astro.currentLocale);
+const copy = HOME_SECTIONS[locale].manifesto;
+---
+
+<section data-surface="base" class="py-section" aria-labelledby="manifesto-title">
+  <Container class="grid gap-y-12 lg:grid-cols-12 lg:gap-x-12">
+    <h2 id="manifesto-title" class="eyebrow self-start lg:col-span-4 lg:pt-2">
+      {copy.label}
+    </h2>
+    <div class="flex flex-col gap-14 lg:col-span-8">
+      <p
+        class="max-w-[38ch] text-[clamp(1.25rem,1.1rem+0.65vw,1.75rem)] leading-[1.4] font-medium tracking-[-0.015em]"
+        data-anim="reveal-up"
+      >
+        {copy.text}
+      </p>
+      <dl class="grid grid-cols-3 gap-x-6 gap-y-8 md:gap-x-8" data-anim="stagger">
+        {copy.stats.map((stat) => (
+          <div class="flex flex-col-reverse gap-1.5 border-t border-border pt-5">
+            <dt class="text-small text-fg-muted">{stat.label}</dt>
+            <dd class="type-h1 tabular-nums">
+              {stat.value}
+              {stat.suffix && <span class="text-highlight">{stat.suffix}</span>}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </Container>
+</section>

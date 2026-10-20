@@ -1,0 +1,57 @@
+# Build et déploiement du site statique sur Cloudflare, pour un environnement GitHub donné.
+# Les valeurs publiques (URL de l'API, clé de site Turnstile) sont des variables d'environnement
+# GitHub ; le jeton Cloudflare est un secret.
+# Le contenu géré dans le back-office est lu sur l'API (PUBLIC_API_URL) pendant le build :
+# si elle ne répond pas, le build échoue et la version en ligne reste en place.
+name: Déploiement du site
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: staging ou production
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Site → ${{ inputs.environment }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ vars.PUBLIC_SITE_URL }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build
+        env:
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+          PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
+        run: |
+          for name in PUBLIC_SITE_URL PUBLIC_API_URL PUBLIC_TURNSTILE_SITE_KEY; do
+            [ -n "${!name}" ] || { echo "Variable $name manquante dans l'environnement ${{ inputs.environment }}."; exit 1; }
+          done
+          pnpm --filter @gaw/web build
+      - name: Préproduction non indexable
+        if: inputs.environment != 'production'
+        run: |
+          printf '\n/*\n  X-Robots-Tag: noindex, nofollow\n' >> apps/web/dist/_headers
+      - name: Déploiement Cloudflare
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4.151.2'
+          command: >-
+            deploy --config infra/cloudflare/wrangler.jsonc
+            ${{ inputs.environment != 'production' && format('--env {0}', inputs.environment) || '' }}

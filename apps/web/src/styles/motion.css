@@ -1,0 +1,69 @@
+/*
+ * États initiaux des animations.
+ *
+ * Le contenu est visible par défaut. Les états initiaux ne s'appliquent que si :
+ *   - html.motion-ok : JS actif ET prefers-reduced-motion non demandé (posé en <head>) ;
+ *   - et pas html.motion-off : garde-fou posé si GSAP ne s'est pas initialisé à temps.
+ * Le contrôleur marque chaque élément animé avec [data-anim-done] une fois joué.
+ */
+
+@layer base {
+  :where(html.motion-ok:not(.motion-off))
+    :is([data-anim='reveal-up'], [data-anim='stagger'] > *):not([data-anim-done]) {
+    opacity: 0;
+  }
+
+  :where(html.motion-ok:not(.motion-off)) [data-anim='reveal-image']:not([data-anim-done]) {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  :where(html.motion-ok:not(.motion-off)) [data-anim='reveal-lines']:not([data-anim-done]) {
+    visibility: hidden;
+  }
+
+  /* Schéma IA : les nœuds apparaissent avec la scène. */
+  :where(html.motion-ok:not(.motion-off))
+    [data-scene='ai-trace']:not([data-anim-done])
+    [data-trace-node] {
+    opacity: 0;
+  }
+
+  /* Visuel du hero : les pièces apparaissent avec la scène. */
+  :where(html.motion-ok:not(.motion-off))
+    [data-scene='hero-collage']:not([data-anim-done])
+    [data-piece] {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/*
+ * Transitions de page : View Transitions natives entre documents (fondu court).
+ * Navigateurs sans support : navigation classique. Désactivées si moins de mouvement est demandé.
+ * L'en-tête garde son propre nom de transition : il reste fixe pendant le fondu.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--duration-base);
+  animation-timing-function: var(--ease-standard);
+}
+
+[data-site-header] {
+  view-transition-name: site-header;
+}

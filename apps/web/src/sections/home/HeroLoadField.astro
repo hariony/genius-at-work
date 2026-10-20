@@ -1,0 +1,113 @@
+---
+import { HOME_HERO } from '@/content/home';
+import { STACK } from '@/content/technologies';
+import { toLocale } from '@/lib/i18n';
+
+/**
+ * Visuel du hero : les quatre couches de notre stack sous un trafic simulé (scène load-field).
+ * Décoratif pour les lecteurs d'écran, sauf la légende qui décrit ce qui est montré.
+ * Le compteur indique explicitement des requêtes simulées : aucun chiffre réel n'est affiché.
+ */
+interface Props {
+  city: string;
+}
+
+const { city } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const copy = HOME_HERO[locale].visual;
+const LAYERS = ['frontend', 'api', 'backend', 'data'] as const;
+const layers = LAYERS.map(
+  (layer) => STACK.find((group) => group.layer === layer)?.title[locale],
+).filter((title) => title !== undefined);
+---
+
+<figure class="hero-field flex flex-col gap-4" data-load-field>
+  <p class="type-mono flex items-center gap-2 text-fg-muted">
+    <span class="hero-field__pulse" aria-hidden="true"></span>
+    <span data-hero-clock>{city}</span>
+    <span data-hero-moment></span>
+  </p>
+  <div class="relative aspect-[4/3] w-full sm:aspect-[16/10] lg:aspect-[4/3]">
+    <canvas
+      class="absolute inset-0 size-full touch-pan-y"
+      aria-hidden="true"
+      data-layers={JSON.stringify(layers)}
+    ></canvas>
+  </div>
+  <figcaption class="type-mono flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-fg-muted">
+    <span>
+      <output class="text-fg tabular-nums" data-hero-count>
+        0
+      </output>{' '}
+      {copy.caption} · {layers.join(' → ')}
+    </span>
+    <span>{copy.hint}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .hero-field__pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--surface-highlight);
+    box-shadow: 0 0 0 0 var(--surface-highlight);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-field__pulse {
+      animation: hero-pulse 2.4s var(--ease-out) infinite;
+    }
+  }
+
+  @keyframes hero-pulse {
+    70% {
+      box-shadow: 0 0 0 6px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+</style>
+
+<script>
+  import { mountLoadField } from '@/animations/scenes/load-field';
+  import { MOTION_OK_QUERY } from '@/animations/core/motion';
+
+  const field = document.querySelector<HTMLElement>('[data-load-field]');
+  const hero = field?.closest<HTMLElement>('[data-hero]');
+  const canvas = field?.querySelector('canvas');
+  const count = field?.querySelector<HTMLElement>('[data-hero-count]');
+
+  if (field && hero && canvas) {
+    const format = new Intl.NumberFormat(document.documentElement.lang);
+    const reduced = !window.matchMedia(MOTION_OK_QUERY).matches;
+    // Image fixe : pas de compteur.
+    if (reduced && count) count.hidden = true;
+    mountLoadField(canvas, {
+      layers: JSON.parse(canvas.dataset.layers ?? '[]') as string[],
+      pointerArea: hero,
+      reduced,
+      onCount: (total) => {
+        if (count) count.textContent = format.format(total);
+      },
+    });
+
+    // Horloge d'Antananarivo et moment de la journée (posé par le script en ligne du hero).
+    const clock = field.querySelector('[data-hero-clock]');
+    const moment = field.querySelector('[data-hero-moment]');
+    const { tz, clockTemplate = '{time}', city = '' } = hero.dataset;
+    const moments = JSON.parse(hero.dataset.moments ?? '{}') as Record<string, string>;
+    const render = () => {
+      const time = new Intl.DateTimeFormat(document.documentElement.lang, {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: tz,
+      }).format(new Date());
+      if (clock) clock.textContent = clockTemplate.replace('{time}', time).replace('{city}', city);
+      if (moment) moment.textContent = `· ${moments[hero.dataset.moment ?? ''] ?? ''}`;
+    };
+    render();
+    setInterval(render, 30_000);
+  }
+</script>

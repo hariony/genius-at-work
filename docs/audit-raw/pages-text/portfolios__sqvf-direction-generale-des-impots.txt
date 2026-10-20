@@ -1,0 +1,35 @@
+SQVF Direction Générale des Impôts | Genius at work Services
+Home
+Services
+Réalisations
+Technologies
+Contact
+Home
+Services
+Réalisations
+Technologies
+Contact
+# SQVF Direction Générale des Impôts
+Home
+Réalisations
+SQVF Direction Générale des Impôts
+##
+Outils de gestion centralisée et suivi des contrôles fiscaux au sein de la DGI
+Date de début :
+Date de fin :
+Client :
+Catégories :
+App Web, Innovation
+Technologies :
+Jquery, NodeJs, Zend
+WordPress > Erreur
+Il y a eu une erreur critique sur ce site.
+[link:https://fr.wordpress.org/support/article/debugging-in-wordpress/] En apprendre plus sur le débogage de WordPress.
+
+--- IMAGES ---
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo-dark.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/flag/english.png | Vector Images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/sun-01.svg | Sun images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/vector.svg | Vector Images
+https://genius-at-work.com/wp-content/uploads/2022/10/sqvf.jpg | SQVF Direction Générale des Impôts

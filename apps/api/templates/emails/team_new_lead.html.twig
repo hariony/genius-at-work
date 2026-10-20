@@ -1,0 +1,15 @@
+{% extends 'emails/_layout.html.twig' %}
+{% block body %}
+<p style="font-family:monospace;color:#4a5a72">{{ lead.reference }} · {{ lead.locale.value|upper }}</p>
+<h1 style="font-size:22px;margin:0 0 16px">Nouvelle demande de {{ lead.fullName }}</h1>
+<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">
+  <tr><td style="padding:4px 16px 4px 0;color:#4a5a72">Type</td><td>{{ lead.projectType.value }}</td></tr>
+  {% if lead.budgetRange %}<tr><td style="padding:4px 16px 4px 0;color:#4a5a72">Budget</td><td>{{ lead.budgetRange.value }}</td></tr>{% endif %}
+  {% if lead.timeline %}<tr><td style="padding:4px 16px 4px 0;color:#4a5a72">Échéance</td><td>{{ lead.timeline.value }}</td></tr>{% endif %}
+  <tr><td style="padding:4px 16px 4px 0;color:#4a5a72">E-mail</td><td><a href="mailto:{{ lead.email }}">{{ lead.email }}</a></td></tr>
+  {% if lead.phone %}<tr><td style="padding:4px 16px 4px 0;color:#4a5a72">Téléphone</td><td>{{ lead.phone }}</td></tr>{% endif %}
+  {% if lead.company %}<tr><td style="padding:4px 16px 4px 0;color:#4a5a72">Organisation</td><td>{{ lead.company }}</td></tr>{% endif %}
+  {% if lead.sourceUrl %}<tr><td style="padding:4px 16px 4px 0;color:#4a5a72">Page</td><td>{{ lead.sourceUrl }}</td></tr>{% endif %}
+</table>
+<p style="white-space:pre-line;border-left:3px solid #1b4fd1;padding-left:16px;margin-top:24px">{{ lead.message }}</p>
+{% endblock %}

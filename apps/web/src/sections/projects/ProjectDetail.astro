@@ -1,0 +1,169 @@
+---
+import { Picture } from 'astro:assets';
+import { projectTint } from '@/lib/brand';
+import { imageSource } from '@/lib/images';
+import PageHero from '@/components/sections/PageHero.astro';
+import ProjectCard from '@/components/sections/ProjectCard.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Tag from '@/components/ui/Tag.astro';
+import { PROJECTS_PAGE } from '@/content/pages';
+import { CATEGORY_LABELS } from '@/lib/portfolio';
+import { localizePath, toLocale, useTranslations } from '@/lib/i18n';
+import { adjacentProjects, servicesForProject } from '@/services/content';
+import type { Project } from '@/types/content';
+
+/**
+ * Fiche projet. Seules les informations réelles du portfolio sont affichées :
+ * les rubriques d'étude de cas (contexte, challenge, solution, résultats) apparaîtront
+ * lorsque l'agence les aura fournies (docs/content-audit.md §12).
+ */
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const copy = PROJECTS_PAGE[locale].detail;
+const services = servicesForProject(project);
+const { previous, next } = adjacentProjects(project);
+const period = project.period
+  ? project.period.start === project.period.end
+    ? `${project.period.start}`
+    : `${project.period.start}–${project.period.end}`
+  : undefined;
+const host = project.url ? new URL(project.url).host.replace(/^www\./, '') : undefined;
+---
+
+<PageHero
+  eyebrow={project.categories.map((category) => CATEGORY_LABELS[category][locale]).join(' · ')}
+  title={project.title}
+  lead={project.summary[locale]}
+  breadcrumbs={[
+    { label: t('nav.home'), href: localizePath('/', locale) },
+    { label: t('nav.projects'), href: localizePath('/projects/', locale) },
+  ]}
+  breadcrumbLabel={t('a11y.breadcrumb')}
+>
+  {project.url && (
+    <div data-anim="reveal-up" data-anim-trigger="load" data-anim-delay="0.4">
+      <Button href={project.url} target="_blank" rel="noopener" icon="arrow-up-right">
+        {copy.visit}
+        <span class="sr-only">
+          {' '}
+          ({host}, {t('a11y.newTab')})
+        </span>
+      </Button>
+    </div>
+  )}
+</PageHero>
+
+<section data-surface="base" class="pb-section" aria-labelledby="project-overview">
+  <h2 id="project-overview" class="sr-only">
+    {copy.overview}
+  </h2>
+  <Container width="wide" class="pt-12 lg:pt-16">
+    <figure
+      class:list={['project-showcase overflow-hidden rounded-xl', projectTint(project)]}
+      data-anim="reveal-image"
+    >
+      <div class="browser-frame mx-auto w-[88%] translate-y-[8%] shadow-md">
+        <Picture
+          {...imageSource(project.cover)}
+          formats={['avif', 'webp']}
+          widths={[640, 960, 1280, 1600, 2000]}
+          sizes="(min-width: 90rem) 1200px, 88vw"
+          alt={project.coverAlt[locale]}
+          loading="eager"
+          class="w-full"
+        />
+      </div>
+    </figure>
+  </Container>
+
+  <Container class="pt-section-gap">
+    <dl class="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4" data-anim="stagger">
+      {project.client && (
+        <div class="flex flex-col gap-2 border-t border-border pt-5">
+          <dt class="type-label text-fg-muted">{copy.client}</dt>
+          <dd class="font-medium">
+            {project.client}
+            {project.clientType && (
+              <span class="block text-small font-normal text-fg-muted">
+                {copy.clientTypes[project.clientType]}
+              </span>
+            )}
+          </dd>
+        </div>
+      )}
+      {period && (
+        <div class="flex flex-col gap-2 border-t border-border pt-5">
+          <dt class="type-label text-fg-muted">{copy.period}</dt>
+          <dd class="font-medium tabular-nums">{period}</dd>
+        </div>
+      )}
+      <div class="flex flex-col gap-2 border-t border-border pt-5">
+        <dt class="type-label text-fg-muted">{copy.technologies}</dt>
+        <dd>
+          <ul class="flex flex-wrap gap-1.5">
+            {project.technologies.map((tech) => (
+              <li>
+                <Tag>{tech}</Tag>
+              </li>
+            ))}
+          </ul>
+        </dd>
+      </div>
+      {services.length > 0 && (
+        <div class="flex flex-col gap-2 border-t border-border pt-5">
+          <dt class="type-label text-fg-muted">{copy.services}</dt>
+          <dd>
+            <ul class="flex flex-col gap-1">
+              {services.map((service) => (
+                <li>
+                  <a href={localizePath(`/services/${service.slug}/`, locale)} class="font-medium">
+                    {service.title[locale]}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      )}
+    </dl>
+  </Container>
+</section>
+
+<nav data-surface="subtle" class="py-section" aria-label={copy.back}>
+  <Container class="flex flex-col gap-section-gap">
+    <div class="flex items-center justify-between gap-6">
+      <p class="eyebrow">{copy.more}</p>
+      <a
+        href={localizePath('/projects/', locale)}
+        class="inline-flex items-center gap-2 text-small font-semibold no-underline hover:text-accent"
+      >
+        <Icon name="arrow-right" size={14} class="rotate-180" />
+        {copy.back}
+      </a>
+    </div>
+    <ul class="grid gap-x-10 gap-y-14 md:grid-cols-2">
+      {[
+        { label: copy.previous, item: previous },
+        { label: copy.next, item: next },
+      ].map(({ label, item }) => (
+        <li class="flex flex-col gap-4">
+          <p class="type-label text-fg-muted">{label}</p>
+          <ProjectCard project={item} sizes="(min-width: 48rem) 45vw, 100vw" />
+        </li>
+      ))}
+    </ul>
+  </Container>
+</nav>
+
+<style>
+  .project-showcase {
+    padding-top: clamp(1.5rem, 4vw, 4rem);
+  }
+</style>

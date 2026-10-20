@@ -1,0 +1,12 @@
+framework:
+    cache:
+        # Préfixe stable des clés : le cache survit aux déploiements.
+        prefix_seed: genius-at-work/api
+
+when@prod:
+    framework:
+        cache:
+            # Redis (Valkey) partagé par l'API, le worker et le scheduler : limites d'envoi
+            # et état du scheduler restent cohérents entre les conteneurs.
+            app: cache.adapter.redis
+            default_redis_provider: '%env(REDIS_URL)%'

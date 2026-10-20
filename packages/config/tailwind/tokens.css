@@ -1,0 +1,216 @@
+/*
+ * Genius At Work — design tokens (direction « Signal »).
+ * Source de vérité : docs/proposal/03-refonte-visuelle.md
+ *
+ * Deux niveaux :
+ *   1. Palette brute (--color-ink, --color-blue…) : couleurs de marque, utilisables pour les
+ *      aplats décoratifs (formes, pastilles) et dans le styleguide.
+ *   2. Rôles sémantiques (--color-bg, --color-fg, --color-accent…) : consommés par les
+ *      composants. Ils basculent selon la surface de la section : [data-surface="base|subtle|dark"].
+ *
+ * Rôles de la palette (contrastes WCAG mesurés) :
+ *   Primary    bleu électrique #1F4BFF  liens, boutons, actif (5,5:1 sur papier ; blanc dessus 6:1)
+ *   Secondary  encre           #0A0B1E  texte, surfaces sombres
+ *   Vives      cyan #00C2FF, lilas #A98BFF, citron #C8F031 : aplats et surlignage,
+ *              toujours avec de l'encre dessus (9,4 / 7,3 / 14,8:1), jamais en texte sur clair
+ *   Background papier          #F6F5F1
+ *   Surface    blanc           #FFFFFF
+ *   Muted      ardoise         #5B5E70  (5,9:1 sur papier)
+ *   Border     ligne           #E2E0D9
+ */
+
+@theme {
+  /* ---------- Palette brute ---------- */
+  --color-ink: #0a0b1e;
+  --color-ink-2: #14162c;
+  --color-ink-line: #2a2d4a;
+  --color-slate: #5b5e70;
+  --color-mist: #a3a6bd;
+  --color-paper: #f6f5f1;
+  --color-sand: #edece6;
+  --color-white: #ffffff;
+  --color-line: #e2e0d9;
+  --color-line-strong: #cbc8be;
+  --color-blue: #1f4bff;
+  --color-blue-deep: #1638d4;
+  --color-blue-soft: #e6ecff;
+  --color-cyan: #00c2ff;
+  --color-lilac: #a98bff;
+  --color-lime: #c8f031;
+  /* Direction « Sous charge » : nuit d'Antananarivo et accent chaud, rare (appels, mot clé). */
+  --color-night: #07081a;
+  --color-vermillion: #ff5a36; /* 6,3:1 sur encre ; encre dessus 6,3:1 */
+  --color-vermillion-deep: #c93410; /* texte sur papier : 4,8:1 */
+  --color-success: #167a4a;
+  --color-danger: #b42318;
+
+  /* ---------- Typographie : une seule famille ---------- */
+  --font-sans:
+    'Manrope Variable', 'Manrope Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+
+  /* Libellés « système » (couches, horloge, fiches projet) : la précision de l'ingénieur. */
+  --font-mono:
+    'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Échelle fluide 360 → 1440 px. Titres extra-gras et serrés ; le plus grand plafonne à 68 px. */
+  --text-display: clamp(2.25rem, 1.85rem + 2.1vw, 3.625rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.045em;
+  --text-h1: clamp(2.25rem, 1.83rem + 1.85vw, 3.5rem);
+  --text-h1--line-height: 1.04;
+  --text-h1--letter-spacing: -0.04em;
+  --text-h2: clamp(1.875rem, 1.6rem + 1.2vw, 2.75rem);
+  --text-h2--line-height: 1.08;
+  --text-h2--letter-spacing: -0.035em;
+  --text-h3: clamp(1.125rem, 1.08rem + 0.21vw, 1.3125rem);
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.012em;
+  --text-lead: clamp(1.0625rem, 1.02rem + 0.19vw, 1.1875rem);
+  --text-lead--line-height: 1.6;
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.55;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.3;
+  --text-label--letter-spacing: 0.1em;
+
+  /* ---------- Espacements (base 4 px : p-4 = 16 px) ---------- */
+  --spacing: 0.25rem;
+  /* Espace vertical d'une section : 72 → 128 px. */
+  --spacing-section: clamp(4.5rem, 3.5rem + 4.44vw, 8rem);
+  /* En-tête de section → contenu : 40 → 64 px. */
+  --spacing-section-gap: clamp(2.5rem, 2.08rem + 1.85vw, 4rem);
+  /* Marges latérales : 20 → 48 px. */
+  --spacing-gutter: clamp(1.25rem, 0.83rem + 1.85vw, 3rem);
+
+  /* ---------- Breakpoints ---------- */
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 90rem;
+
+  /* ---------- Conteneurs ---------- */
+  --container-content: 80rem;
+  --container-wide: 90rem;
+  --container-prose: 42rem;
+
+  /* ---------- Rayons ---------- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* ---------- Profondeur : légère, jamais décorative ---------- */
+  --shadow-xs: 0 1px 2px rgb(10 11 30 / 0.06);
+  --shadow-sm: 0 1px 2px rgb(10 11 30 / 0.04), 0 4px 12px -4px rgb(10 11 30 / 0.08);
+  --shadow-md: 0 2px 4px rgb(10 11 30 / 0.04), 0 16px 32px -16px rgb(10 11 30 / 0.18);
+  --shadow-lg: 0 30px 60px -24px rgb(10 11 30 / 0.35);
+
+  /* ---------- Mouvement ---------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --duration-instant: 100ms;
+  --duration-fast: 160ms;
+  --duration-base: 240ms;
+  --duration-slow: 480ms;
+  --duration-reveal: 800ms;
+}
+
+/* ---------- Rôles sémantiques ---------- */
+@theme inline {
+  --color-bg: var(--surface-bg);
+  --color-bg-raised: var(--surface-bg-raised);
+  --color-fg: var(--surface-fg);
+  --color-fg-muted: var(--surface-fg-muted);
+  --color-border: var(--surface-border);
+  --color-border-strong: var(--surface-border-strong);
+  --color-accent: var(--surface-accent);
+  --color-accent-fg: var(--surface-accent-fg);
+  --color-accent-soft: var(--surface-accent-soft);
+  --color-focus: var(--surface-focus);
+  --color-highlight: var(--surface-highlight);
+  --color-spark: var(--surface-spark);
+  --color-mark: var(--surface-mark);
+  --color-hot: var(--surface-hot);
+}
+
+:root,
+[data-surface='base'] {
+  --surface-bg: var(--color-paper);
+  --surface-bg-raised: var(--color-white);
+  --surface-fg: var(--color-ink);
+  --surface-fg-muted: var(--color-slate);
+  --surface-border: var(--color-line);
+  --surface-border-strong: var(--color-line-strong);
+  --surface-accent: var(--color-blue);
+  --surface-accent-fg: var(--color-white);
+  --surface-accent-soft: var(--color-blue-soft);
+  --surface-focus: var(--color-blue);
+  /* Texte mis en valeur (« @ » du logo, suffixes de chiffres) : doit rester lisible. */
+  --surface-highlight: var(--color-blue);
+  /* Puces et repères graphiques. */
+  --surface-spark: var(--color-blue);
+  /* Surligneur : fond citron sous du texte encre (14,8:1). */
+  --surface-mark: var(--color-lime);
+  /* Accent chaud (mot clé, signal fort) : lisible en texte sur la surface. */
+  --surface-hot: var(--color-vermillion-deep);
+}
+
+[data-surface='subtle'] {
+  --surface-bg: var(--color-sand);
+  --surface-bg-raised: var(--color-white);
+}
+
+[data-surface='dark'] {
+  --surface-bg: var(--color-ink);
+  --surface-bg-raised: var(--color-ink-2);
+  --surface-fg: #f4f3ee;
+  --surface-fg-muted: var(--color-mist);
+  --surface-border: var(--color-ink-line);
+  --surface-border-strong: #3d4166;
+  --surface-accent: var(--color-cyan);
+  --surface-accent-fg: var(--color-ink);
+  --surface-accent-soft: rgb(0 194 255 / 0.12);
+  --surface-focus: var(--color-cyan);
+  --surface-highlight: var(--color-cyan);
+  --surface-spark: var(--color-lime);
+  --surface-mark: var(--color-lime);
+  --surface-hot: var(--color-vermillion);
+}
+
+/* Nuit : surface du hero entre le soir et l'aube à Antananarivo ; l'en-tête la reprend
+   tant qu'il est au-dessus du hero (SiteHeader pose data-past-hero au-delà). */
+[data-surface='night'],
+html[data-hero-surface='night'] [data-site-header]:not([data-past-hero]) {
+  --surface-bg: var(--color-night);
+  --surface-bg-raised: var(--color-ink-2);
+  --surface-fg: #f4f3ee;
+  --surface-fg-muted: var(--color-mist);
+  --surface-border: var(--color-ink-line);
+  --surface-border-strong: #3d4166;
+  --surface-accent: var(--color-cyan);
+  --surface-accent-fg: var(--color-ink);
+  --surface-accent-soft: rgb(0 194 255 / 0.12);
+  --surface-focus: var(--color-cyan);
+  --surface-highlight: var(--color-cyan);
+  --surface-spark: var(--color-vermillion);
+  --surface-mark: var(--color-lime);
+  --surface-hot: var(--color-vermillion);
+}
+
+/* ---------- Z-index ---------- */
+:root {
+  --z-raised: 10;
+  --z-sticky: 100;
+  --z-nav: 200;
+  --z-overlay: 300;
+  --z-transition: 400;
+  --z-toast: 500;
+}

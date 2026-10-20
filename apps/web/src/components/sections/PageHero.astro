@@ -1,0 +1,72 @@
+---
+import JsonLd from '@/components/seo/JsonLd.astro';
+import Container from '@/components/ui/Container.astro';
+import { breadcrumbs as breadcrumbList } from '@/lib/seo/schema';
+
+/**
+ * En-tête des pages intérieures : clair, compact, aligné sur la grille du contenu.
+ * Le fil d'Ariane est facultatif (pages de détail) ; le slot par défaut accueille
+ * un contenu complémentaire (actions…).
+ */
+interface Crumb {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string | undefined;
+  breadcrumbs?: Crumb[] | undefined;
+  breadcrumbLabel?: string | undefined;
+}
+
+const { eyebrow, title, lead, breadcrumbs, breadcrumbLabel } = Astro.props;
+const site = Astro.site ?? new URL('https://genius-at-work.com');
+---
+
+{breadcrumbs && (
+  <JsonLd
+    data={breadcrumbList(site, [...breadcrumbs, { label: title, href: Astro.url.pathname }])}
+  />
+)}
+<section data-surface="base" class="border-b border-border">
+  <Container class="flex flex-col gap-6 pt-32 pb-16 lg:pt-40 lg:pb-20">
+    {breadcrumbs && (
+      <nav aria-label={breadcrumbLabel} class="text-small text-fg-muted">
+        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+          {breadcrumbs.map((crumb) => (
+            <li class="flex items-center gap-2">
+              <a href={crumb.href} class="no-underline hover:text-fg">
+                {crumb.label}
+              </a>
+              <span aria-hidden="true" class="text-border-strong">
+                /
+              </span>
+            </li>
+          ))}
+          <li aria-current="page" class="text-fg">
+            {title}
+          </li>
+        </ol>
+      </nav>
+    )}
+    <p class="eyebrow" data-anim="reveal-up" data-anim-trigger="load">
+      {eyebrow}
+    </p>
+    <h1 class="type-h1 max-w-[22ch]" data-anim="reveal-lines" data-anim-trigger="load">
+      {title}
+    </h1>
+    {lead && (
+      <p
+        class="type-lead max-w-[56ch]"
+        data-anim="reveal-up"
+        data-anim-trigger="load"
+        data-anim-delay="0.2"
+      >
+        {lead}
+      </p>
+    )}
+    <slot />
+  </Container>
+</section>

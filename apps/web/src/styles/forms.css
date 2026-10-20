@@ -1,0 +1,111 @@
+/*
+ * Champs, puces de choix et bouton d'envoi (formulaire de contact, filtres du portfolio).
+ * Bordure fine, rayon maîtrisé, focus net à la couleur primaire.
+ */
+
+@layer components {
+  .field {
+    width: 100%;
+    min-height: 2.875rem;
+    padding: 0.6875rem 0.875rem;
+    border: 1px solid var(--surface-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface-bg-raised);
+    color: var(--surface-fg);
+    font: inherit;
+    font-size: var(--text-body);
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard);
+  }
+  .field::placeholder {
+    color: var(--surface-fg-muted);
+    opacity: 0.8;
+  }
+  .field:hover {
+    border-color: var(--surface-fg-muted);
+  }
+  .field:focus-visible {
+    outline: none;
+    border-color: var(--surface-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--surface-accent) 18%, transparent);
+  }
+  .field[aria-invalid='true'] {
+    border-color: var(--color-danger);
+  }
+
+  /* Puce de choix (radio masqué) et bouton de filtre partagent le même dessin. */
+  .chip,
+  .contact-chip > span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.4375rem 1rem;
+    border: 1px solid var(--surface-border-strong);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--surface-fg);
+    font: inherit;
+    font-size: var(--text-small);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard);
+  }
+  .chip:hover,
+  .contact-chip:hover > span {
+    border-color: var(--surface-fg);
+  }
+  .chip[aria-pressed='true'],
+  .contact-chip > input:checked + span {
+    background-color: var(--surface-fg);
+    border-color: var(--surface-fg);
+    color: var(--surface-bg);
+  }
+  .contact-chip {
+    position: relative;
+    display: inline-flex;
+    cursor: pointer;
+  }
+  .contact-chip > input:focus-visible + span {
+    outline: 2px solid var(--surface-focus);
+    outline-offset: 3px;
+  }
+  .contact-chip > input[data-invalid='true'] + span {
+    border-color: var(--color-danger);
+  }
+
+  .contact-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 2.875rem;
+    padding: 0 1.375rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--surface-accent);
+    color: var(--surface-accent-fg);
+    font-size: var(--text-small);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-base) var(--ease-out);
+  }
+  .contact-submit:hover {
+    background-color: var(--color-blue-deep);
+    box-shadow: var(--shadow-sm);
+  }
+  .contact-submit:disabled {
+    cursor: progress;
+    opacity: 0.7;
+  }
+  .contact-submit-icon {
+    display: inline-flex;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .contact-submit:hover .contact-submit-icon {
+    transform: translateX(3px);
+  }
+}

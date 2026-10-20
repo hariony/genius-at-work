@@ -1,0 +1,36 @@
+---
+/**
+ * Heure locale d'un bureau. Sans JS, affiche le décalage UTC (toujours exact) ;
+ * le script ajoute l'heure en direct.
+ */
+interface Props {
+  timeZone: string;
+  utcLabel: string;
+  class?: string;
+}
+
+const { timeZone, utcLabel, class: className } = Astro.props;
+---
+
+<span class:list={['type-meta tabular-nums', className]}>
+  <time data-local-clock={timeZone}></time>
+  <span>{utcLabel}</span>
+</span>
+
+<script>
+  const render = () => {
+    document.querySelectorAll<HTMLTimeElement>('[data-local-clock]').forEach((el) => {
+      const timeZone = el.dataset.localClock;
+      if (!timeZone) return;
+      const time = new Intl.DateTimeFormat(document.documentElement.lang, {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone,
+      }).format(new Date());
+      el.textContent = `${time} · `;
+    });
+  };
+
+  render();
+  setInterval(render, 30_000);
+</script>

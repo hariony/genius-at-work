@@ -1,0 +1,97 @@
+# Stack de développement de l'API : docker compose up -d --wait
+# Le site Astro tourne sur l'hôte (pnpm --filter @gaw/web dev) et appelle l'API sur :8088.
+# Aucune valeur ici n'est secrète. La production utilise infra/docker/compose.prod.yaml.
+
+name: gaw
+
+x-api: &api
+  build:
+    context: apps/api
+    dockerfile: ../../infra/docker/api/Dockerfile
+    additional_contexts:
+      docker: infra/docker/api
+    target: dev
+  image: gaw-api:dev
+  restart: unless-stopped
+  depends_on:
+    mysql:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+  volumes:
+    - ./apps/api:/app
+    # Cache et logs propres au conteneur (ceux de l'hôte contiennent ses chemins).
+    - /app/var
+  environment:
+    APP_ENV: dev
+    APP_SECRET: dev-only-not-a-secret
+    DATABASE_URL: mysql://gaw:gaw@mysql:3306/gaw?serverVersion=8.4.0&charset=utf8mb4
+    MESSENGER_TRANSPORT_DSN: redis://redis:6379/messages
+    REDIS_URL: redis://redis:6379
+    MAILER_DSN: smtp://mailpit:1025
+    TRUSTED_PROXIES: private_ranges
+
+services:
+  api:
+    <<: *api
+    ports:
+      - '${API_PORT:-8088}:8080'
+
+  worker:
+    <<: *api
+    command: ['php', 'bin/console', 'messenger:consume', 'async', '--time-limit=3600', '-vv']
+    healthcheck:
+      disable: true
+    depends_on:
+      api:
+        condition: service_healthy
+
+  scheduler:
+    <<: *api
+    command:
+      ['php', 'bin/console', 'messenger:consume', 'scheduler_default', '--time-limit=3600', '-vv']
+    healthcheck:
+      disable: true
+    depends_on:
+      api:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: gaw
+      MYSQL_USER: gaw
+      MYSQL_PASSWORD: gaw
+      MYSQL_ROOT_PASSWORD: gaw-root-dev
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    ports:
+      # Accès depuis l'hôte (clients SQL, API lancée hors Docker avec .env.local).
+      - '${MYSQL_PORT:-3307}:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', '127.0.0.1', '-ugaw', '-pgaw']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  redis:
+    image: valkey/valkey:9.1-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'valkey-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:v1.31
+    restart: unless-stopped
+    ports:
+      # Interface web : tous les e-mails envoyés en local y arrivent.
+      - '${MAILPIT_PORT:-8025}:8025'
+
+volumes:
+  mysql-data:

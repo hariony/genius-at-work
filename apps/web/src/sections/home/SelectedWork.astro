@@ -1,0 +1,43 @@
+---
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import ProjectCard from '@/components/sections/ProjectCard.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import { HOME_SECTIONS } from '@/content/home';
+import { localizePath, toLocale } from '@/lib/i18n';
+import { getFeaturedProjects } from '@/services/content';
+
+/**
+ * Réalisations mises en avant, en mise en page éditoriale asymétrique : grands formats à
+ * gauche, formats plus serrés et décalés à droite. Sur mobile, une colonne dans l'ordre.
+ */
+const locale = toLocale(Astro.currentLocale);
+const copy = HOME_SECTIONS[locale].work;
+const featured = getFeaturedProjects();
+---
+
+<section data-surface="base" class="py-section" aria-labelledby="work-title">
+  <Container width="wide" class="flex flex-col gap-section-gap">
+    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="work-title">
+      <Button slot="aside" href={localizePath('/projects/', locale)} variant="secondary">
+        {copy.all}
+      </Button>
+    </ChapterHeader>
+
+    <ul class="grid gap-16 lg:grid-cols-12 lg:items-start lg:gap-x-10 lg:gap-y-24">
+      {featured.map((project, i) => {
+        const large = i % 2 === 0;
+        return (
+          <li class:list={[large ? 'lg:col-span-7' : 'lg:col-span-5 lg:mt-28']}>
+            <ProjectCard
+              project={project}
+              variant={large ? 'feature' : 'default'}
+              ratio={large ? 'wide' : 'landscape'}
+              sizes={large ? '(min-width: 64rem) 52vw, 100vw' : '(min-width: 64rem) 36vw, 100vw'}
+            />
+          </li>
+        );
+      })}
+    </ul>
+  </Container>
+</section>

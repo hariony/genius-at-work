@@ -1,0 +1,27 @@
+---
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import ProjectCard from '@/components/sections/ProjectCard.astro';
+import Container from '@/components/ui/Container.astro';
+import { AI_PAGE } from '@/content/ai';
+import { toLocale } from '@/lib/i18n';
+import { getProjects } from '@/services/content';
+
+/** Projets IA publiés (catégorie « IA ») : la section n'existe pas tant qu'il n'y en a aucun. */
+const copy = AI_PAGE[toLocale(Astro.currentLocale)].caseStudies;
+const projects = getProjects().filter((project) => project.categories.includes('ai'));
+---
+
+{projects.length > 0 && (
+  <section data-surface="base" class="py-section" aria-labelledby="ai-cases-title">
+    <Container class="flex flex-col gap-section-gap">
+      <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="ai-cases-title" />
+      <ul class="grid gap-x-10 gap-y-14 md:grid-cols-2">
+        {projects.slice(0, 4).map((project) => (
+          <li>
+            <ProjectCard project={project} sizes="(min-width: 48rem) 45vw, 100vw" />
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </section>
+)}

@@ -1,0 +1,30 @@
+---
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import { AI_PAGE, AI_SERVICE } from '@/content/ai';
+import { localizePath, toLocale } from '@/lib/i18n';
+import { CONTACT_PATH } from '@/lib/navigation';
+
+/** Appel final : le formulaire de contact s'ouvre avec le type « IA & automatisation ». */
+const locale = toLocale(Astro.currentLocale);
+const copy = AI_PAGE[locale].cta;
+---
+
+<section data-surface="night" class="py-section" aria-labelledby="ai-cta-title">
+  <Container class="flex flex-col items-start gap-6">
+    <p class="eyebrow" data-anim="reveal-up">
+      {copy.label}
+    </p>
+    <h2 id="ai-cta-title" class="type-h1 max-w-[22ch]" data-anim="reveal-lines">
+      {copy.title}
+    </h2>
+    <p class="type-lead max-w-[52ch]" data-anim="reveal-up" data-anim-delay="0.15">
+      {copy.text}
+    </p>
+    <div class="pt-2" data-anim="reveal-up" data-anim-delay="0.25">
+      <Button href={`${localizePath(CONTACT_PATH, locale)}?service=${AI_SERVICE}`} variant="accent">
+        {copy.button}
+      </Button>
+    </div>
+  </Container>
+</section>

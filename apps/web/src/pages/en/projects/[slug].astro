@@ -1,0 +1,26 @@
+---
+/* Version EN : mêmes données, locale déduite de l’URL. */
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { toLocale } from '@/lib/i18n';
+import ProjectDetail from '@/sections/projects/ProjectDetail.astro';
+import { getProjects } from '@/services/content';
+import type { Project } from '@/types/content';
+
+export const getStaticPaths = (() =>
+  getProjects().map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+---
+
+<PageLayout title={project.title} description={project.summary[locale]}>
+  <ProjectDetail project={project} />
+</PageLayout>

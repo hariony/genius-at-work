@@ -1,0 +1,138 @@
+---
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
+import ProjectCard from '@/components/sections/ProjectCard.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Tag from '@/components/ui/Tag.astro';
+import { SERVICES_PAGE } from '@/content/pages';
+import { localizePath, toLocale, useTranslations } from '@/lib/i18n';
+import { CONTACT_PATH } from '@/lib/navigation';
+import { organizationId } from '@/lib/seo/schema';
+import Method from '@/sections/home/Method.astro';
+import { getServices, projectsForService } from '@/services/content';
+import type { Service } from '@/types/content';
+
+/** Page d'un service : périmètre, technologies, réalisations liées, méthode, autres services. */
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const copy = SERVICES_PAGE[locale].detail;
+const services = getServices();
+const projects = projectsForService(service).slice(0, 4);
+const others = services.filter((other) => other !== service);
+const hasProjects = projects.length > 0;
+const site = Astro.site ?? new URL('https://genius-at-work.com');
+---
+
+<JsonLd
+  data={{
+    '@type': 'Service',
+    name: service.title[locale],
+    description: service.summary[locale],
+    url: new URL(Astro.url.pathname, site).href,
+    provider: { '@id': organizationId(site) },
+  }}
+/>
+
+<PageHero
+  eyebrow={t('nav.services')}
+  title={service.title[locale]}
+  lead={service.intro[locale]}
+  breadcrumbs={[
+    { label: t('nav.home'), href: localizePath('/', locale) },
+    { label: t('nav.services'), href: localizePath('/services/', locale) },
+  ]}
+  breadcrumbLabel={t('a11y.breadcrumb')}
+>
+  <div class="pt-2" data-anim="reveal-up" data-anim-trigger="load" data-anim-delay="0.3">
+    <Button href={`${localizePath(CONTACT_PATH, locale)}?service=${service.slug}`} variant="accent">
+      {t('cta.discussProject')}
+    </Button>
+  </div>
+</PageHero>
+
+<section data-surface="base" class="py-section" aria-labelledby="scope-title">
+  <Container class="grid gap-y-12 lg:grid-cols-12 lg:gap-x-12">
+    <div class="flex flex-col gap-4 lg:col-span-4">
+      <p class="eyebrow">{copy.scopeLabel}</p>
+      <h2 id="scope-title" class="type-h2" data-anim="reveal-lines">
+        {copy.scopeTitle}
+      </h2>
+    </div>
+    <div class="flex flex-col gap-10 lg:col-span-8">
+      <ul class="grid border-t border-border sm:grid-cols-2 sm:gap-x-10" data-anim="stagger">
+        {service.scope[locale].map((item) => (
+          <li class="flex items-start gap-3 border-b border-border py-4">
+            <span class="mt-1 grid size-5 shrink-0 place-items-center rounded-pill bg-accent-soft text-accent">
+              <Icon name="check" size={12} />
+            </span>
+            <span class="font-medium">{item}</span>
+          </li>
+        ))}
+      </ul>
+      <div class="flex flex-col gap-3" data-anim="reveal-up">
+        <h3 class="type-label text-fg-muted">{copy.techLabel}</h3>
+        <ul class="flex flex-wrap gap-1.5">
+          {service.technologies.map((tech) => (
+            <li>
+              <Tag>{tech}</Tag>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </Container>
+</section>
+
+{hasProjects && (
+  <section data-surface="subtle" class="py-section" aria-labelledby="service-projects-title">
+    <Container class="flex flex-col gap-section-gap">
+      <ChapterHeader
+        label={copy.projectsLabel}
+        title={copy.projectsTitle}
+        id="service-projects-title"
+      >
+        <Button slot="aside" href={localizePath('/projects/', locale)} variant="secondary">
+          {t('cta.seeProjects')}
+        </Button>
+      </ChapterHeader>
+      <ul class="grid gap-x-10 gap-y-14 md:grid-cols-2">
+        {projects.map((project) => (
+          <li>
+            <ProjectCard project={project} sizes="(min-width: 48rem) 45vw, 100vw" />
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </section>
+)}
+
+<Method surface={hasProjects ? 'base' : 'subtle'} />
+
+<nav
+  data-surface="base"
+  class="border-t border-border py-16"
+  aria-labelledby="other-services-title"
+>
+  <Container class="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-12">
+    <h2 id="other-services-title" class="type-label shrink-0 text-fg-muted">
+      {copy.otherServices}
+    </h2>
+    <ul class="flex flex-wrap gap-2">
+      {others.map((other) => (
+        <li>
+          <a href={localizePath(`/services/${other.slug}/`, locale)} class="chip no-underline">
+            {other.title[locale]}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</nav>

@@ -1,0 +1,24 @@
+---
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import Container from '@/components/ui/Container.astro';
+import { ABOUT_PAGE } from '@/content/pages';
+import { toLocale } from '@/lib/i18n';
+
+/** « Les maîtres-mots sont la performance et la confiance » (audit §3). */
+const locale = toLocale(Astro.currentLocale);
+const copy = ABOUT_PAGE[locale].values;
+---
+
+<section data-surface="dark" class="py-section" aria-labelledby="values-title">
+  <Container class="flex flex-col gap-section-gap">
+    <ChapterHeader label={copy.label} title={copy.title} id="values-title" />
+    <ul class="grid gap-6 md:grid-cols-2" data-anim="stagger">
+      {copy.items.map((item) => (
+        <li class="flex min-w-0 flex-col gap-4 rounded-md border border-border bg-bg-raised p-8 lg:p-10">
+          <h3 class="type-h2 text-highlight">{item.title}</h3>
+          <p class="max-w-[42ch] text-fg-muted">{item.description}</p>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>

@@ -1,0 +1,11 @@
+{# Macros communes aux formulaires de contenu : message d'erreur et attributs du champ en erreur. #}
+
+{% macro error(form, path) %}
+    {% if form.errors[path] is defined %}
+        <span class="field-error" id="error-{{ path|replace({'.': '-'}) }}">{{ form.errors[path] }}</span>
+    {% endif %}
+{% endmacro %}
+
+{% macro invalid(form, path) %}
+    {%- if form.errors[path] is defined %} aria-invalid="true" aria-describedby="error-{{ path|replace({'.': '-'}) }}"{% endif -%}
+{% endmacro %}

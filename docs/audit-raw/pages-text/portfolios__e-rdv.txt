@@ -1,0 +1,42 @@
+E-rdv | Genius at work Services
+Home
+Services
+Réalisations
+Technologies
+Contact
+Home
+Services
+Réalisations
+Technologies
+Contact
+# E-rdv
+Home
+Réalisations
+E-rdv
+##
+Application de réservation de rendez-vous auprès des professionnels
+Date de début :
+Date de fin :
+Client :
+Catégories :
+App Web, Design UX/UI, Innovation
+Technologies :
+Bootstrap, Jquery, NodeJs, Zend
+[link:http://e-rdv.mg/] Voir le projet
+##### Détails du projet
+Application de réservation de rendez-vous auprès des professionnels
+## Prêt à discuter un projet avec nous ?
+######
+Vous avez des besoins spécifiques ? Nous avons des solutions techniques !
+Contactez-nous
+[link:https://www.facebook.com/geniusatworksarl]
+[link:https://www.linkedin.com/in/genius-at-work-com/]
+© Genius at work Services 2026
+
+--- IMAGES ---
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo-dark.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/flag/english.png | Vector Images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/sun-01.svg | Sun images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/vector.svg | Vector Images
+https://genius-at-work.com/wp-content/uploads/2022/10/erdv.jpg | E-rdv

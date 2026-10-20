@@ -1,0 +1,30 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { toLocale } from '@/lib/i18n';
+import ServiceDetail from '@/sections/services/ServiceDetail.astro';
+import { AI_SERVICE } from '@/content/ai';
+import { getServices } from '@/services/content';
+import type { Service } from '@/types/content';
+
+// L'offre IA a sa propre page (services/ai.astro).
+export const getStaticPaths = (() =>
+  getServices()
+    .filter((service) => service.slug !== AI_SERVICE)
+    .map((service) => ({
+      params: { slug: service.slug },
+      props: { service },
+    }))) satisfies GetStaticPaths;
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const title = service.title[locale];
+---
+
+<PageLayout title={title} description={`${service.summary[locale]}`}>
+  <ServiceDetail service={service} />
+</PageLayout>

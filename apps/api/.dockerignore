@@ -1,0 +1,13 @@
+# Seules les sources nécessaires à l'exécution entrent dans l'image de production.
+.env.local
+.env.*.local
+.env.test
+.php-cs-fixer.cache
+.php-cs-fixer.dist.php
+.phpunit.cache
+phpstan.dist.neon
+phpunit.dist.xml
+tests/
+var/
+vendor/
+public/media/

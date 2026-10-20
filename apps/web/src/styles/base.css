@@ -1,0 +1,94 @@
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    @apply bg-bg font-sans text-body text-fg;
+    font-kerning: normal;
+  }
+
+  /* Toute section porteuse d'une surface repeint son fond et sa couleur de texte. */
+  [data-surface] {
+    @apply bg-bg text-fg;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+  }
+
+  a {
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+    transition: text-decoration-color var(--duration-fast) var(--ease-standard);
+  }
+
+  a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-blue);
+    color: var(--color-white);
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  img,
+  video {
+    height: auto;
+  }
+}
+
+@layer components {
+  /*
+   * Fenêtre de navigateur sobre autour des captures d'écran du portfolio : barre fine,
+   * trois points. Donne un cadre « maquette » sans inventer de contenu.
+   */
+  .browser-frame {
+    overflow: hidden;
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-sm);
+    background: var(--surface-bg-raised);
+    box-shadow: var(--shadow-sm);
+  }
+  .browser-frame::before {
+    content: '';
+    display: block;
+    height: 1.75rem;
+    border-bottom: 1px solid var(--surface-border);
+    background:
+      radial-gradient(circle, var(--color-line-strong) 3px, transparent 3.5px) 0.875rem 50% /
+        0.75rem 0.75rem no-repeat,
+      radial-gradient(circle, var(--color-line-strong) 3px, transparent 3.5px) 1.625rem 50% /
+        0.75rem 0.75rem no-repeat,
+      radial-gradient(circle, var(--color-line-strong) 3px, transparent 3.5px) 2.375rem 50% /
+        0.75rem 0.75rem no-repeat,
+      var(--surface-bg-raised);
+  }
+}

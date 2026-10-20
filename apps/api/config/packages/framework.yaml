@@ -1,0 +1,40 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+    # Session réservée au back-office (/admin) : l'API reste sans état (API Platform « stateless »).
+    session:
+        cookie_secure: auto
+        cookie_samesite: strict
+        cookie_httponly: true
+        name: gaw_admin
+        cookie_path: /admin
+    csrf_protection: true
+    # Derrière Cloudflare et le reverse proxy : IP réelle du visiteur pour la limite d'envois.
+    trusted_proxies: '%env(TRUSTED_PROXIES)%'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-port']
+
+    rate_limiter:
+        contact_hourly:
+            policy: sliding_window
+            limit: 5
+            interval: '1 hour'
+        contact_daily:
+            policy: sliding_window
+            limit: 20
+            interval: '1 day'
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file
+        cache:
+            pools:
+                # Pool dédié, vidé au début de chaque test fonctionnel.
+                cache.rate_limiter_test:
+                    adapter: cache.adapter.filesystem
+        rate_limiter:
+            contact_hourly:
+                cache_pool: cache.rate_limiter_test
+            contact_daily:
+                cache_pool: cache.rate_limiter_test

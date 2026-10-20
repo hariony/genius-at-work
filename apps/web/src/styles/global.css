@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+@import '@gaw/config/tailwind/tokens.css';
+@import './base.css';
+@import './typography.css';
+@import './motion.css';
+@import './forms.css';

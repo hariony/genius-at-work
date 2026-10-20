@@ -1,0 +1,94 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}{{ lead.reference }}{% endblock %}
+
+{% block main %}
+    <a class="back" href="{{ path('admin_leads') }}">← Toutes les demandes</a>
+
+    <header class="detail-head">
+        <div class="stack-sm">
+            <p class="ref ref--lg">{{ lead.reference }}</p>
+            <h1 class="page-title">{{ lead.fullName }}</h1>
+            <p class="muted">
+                {{ lead.projectType|project_type_label }}
+                {% if lead.company %} · {{ lead.company }}{% endif %}
+                · reçue le <time datetime="{{ lead.createdAt|date('c') }}">{{ lead.createdAt|date('d/m/Y à H:i') }}</time>
+            </p>
+        </div>
+        {% include 'admin/leads/_status.html.twig' with {status: lead.status} %}
+    </header>
+
+    <div class="detail-grid">
+        <div class="stack">
+            <section class="card" aria-labelledby="brief-title">
+                <h2 id="brief-title" class="card-title">Le besoin</h2>
+                <ul class="chips" aria-label="Cadrage">
+                    <li class="chip"><span class="chip-label">Projet</span>{{ lead.projectType|project_type_label }}</li>
+                    <li class="chip"><span class="chip-label">Budget</span>{{ lead.budgetRange|budget_label }}</li>
+                    <li class="chip"><span class="chip-label">Échéance</span>{{ lead.timeline|timeline_label }}</li>
+                </ul>
+                {% if lead.anonymized %}
+                    <p class="muted">Message effacé lors de l’anonymisation.</p>
+                {% else %}
+                    <div class="message">{{ lead.message }}</div>
+                {% endif %}
+            </section>
+
+            <section class="card" aria-labelledby="origin-title">
+                <h2 id="origin-title" class="card-title">Origine</h2>
+                <dl class="meta">
+                    <div><dt>Page d’envoi</dt><dd>{{ lead.sourceUrl ?: '—' }}</dd></div>
+                    <div><dt>Langue du site</dt><dd>{{ lead.locale|locale_label }}</dd></div>
+                    <div><dt>Consentement</dt><dd>{{ lead.consentAt|date('d/m/Y à H:i') }}</dd></div>
+                    <div><dt>Dernier contact</dt><dd>{{ lead.lastContactAt|date('d/m/Y') }}</dd></div>
+                </dl>
+            </section>
+        </div>
+
+        <div class="stack">
+            <section class="card" aria-labelledby="contact-title">
+                <h2 id="contact-title" class="card-title">Contact</h2>
+                {% if lead.anonymized %}
+                    <p class="muted">Coordonnées effacées le {{ lead.anonymizedAt|date('d/m/Y') }}.</p>
+                {% else %}
+                    <dl class="meta meta--stacked">
+                        <div><dt>E-mail</dt><dd><a href="mailto:{{ lead.email }}">{{ lead.email }}</a></dd></div>
+                        <div><dt>Téléphone</dt><dd>{% if lead.phone %}<a href="tel:{{ lead.phone|replace({' ': ''}) }}">{{ lead.phone }}</a>{% else %}—{% endif %}</dd></div>
+                        <div><dt>Entreprise</dt><dd>{{ lead.company ?: '—' }}</dd></div>
+                    </dl>
+                    <a class="button button--primary button--block" href="mailto:{{ lead.email }}?subject={{ ('Votre demande ' ~ lead.reference)|url_encode }}">
+                        Répondre par e-mail
+                    </a>
+                {% endif %}
+            </section>
+
+            <section class="card" aria-labelledby="status-title">
+                <h2 id="status-title" class="card-title">Suivi</h2>
+                <form method="post" action="{{ path('admin_lead_status', {id: lead.id.value}) }}" class="stack-sm">
+                    <fieldset class="status-picker">
+                        <legend class="visually-hidden">Statut de la demande</legend>
+                        {% for status in statuses %}
+                            <label class="status-option">
+                                <input type="radio" name="status" value="{{ status.value }}"{% if lead.status == status %} checked{% endif %}>
+                                <span class="dot dot--{{ status.value }}" aria-hidden="true"></span>
+                                {{ status|status_label }}
+                            </label>
+                        {% endfor %}
+                    </fieldset>
+                    <input type="hidden" name="_token" value="{{ csrf_token('lead-status-' ~ lead.id.value) }}">
+                    <button class="button button--dark button--block" type="submit">Enregistrer le statut</button>
+                </form>
+            </section>
+
+            <section class="card card--quiet" aria-labelledby="privacy-title">
+                <h2 id="privacy-title" class="card-title">Données personnelles</h2>
+                {% if lead.anonymized %}
+                    <p class="muted small">Demande anonymisée le {{ lead.anonymizedAt|date('d/m/Y') }}. Le type de projet, le budget et les dates restent disponibles pour les statistiques.</p>
+                {% else %}
+                    <p class="muted small">Anonymisation automatique prévue le <strong>{{ anonymized_on|date('d/m/Y') }}</strong>, à la fin de la durée de conservation après le dernier contact.</p>
+                    <a class="button button--danger-ghost button--block" href="{{ path('admin_lead_anonymize', {id: lead.id.value}) }}">Anonymiser maintenant…</a>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+{% endblock %}

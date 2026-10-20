@@ -1,0 +1,38 @@
+SQVF Directorate General of Taxes | Genius at work Services
+Home
+Services
+Projects
+Stacks
+Contact
+Home
+Services
+Projects
+Stacks
+Contact
+# SQVF Directorate General of Taxes
+Home
+Réalisations
+SQVF Directorate General of Taxes
+##
+Centralized management tools and monitoring of tax audits within the DGI
+Date de début :
+15 May , 2019
+Date de fin :
+17 November , 2022
+Client :
+DGI Madagascar
+Catégories :
+Web app, Innovation
+Technologies :
+Bootstrap, Jquery, NodeJs, Zend
+WordPress › Error
+There has been a critical error on this website.
+[link:https://wordpress.org/documentation/article/faq-troubleshooting/] Learn more about troubleshooting WordPress.
+
+--- IMAGES ---
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo-dark.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/flag/french.png | Sun images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/sun-01.svg | Sun images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/vector.svg | Vector Images
+https://genius-at-work.com/wp-content/uploads/2022/10/sqvf.jpg | SQVF Directorate General of Taxes

@@ -1,0 +1,25 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Anonymiser {{ lead.reference }}{% endblock %}
+
+{% block main %}
+    <a class="back" href="{{ path('admin_lead_show', {id: lead.id.value}) }}">← Retour à la demande</a>
+
+    <section class="card card--danger confirm" aria-labelledby="confirm-title">
+        <h1 id="confirm-title" class="page-title page-title--sm">Anonymiser la demande {{ lead.reference }} ?</h1>
+        <p>Le nom, l’e-mail, le téléphone, l’entreprise, le message et la page d’envoi de <strong>{{ lead.fullName }}</strong> seront effacés définitivement.</p>
+        <p class="muted small">À utiliser quand la personne demande l’effacement de ses données. Le type de projet, le budget, les dates et la référence sont conservés pour les statistiques. Cette action est irréversible.</p>
+
+        <form method="post" class="stack-sm">
+            <label class="field">
+                <span class="field-label">Pour confirmer, saisissez la référence <span class="ref">{{ lead.reference }}</span></span>
+                <input class="input" type="text" name="confirm_reference" autocomplete="off" spellcheck="false" required pattern="{{ lead.reference }}">
+            </label>
+            <input type="hidden" name="_token" value="{{ csrf_token('lead-anonymize-' ~ lead.id.value) }}">
+            <div class="actions">
+                <a class="button button--ghost" href="{{ path('admin_lead_show', {id: lead.id.value}) }}">Annuler</a>
+                <button class="button button--danger" type="submit">Effacer les données personnelles</button>
+            </div>
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,69 @@
+---
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import Container from '@/components/ui/Container.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { HOME_SECTIONS } from '@/content/home';
+import { localizePath, toLocale } from '@/lib/i18n';
+import { getServices } from '@/services/content';
+
+/** Index des services : une ligne par métier, lisible d'un coup d'œil, toute la ligne cliquable. */
+interface Props {
+  /** Textes d'en-tête ; par défaut ceux de l'accueil. */
+  heading?: { label: string; title: string; intro?: string } | undefined;
+  surface?: 'base' | 'subtle' | undefined;
+}
+
+const locale = toLocale(Astro.currentLocale);
+const { heading, surface = 'subtle' } = Astro.props;
+const copy = heading ?? HOME_SECTIONS[locale].services;
+const services = getServices();
+---
+
+<section data-surface={surface} class="py-section" aria-labelledby="services-title">
+  <Container class="flex flex-col gap-section-gap">
+    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="services-title" />
+
+    <ol class="border-t border-border" data-anim="stagger">
+      {services.map((service, i) => (
+        <li class="border-b border-border">
+          <a
+            href={localizePath(`/services/${service.slug}/`, locale)}
+            class="service-row group grid gap-2 py-6 no-underline md:grid-cols-12 md:items-center md:gap-8 md:py-7"
+          >
+            <span class="type-meta md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
+            <span class="text-[1.375rem] leading-tight font-semibold tracking-[-0.018em] md:col-span-4">
+              {service.title[locale]}
+            </span>
+            <span class="max-w-[56ch] text-fg-muted md:col-span-6">{service.summary[locale]}</span>
+            <span
+              class="service-arrow hidden size-9 place-items-center justify-self-end rounded-pill border border-border md:col-span-1 md:grid"
+              aria-hidden="true"
+            >
+              <Icon name="arrow-right" size={16} />
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</section>
+
+<style>
+  .service-row {
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+  .service-arrow {
+    transition:
+      background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-base) var(--ease-out);
+  }
+  .service-row:hover .service-arrow,
+  .service-row:focus-visible .service-arrow {
+    border-color: var(--surface-accent);
+    background: var(--surface-accent);
+    color: var(--surface-accent-fg);
+    transform: translateX(2px);
+  }
+</style>

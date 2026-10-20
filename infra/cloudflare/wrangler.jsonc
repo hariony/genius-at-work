@@ -1,0 +1,24 @@
+// Site public : fichiers statiques d'Astro servis par Cloudflare (Workers Static Assets).
+// Pas de code serveur : _headers (apps/web/public) s'applique à toutes les réponses.
+// Déploiement par GitHub Actions : wrangler deploy --config infra/cloudflare/wrangler.jsonc [--env staging]
+{
+  "name": "gaw-web",
+  "compatibility_date": "2026-10-19",
+  "assets": {
+    "directory": "../../apps/web/dist",
+    // URL en /page/ (trailingSlash: 'always' dans Astro).
+    "html_handling": "auto-trailing-slash",
+    // URL inconnue : le 404.html le plus proche (/en/404.html pour /en/…).
+    "not_found_handling": "404-page",
+  },
+  // Les domaines genius-at-work.com et www sont rattachés au moment de la bascule
+  // (« routes » avec custom_domain), pas avant : l'ancien site reste en ligne d'ici là.
+  "workers_dev": true,
+  "preview_urls": false,
+  "env": {
+    // Préproduction, protégée par Cloudflare Access ; noindex ajouté par la CI.
+    "staging": {
+      "name": "gaw-web-staging",
+    },
+  },
+}

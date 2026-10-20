@@ -1,0 +1,120 @@
+---
+import { Picture } from 'astro:assets';
+import { projectTint } from '@/lib/brand';
+import { imageSource } from '@/lib/images';
+import Icon from '@/components/ui/Icon.astro';
+import { CATEGORY_LABELS } from '@/lib/portfolio';
+import { localizePath, toLocale } from '@/lib/i18n';
+import type { Project } from '@/types/content';
+
+/**
+ * Carte projet éditoriale : la capture est présentée dans une fenêtre de navigateur sur un
+ * aplat de marque (cyan, lilas, citron ou bleu clair), suivie du titre, des catégories et de la période.
+ * Toute la carte est un lien. Variantes :
+ *   feature : grand format, résumé et technologies affichés (accueil)
+ *   default : format courant (listes)
+ */
+interface Props {
+  project: Project;
+  variant?: 'feature' | 'default';
+  sizes?: string;
+  /** Format de la scène : paysage (4:3) ou plus large (16:10). */
+  ratio?: 'landscape' | 'wide';
+  class?: string;
+}
+
+const {
+  project,
+  variant = 'default',
+  sizes = '(min-width: 64rem) 40vw, 100vw',
+  ratio = 'landscape',
+  class: className,
+} = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const period = project.period
+  ? project.period.start === project.period.end
+    ? `${project.period.start}`
+    : `${project.period.start}–${project.period.end}`
+  : undefined;
+const feature = variant === 'feature';
+---
+
+<article class:list={['group relative flex flex-col gap-5', className]}>
+  <div
+    class:list={[
+      'project-stage relative overflow-hidden rounded-lg',
+      projectTint(project),
+      ratio === 'wide' ? 'aspect-[16/10]' : 'aspect-[4/3]',
+    ]}
+    data-anim="reveal-image"
+  >
+    <div class="project-window browser-frame absolute inset-x-[7%] top-[9%] -bottom-[6%]">
+      <Picture
+        {...imageSource(project.cover)}
+        formats={['avif', 'webp']}
+        widths={[480, 800, 1200, 1600]}
+        sizes={sizes}
+        alt={project.coverAlt[locale]}
+        class="h-full w-full object-cover object-top"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <div class="flex items-start justify-between gap-4">
+      <h3 class:list={[feature ? 'type-h3 text-[1.375rem]' : 'type-h3']}>
+        <a
+          href={localizePath(`/projects/${project.slug}/`, locale)}
+          class="no-underline after:absolute after:inset-0 after:content-['']"
+        >
+          {project.title}
+        </a>
+      </h3>
+      <span
+        class="project-arrow mt-1 grid size-8 shrink-0 place-items-center rounded-pill border border-border text-fg-muted"
+        aria-hidden="true"
+      >
+        <Icon name="arrow-up-right" size={14} />
+      </span>
+    </div>
+    {feature && <p class="max-w-[52ch] text-fg-muted">{project.summary[locale]}</p>}
+    <p class="type-meta flex flex-wrap items-center gap-x-2 gap-y-1">
+      {project.categories.slice(0, 3).map((category, i) => (
+        <>
+          {i > 0 && <span aria-hidden="true">·</span>}
+          <span>{CATEGORY_LABELS[category][locale]}</span>
+        </>
+      ))}
+      {period && <span class="ml-auto">{period}</span>}
+    </p>
+  </div>
+</article>
+
+<style>
+  .project-window {
+    transition:
+      transform var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
+  }
+  .group:hover .project-window {
+    transform: translateY(-8px) rotate(-1deg);
+    box-shadow: var(--shadow-lg);
+  }
+  .project-arrow {
+    transition:
+      background-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard);
+  }
+  .group:hover .project-arrow,
+  .group:focus-within .project-arrow {
+    border-color: var(--surface-fg);
+    background: var(--surface-fg);
+    color: var(--surface-bg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .group:hover .project-window {
+      transform: none;
+    }
+  }
+</style>

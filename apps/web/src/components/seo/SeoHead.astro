@@ -1,0 +1,69 @@
+---
+import JsonLd from '@/components/seo/JsonLd.astro';
+import { SITE } from '@/content/site';
+import { LOCALE_META, alternates, localizePath, type Locale } from '@/lib/i18n';
+import { ogImageFor } from '@/lib/seo/og';
+import { organization, website } from '@/lib/seo/schema';
+
+export interface SeoProps {
+  title: string;
+  description: string;
+  /** Image Open Graph absolue ou relative au site. Par défaut : carte générée au build. */
+  image?: string;
+  imageAlt?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article';
+}
+
+interface Props extends SeoProps {
+  locale: Locale;
+}
+
+const {
+  title,
+  description,
+  image = ogImageFor(Astro.url.pathname),
+  imageAlt,
+  noindex = false,
+  type = 'website',
+  locale,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://genius-at-work.com');
+const canonical = new URL(Astro.url.pathname, site).href;
+const links = alternates(Astro.url.pathname, site);
+const xDefault = links.find((link) => link.locale === 'fr')?.href ?? canonical;
+const fullTitle = title === SITE.name ? title : `${title} · ${SITE.name}`;
+const ogImage = image ? new URL(image, site).href : undefined;
+const isHome = Astro.url.pathname === localizePath('/', locale);
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+{links.map(({ locale: alt, href }) => (
+  <link rel="alternate" hreflang={alt} href={href} />
+))}
+<link rel="alternate" hreflang="x-default" href={xDefault} />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={LOCALE_META[locale].ogLocale} />
+{links
+  .filter((link) => link.locale !== locale)
+  .map((link) => (
+    <meta property="og:locale:alternate" content={LOCALE_META[link.locale].ogLocale} />
+  ))}
+{ogImage && <meta property="og:image" content={ogImage} />}
+{ogImage && <meta property="og:image:alt" content={imageAlt ?? fullTitle} />}
+<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+{ogImage && <meta name="twitter:image" content={ogImage} />}
+
+{isHome && <JsonLd data={{ '@graph': [organization(site, locale), website(site, locale)] }} />}

@@ -1,0 +1,40 @@
+---
+import Container from '@/components/ui/Container.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { AI_PAGE } from '@/content/ai';
+import { toLocale } from '@/lib/i18n';
+
+/** Positionnement : ce que nous ne vendons pas, puis ce que nous faisons. */
+const copy = AI_PAGE[toLocale(Astro.currentLocale)].approach;
+---
+
+<section data-surface="base" class="py-section" aria-labelledby="ai-approach-title">
+  <Container class="grid gap-y-12 lg:grid-cols-12 lg:gap-x-12">
+    <div class="flex flex-col gap-8 lg:col-span-5">
+      <div class="flex flex-col gap-4">
+        <p class="eyebrow" data-anim="reveal-up">
+          {copy.label}
+        </p>
+        <h2 id="ai-approach-title" class="type-h2 max-w-[20ch]" data-anim="reveal-lines">
+          {copy.title}
+        </h2>
+      </div>
+      <ul class="flex flex-col border-t border-border" data-anim="stagger">
+        {copy.not.map((item) => (
+          <li class="flex items-center gap-3 border-b border-border py-3.5 text-fg-muted">
+            <span class="grid size-5 shrink-0 place-items-center rounded-pill text-hot">
+              <Icon name="close" size={14} />
+            </span>
+            <span class="line-through decoration-1">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <p
+      class="type-h3 max-w-[30ch] self-end font-semibold text-balance lg:col-span-6 lg:col-start-7"
+      data-anim="reveal-up"
+    >
+      {copy.answer}
+    </p>
+  </Container>
+</section>

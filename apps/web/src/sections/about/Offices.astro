@@ -1,0 +1,61 @@
+---
+import LocalClock from '@/components/navigation/LocalClock.astro';
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import Container from '@/components/ui/Container.astro';
+import { ABOUT_PAGE } from '@/content/pages';
+import { SITE, formatCoordinates } from '@/content/site';
+import { toLocale, useTranslations } from '@/lib/i18n';
+
+/** Le bureau : adresse, téléphones, e-mail et heure locale, sur une seule carte large. */
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const copy = ABOUT_PAGE[locale].offices;
+---
+
+<section data-surface="subtle" class="py-section" aria-labelledby="offices-title">
+  <Container class="flex flex-col gap-section-gap">
+    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="offices-title" />
+    {SITE.offices.map((office) => (
+      <article
+        class="grid gap-8 overflow-hidden rounded-lg border border-border bg-bg-raised p-7 shadow-xs md:grid-cols-3 lg:p-10"
+        data-anim="reveal-up"
+      >
+        <header class="flex flex-col gap-3">
+          <span class="h-1.5 w-10 rounded-pill bg-cyan" aria-hidden="true" />
+          <h3 class="type-h3">{office.name[locale]}</h3>
+          <address class="flex flex-col text-fg-muted not-italic">
+            {office.addressLines.map((line) => (
+              <span>{line}</span>
+            ))}
+          </address>
+        </header>
+        <ul class="flex flex-col gap-1 font-semibold">
+          {office.phones.map((phone) => (
+            <li>
+              <a href={`tel:${phone.e164}`} class="tabular-nums no-underline hover:text-accent">
+                {phone.display}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href={`mailto:${SITE.email}`} class="no-underline hover:text-accent">
+              {SITE.email}
+            </a>
+          </li>
+        </ul>
+        <dl class="grid grid-cols-2 gap-4 md:grid-cols-1">
+          <div class="flex flex-col gap-1">
+            <dt class="type-label text-fg-muted">{t('footer.localTime')}</dt>
+            <dd>
+              <LocalClock timeZone={office.timeZone} utcLabel={office.utcLabel} />
+            </dd>
+          </div>
+          <div class="flex flex-col gap-1">
+            <dt class="type-label text-fg-muted">{t('office.coordinates')}</dt>
+            <dd class="type-meta">{formatCoordinates(office.coordinates)}</dd>
+          </div>
+        </dl>
+      </article>
+    ))}
+  </Container>
+</section>

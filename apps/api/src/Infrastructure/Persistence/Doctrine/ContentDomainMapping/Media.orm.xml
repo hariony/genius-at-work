@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Domain\Content\Media" table="content_media">
+        <unique-constraints>
+            <unique-constraint name="uniq_media_file_name" columns="file_name"/>
+        </unique-constraints>
+
+        <id name="id" type="string" length="40"/>
+
+        <field name="fileName" type="string" length="80"/>
+        <field name="mimeType" type="string" length="20"/>
+        <field name="width" type="integer"/>
+        <field name="height" type="integer"/>
+        <field name="byteSize" type="integer"/>
+        <field name="originalName" type="string" length="255"/>
+        <field name="uploadedAt" type="datetime_immutable"/>
+    </entity>
+</doctrine-mapping>

@@ -1,0 +1,30 @@
+---
+/** Sections de texte juridique (titres h2, paragraphes, listes), mises en page en colonne de lecture. */
+interface Section {
+  title: string;
+  paragraphs?: string[];
+  items?: string[];
+}
+
+interface Props {
+  sections: Section[];
+}
+
+const { sections } = Astro.props;
+---
+
+{sections.map((section) => (
+  <section class="flex flex-col gap-4 border-t border-border pt-8">
+    <h2 class="type-h3">{section.title}</h2>
+    {section.paragraphs?.map((paragraph) => (
+      <p class="text-fg-muted">{paragraph}</p>
+    ))}
+    {section.items && (
+      <ul class="flex list-disc flex-col gap-1 ps-5 text-fg-muted">
+        {section.items.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    )}
+  </section>
+))}

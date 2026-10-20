@@ -1,0 +1,49 @@
+---
+import '@fontsource-variable/manrope/wght.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import '@/styles/global.css';
+import manropeLatin from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
+import SeoHead, { type SeoProps } from '@/components/seo/SeoHead.astro';
+import { LOCALE_META, toLocale } from '@/lib/i18n';
+
+type Props = SeoProps;
+
+const locale = toLocale(Astro.currentLocale);
+---
+
+<!doctype html>
+<html lang={LOCALE_META[locale].htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f5f1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="96x96" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href={manropeLatin} as="font" type="font/woff2" crossorigin />
+    <SeoHead {...Astro.props} locale={locale} />
+
+    <!--
+      Active les états initiaux des animations seulement si le JS tourne et que le mouvement
+      est autorisé. Garde-fou : si GSAP n'est pas prêt après 2,5 s, tout s'affiche.
+    -->
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          root.classList.add('motion-ok');
+        }
+        setTimeout(() => {
+          if (!window.__gawMotionReady) root.classList.add('motion-off');
+        }, 2500);
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+    <script>
+      import { startMotion } from '@/animations/lifecycle';
+      startMotion();
+    </script>
+  </body>
+</html>

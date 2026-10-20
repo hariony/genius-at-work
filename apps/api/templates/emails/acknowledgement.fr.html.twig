@@ -1,0 +1,7 @@
+{% extends 'emails/_layout.html.twig' %}
+{% block body %}
+<p>Bonjour {{ lead.fullName }},</p>
+<p>Merci pour votre message : votre demande est bien enregistrée sous la référence <strong>{{ lead.reference }}</strong>.</p>
+<p>Notre équipe lit chaque demande et revient vers vous par e-mail. Pour compléter votre demande, répondez simplement à <a href="mailto:contact@genius-at-work.com">contact@genius-at-work.com</a> en rappelant cette référence.</p>
+<p>À bientôt,<br>L’équipe Genius At Work<br><span style="color:#4a5a72">Claix (Grenoble) · Antananarivo</span></p>
+{% endblock %}

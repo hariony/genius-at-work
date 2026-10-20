@@ -1,0 +1,72 @@
+---
+import ContactForm from '@/components/contact/ContactForm';
+import LocalClock from '@/components/navigation/LocalClock.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import Container from '@/components/ui/Container.astro';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { CONTACT_FORM, CONTACT_PAGE } from '@/content/contact';
+import { SITE } from '@/content/site';
+import { localizePath, toLocale } from '@/lib/i18n';
+import { PRIVACY_PATH } from '@/lib/navigation';
+
+const locale = toLocale(Astro.currentLocale);
+const copy = CONTACT_PAGE[locale];
+
+// Valeurs publiques uniquement. Par défaut : API locale et clé de test Turnstile.
+const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8088';
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA';
+---
+
+<PageLayout title={copy.seoTitle} description={copy.seoDescription}>
+  <PageHero eyebrow={copy.eyebrow} title={copy.title} lead={copy.lead} />
+
+  <section data-surface="base" class="py-section">
+    <Container class="grid gap-section-gap lg:grid-cols-12">
+      <div class="lg:col-span-8">
+        <ContactForm
+          client:visible
+          copy={CONTACT_FORM[locale]}
+          locale={locale}
+          apiUrl={apiUrl}
+          turnstileSiteKey={turnstileSiteKey}
+          privacyHref={localizePath(PRIVACY_PATH, locale)}
+          projectsHref={localizePath('/projects/', locale)}
+          fallbackEmail={SITE.email}
+        />
+      </div>
+
+      <aside class="flex flex-col gap-10 lg:col-span-4" aria-label={copy.direct.label}>
+        <div class="flex flex-col gap-2 border-t border-border pt-4">
+          <h2 class="type-label text-fg-muted">{copy.direct.email}</h2>
+          <a href={`mailto:${SITE.email}`} class="type-lead font-semibold break-all">
+            {SITE.email}
+          </a>
+        </div>
+        {SITE.offices.map((office) => (
+          <div class="flex flex-col gap-3 border-t border-border pt-4">
+            <h2 class="type-label text-fg-muted">{office.name[locale]}</h2>
+            <address class="flex flex-col not-italic">
+              {office.addressLines.map((line) => (
+                <span>{line}</span>
+              ))}
+            </address>
+            <ul class="flex flex-col">
+              {office.phones.map((phone) => (
+                <li>
+                  <a href={`tel:${phone.e164}`} class="tabular-nums">
+                    {phone.display}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <LocalClock
+              timeZone={office.timeZone}
+              utcLabel={office.utcLabel}
+              class="text-fg-muted"
+            />
+          </div>
+        ))}
+      </aside>
+    </Container>
+  </section>
+</PageLayout>

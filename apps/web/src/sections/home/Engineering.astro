@@ -1,0 +1,52 @@
+---
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Tag from '@/components/ui/Tag.astro';
+import { HOME_SECTIONS } from '@/content/home';
+import { STACK } from '@/content/technologies';
+import { localizePath, toLocale } from '@/lib/i18n';
+
+/** La stack en coupe : une couche par ligne, son rôle et ses technologies. */
+interface Props {
+  /** Textes d'en-tête ; par défaut ceux de l'accueil. */
+  heading?: { label: string; title: string; intro?: string; cta: string } | undefined;
+  /** Lien vers la page Technologie (masqué sur cette page). */
+  cta?: boolean;
+}
+
+const locale = toLocale(Astro.currentLocale);
+const { heading, cta = true } = Astro.props;
+const copy = heading ?? HOME_SECTIONS[locale].engineering;
+---
+
+<section data-surface="dark" class="py-section" aria-labelledby="engineering-title">
+  <Container class="flex flex-col gap-section-gap">
+    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="engineering-title">
+      {cta && (
+        <Button slot="aside" href={localizePath('/technology/', locale)} variant="secondary">
+          {copy.cta}
+        </Button>
+      )}
+    </ChapterHeader>
+
+    <ol class="border-t border-border" data-anim="stagger">
+      {STACK.map((group, i) => (
+        <li class="grid gap-3 border-b border-border py-5 md:grid-cols-12 md:items-center md:gap-8">
+          <span class="type-meta md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
+          <span class="flex flex-col gap-0.5 md:col-span-4">
+            <span class="font-semibold">{group.title[locale]}</span>
+            <span class="text-small text-fg-muted">{group.role[locale]}</span>
+          </span>
+          <ul class="flex flex-wrap gap-1.5 md:col-span-7">
+            {group.technologies.map((tech) => (
+              <li>
+                <Tag>{tech}</Tag>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</section>

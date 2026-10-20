@@ -1,0 +1,26 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Supprimer {{ project.title }}{% endblock %}
+
+{% block main %}
+    <a class="back" href="{{ path('admin_project_edit', {id: project.id}) }}">← Retour au projet</a>
+
+    <section class="card card--danger confirm" aria-labelledby="confirm-title">
+        <h1 id="confirm-title" class="page-title page-title--sm">Supprimer « {{ project.title }} » ?</h1>
+        <p>Le projet disparaîtra du back-office et, à la prochaine publication, du site et de ses pages de services.</p>
+        <p class="muted small">Pour le masquer sans le perdre, décochez plutôt « Publié » dans sa fiche. La suppression est définitive.</p>
+        {% if error %}<p class="flash flash--error" role="alert">{{ error }}</p>{% endif %}
+
+        <form method="post" class="stack-sm">
+            <label class="field">
+                <span class="field-label">Pour confirmer, saisissez le nom du projet : <span class="strong">{{ project.title }}</span></span>
+                <input class="input" type="text" name="confirm_title" autocomplete="off" spellcheck="false" required>
+            </label>
+            <input type="hidden" name="_token" value="{{ csrf_token(csrf_id) }}">
+            <div class="actions">
+                <a class="button button--ghost" href="{{ path('admin_project_edit', {id: project.id}) }}">Annuler</a>
+                <button class="button button--danger" type="submit">Supprimer définitivement</button>
+            </div>
+        </form>
+    </section>
+{% endblock %}

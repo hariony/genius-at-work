@@ -1,0 +1,32 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SiteFooter from '@/components/navigation/SiteFooter.astro';
+import SiteHeader from '@/components/navigation/SiteHeader.astro';
+import type { SeoProps } from '@/components/seo/SeoHead.astro';
+import { toLocale, useTranslations } from '@/lib/i18n';
+
+type Props = SeoProps & {
+  /** false : la page porte déjà son appel final, le pied de page n'en ajoute pas. */
+  footerCta?: boolean;
+};
+
+const { footerCta = true, ...seo } = Astro.props;
+const t = useTranslations(toLocale(Astro.currentLocale));
+---
+
+<BaseLayout {...seo}>
+  <a
+    href="#main"
+    class="sr-only z-[var(--z-toast)] rounded-pill bg-fg px-5 py-3 text-small font-semibold text-bg focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+  >
+    {t('a11y.skipToContent')}
+  </a>
+
+  <SiteHeader />
+
+  <main id="main" tabindex="-1" class="outline-none">
+    <slot />
+  </main>
+
+  <SiteFooter cta={footerCta} />
+</BaseLayout>

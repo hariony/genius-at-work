@@ -1,0 +1,13 @@
+pnpm-lock.yaml
+docs/audit-raw/
+docs/proposal/directions-board.html
+assets/legacy/
+dist/
+.astro/
+.sanity/
+# API Symfony : style géré par PHP-CS-Fixer et les linters Symfony.
+apps/api/
+# Brief d'origine, conservé tel quel.
+specs/
+# Généré par les tests de l’API (UPDATE_SNAPSHOT=1 bin/phpunit --filter Snapshot).
+apps/api/data/site-content.snapshot.json

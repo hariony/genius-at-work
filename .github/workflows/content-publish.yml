@@ -1,0 +1,26 @@
+# Reconstruit le site de production avec le contenu du back-office.
+# Déclenché par le bouton « Publier » du back-office, qui appelle l'API GitHub :
+#   POST https://api.github.com/repos/<owner>/<repo>/dispatches
+#   corps : {"event_type": "content-published"}
+# Le jeton GitHub n'a besoin que du droit « Contents: read and write » sur ce dépôt.
+# Le déploiement passe par l'environnement production et donc par ses règles d'approbation.
+name: Publication de contenu
+
+on:
+  repository_dispatch:
+    types: [content-published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-publish
+  cancel-in-progress: true
+
+jobs:
+  web:
+    uses: ./.github/workflows/deploy-web.yml
+    with:
+      environment: production
+    secrets: inherit

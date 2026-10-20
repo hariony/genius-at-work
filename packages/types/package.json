@@ -1,0 +1,13 @@
+{
+  "name": "@gaw/types",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./contact": "./src/contact.ts"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  }
+}

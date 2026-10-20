@@ -1,0 +1,73 @@
+{# Formulaire d'une page, construit depuis sa description (PageFormView). depth 0 = blocs de premier niveau. #}
+
+{% macro node(n, depth) %}
+    {% import _self as m %}
+    {% if n.kind == 'group' %}
+        {% if depth == 0 and n.hasFields %}
+            <section class="card">
+                <div class="card-head">
+                    <h2 class="card-title">{{ n.label }}</h2>
+                    {% if n.hint %}<p class="muted small">{{ n.hint }}</p>{% endif %}
+                </div>
+                <div class="stack">{% for c in n.children %}{{ m.node(c, depth + 1) }}{% endfor %}</div>
+            </section>
+        {% elseif depth == 0 %}
+            <h2 class="editor-heading">{{ n.label }}</h2>
+            {% for c in n.children %}{{ m.node(c, 0) }}{% endfor %}
+        {% else %}
+            <fieldset class="subgroup">
+                <legend class="subgroup-title">{{ n.label }}</legend>
+                {% if n.hint %}<p class="field-hint">{{ n.hint }}</p>{% endif %}
+                <div class="stack">{% for c in n.children %}{{ m.node(c, depth + 1) }}{% endfor %}</div>
+            </fieldset>
+        {% endif %}
+    {% elseif n.kind == 'list' %}
+        <div class="repeater">
+            <div class="repeater-head">
+                <span class="field-label">{{ n.label }}</span>
+                {% if n.hint %}<span class="field-hint">{{ n.hint }}</span>{% endif %}
+                {% if not n.fixed %}<span class="field-hint">Videz un élément pour le retirer.</span>{% endif %}
+            </div>
+            {% if n.error %}<p class="field-error">{{ n.error }}</p>{% endif %}
+            {% for row in n.rows %}
+                {% if row.new %}
+                    <details class="repeater-row repeater-row--new">
+                        <summary class="button button--ghost add-button">+ Ajouter</summary>
+                        <div class="stack">{% for c in row.children %}{{ m.node(c, depth + 1) }}{% endfor %}</div>
+                    </details>
+                {% else %}
+                    <div class="repeater-row">
+                        <span class="repeater-number" aria-hidden="true">{{ row.number }}</span>
+                        <div class="stack">{% for c in row.children %}{{ m.node(c, depth + 1) }}{% endfor %}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="{{ n.inputs|length > 1 ? 'grid-2' : 'field-single' }}">
+            {% for input in n.inputs %}
+                <label class="field">
+                    <span class="field-label">
+                        {{ n.label }}{% if input.lang %} <span class="lang">{{ input.lang }}</span>{% endif %}
+                        {% if n.optional %}<span class="optional">facultatif</span>{% endif %}
+                    </span>
+                    {% set invalid = input.error ? ' aria-invalid="true" aria-describedby="error-' ~ input.id ~ '"' : '' %}
+                    {% if n.type == 'text' or n.type == 'lines' %}
+                        <textarea class="input input--area" id="{{ input.id }}" name="{{ input.name }}" rows="{{ n.rows }}"{{ invalid|raw }}>{{ input.value }}</textarea>
+                    {% elseif n.type == 'choice' %}
+                        <select class="input input--select" id="{{ input.id }}" name="{{ input.name }}"{{ invalid|raw }}>
+                            <option value="">Choisir…</option>
+                            {% for value, label in n.choices %}
+                                <option value="{{ value }}"{% if value == input.value %} selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                        <input class="input" id="{{ input.id }}" name="{{ input.name }}" value="{{ input.value }}"{% if n.type == 'number' %} inputmode="numeric"{% endif %}{{ invalid|raw }}>
+                    {% endif %}
+                    {% if n.hint and (not input.lang or input.lang == 'EN') %}<span class="field-hint">{{ n.hint }}</span>{% endif %}
+                    {% if input.error %}<span class="field-error" id="error-{{ input.id }}">{{ input.error }}</span>{% endif %}
+                </label>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endmacro %}

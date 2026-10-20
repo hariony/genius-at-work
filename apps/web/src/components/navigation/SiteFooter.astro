@@ -1,0 +1,116 @@
+---
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Wordmark from '@/components/ui/Wordmark.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import LocalClock from './LocalClock.astro';
+import { SITE } from '@/content/site';
+import { localizePath, toLocale, useTranslations } from '@/lib/i18n';
+import { CONTACT_PATH, LEGAL_PATH, MAIN_NAV, PRIVACY_PATH } from '@/lib/navigation';
+
+/**
+ * Appel à l'action final (bloc citron), puis informations pratiques : navigation, bureau, contact.
+ * Une page qui se termine par son propre appel à l'action masque le bloc citron (cta={false}).
+ */
+interface Props {
+  cta?: boolean;
+}
+
+const { cta = true } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const year = new Date().getFullYear();
+---
+
+<footer data-surface="dark">
+  <Container class="flex flex-col gap-16 pt-section pb-10">
+    {cta && (
+      <div
+        data-surface="base"
+        class="relative flex flex-col gap-8 overflow-hidden rounded-xl bg-lime p-8 sm:p-10 lg:flex-row lg:items-end lg:justify-between lg:p-14"
+        data-anim="reveal-up"
+      >
+        <span
+          class="absolute -top-16 -right-16 size-56 rounded-pill bg-cyan lg:size-72"
+          aria-hidden="true"
+        ></span>
+        <div class="relative flex max-w-[36rem] flex-col gap-4">
+          <p class="eyebrow text-fg">{t('footer.ctaLabel')}</p>
+          <h2 class="type-h1">{t('footer.cta')}</h2>
+          <p class="text-fg">{t('footer.ctaText')}</p>
+        </div>
+        <div class="relative flex flex-wrap items-center gap-6">
+          <Button href={localizePath(CONTACT_PATH, locale)}>{t('cta.discussProject')}</Button>
+          <a href={`mailto:${SITE.email}`} class="text-small font-semibold">
+            {SITE.email}
+          </a>
+        </div>
+      </div>
+    )}
+
+    <div class="grid gap-10 text-small sm:grid-cols-2 lg:grid-cols-12">
+      <div class="flex flex-col gap-4 lg:col-span-5">
+        <Wordmark size={32} class="text-[1.25rem]" />
+        <p class="max-w-[30ch] text-fg-muted">{t('footer.tagline')}</p>
+      </div>
+
+      <nav class="flex flex-col gap-4 lg:col-span-2" aria-label={t('footer.navigation')}>
+        <p class="type-label text-fg-muted">{t('footer.navigation')}</p>
+        <ul class="flex flex-col gap-2.5">
+          {[...MAIN_NAV, { key: 'nav.contact' as const, path: CONTACT_PATH }].map((item) => (
+            <li>
+              <a href={localizePath(item.path, locale)} class="no-underline hover:text-accent">
+                {t(item.key)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {SITE.offices.map((office) => (
+        <address class="flex flex-col gap-3 not-italic lg:col-span-4 lg:col-start-9">
+          <p class="type-label text-fg-muted">{office.name[locale]}</p>
+          <p class="text-fg-muted">{office.addressLines.join(', ')}</p>
+          <ul class="flex flex-col gap-1">
+            {office.phones.map((phone) => (
+              <li>
+                <a href={`tel:${phone.e164}`} class="no-underline hover:text-accent">
+                  {phone.display}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <LocalClock timeZone={office.timeZone} utcLabel={office.utcLabel} />
+        </address>
+      ))}
+    </div>
+
+    <div class="flex flex-col gap-4 border-t border-border pt-6 text-[0.8125rem] text-fg-muted md:flex-row md:items-center md:justify-between">
+      <p>
+        © {year} {SITE.name}. {t('footer.rights')}
+      </p>
+      <ul class="flex flex-wrap items-center gap-x-6 gap-y-2">
+        {SITE.socials.map((social) => (
+          <li>
+            <a href={social.href} rel="noopener" class="no-underline hover:text-fg">
+              {social.label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href={localizePath(LEGAL_PATH, locale)} class="no-underline hover:text-fg">
+            {t('footer.legal')}
+          </a>
+        </li>
+        <li>
+          <a href={localizePath(PRIVACY_PATH, locale)} class="no-underline hover:text-fg">
+            {t('footer.privacy')}
+          </a>
+        </li>
+        <li>
+          <LanguageSwitcher />
+        </li>
+      </ul>
+    </div>
+  </Container>
+</footer>

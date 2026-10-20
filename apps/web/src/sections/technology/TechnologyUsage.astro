@@ -1,0 +1,43 @@
+---
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import Container from '@/components/ui/Container.astro';
+import { TECHNOLOGY_PAGE } from '@/content/pages';
+import { localizePath, toLocale } from '@/lib/i18n';
+import { technologyUsage } from '@/services/content';
+
+/** Technologies réellement livrées, calculées à partir du portfolio. */
+const locale = toLocale(Astro.currentLocale);
+const copy = TECHNOLOGY_PAGE[locale].usage;
+const usage = technologyUsage();
+const max = Math.max(...usage.map((entry) => entry.projects.length));
+---
+
+<section data-surface="base" class="py-section" aria-labelledby="usage-title">
+  <Container class="flex flex-col gap-section-gap">
+    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="usage-title" />
+    <ol class="border-t border-border" data-anim="stagger" data-anim-each="0.03">
+      {usage.map(({ name, projects }) => (
+        <li class="grid gap-2 border-b border-border py-4 md:grid-cols-12 md:items-center md:gap-8">
+          <span class="font-semibold md:col-span-3">{name}</span>
+          <span class="flex items-center gap-4 md:col-span-3">
+            <span class="h-1 flex-1 overflow-hidden rounded-pill bg-fg/8" aria-hidden="true">
+              <span
+                class="block h-full rounded-pill bg-accent"
+                style={`width: ${(projects.length / max) * 100}%`}
+              />
+            </span>
+            <span class="type-meta w-24 text-right">{copy.projects(projects.length)}</span>
+          </span>
+          <span class="text-small text-fg-muted md:col-span-6">
+            {projects.map((project, i) => (
+              <>
+                <a href={localizePath(`/projects/${project.slug}/`, locale)}>{project.title}</a>
+                {i < projects.length - 1 && ', '}
+              </>
+            ))}
+          </span>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</section>

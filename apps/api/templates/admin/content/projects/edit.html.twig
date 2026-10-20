@@ -1,0 +1,178 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}{{ project ? project.title : 'Nouveau projet' }}{% endblock %}
+
+{% block main %}
+    {% import 'admin/content/_form.html.twig' as f %}
+
+    <a class="back" href="{{ path('admin_projects') }}">← Tous les projets</a>
+    <header class="page-head">
+        <p class="eyebrow">Projets</p>
+        <h1 class="page-title">{{ project ? project.title : 'Nouveau projet' }}</h1>
+        {% if project %}
+            <p class="muted small">Modifié {{ project.updatedAt|ago }} par {{ project.updatedBy }}.</p>
+        {% endif %}
+    </header>
+
+    <form method="post" enctype="multipart/form-data" class="editor" novalidate>
+        <input type="hidden" name="_token" value="{{ csrf_token(csrf_id) }}">
+        <button class="visually-hidden" type="submit" tabindex="-1" aria-hidden="true">Enregistrer</button>
+
+        <section class="card" aria-labelledby="identity-title">
+            <div class="card-head">
+                <h2 id="identity-title" class="card-title">Identité</h2>
+            </div>
+            <div class="grid-2">
+                <label class="field">
+                    <span class="field-label">Nom du projet</span>
+                    <input class="input" name="project[title]" value="{{ form.title }}" maxlength="160" required{{ f.invalid(form, 'title') }}>
+                    {{ f.error(form, 'title') }}
+                </label>
+                <label class="field">
+                    <span class="field-label">Adresse de la page</span>
+                    <span class="input-prefix">
+                        <span class="input-prefix-text" aria-hidden="true">/projects/</span>
+                        <input class="input" name="project[slug]" value="{{ form.slug }}" maxlength="80" spellcheck="false" autocapitalize="off" placeholder="{{ project ? '' : 'déduite du nom si vide' }}"{{ f.invalid(form, 'slug') }}>
+                    </span>
+                    <span class="field-hint">{% if project %}La changer casse les liens déjà partagés vers ce projet.{% else %}Minuscules, chiffres et tirets.{% endif %}</span>
+                    {{ f.error(form, 'slug') }}
+                </label>
+                <label class="field">
+                    <span class="field-label">Client</span>
+                    <input class="input" name="project[client]" value="{{ form.client }}" maxlength="160"{{ f.invalid(form, 'client') }}>
+                    <span class="field-hint">Facultatif.</span>
+                </label>
+                <label class="field">
+                    <span class="field-label">Type de client</span>
+                    <select class="input input--select" name="project[clientType]"{{ f.invalid(form, 'clientType') }}>
+                        <option value="">Non précisé</option>
+                        {% for type in client_types %}
+                            <option value="{{ type.value }}"{% if type.value == form.clientType %} selected{% endif %}>{{ type|client_type_label }}</option>
+                        {% endfor %}
+                    </select>
+                    {{ f.error(form, 'clientType') }}
+                </label>
+                <div class="field">
+                    <span class="field-label" id="period-label">Période</span>
+                    <div class="period" role="group" aria-labelledby="period-label">
+                        <input class="input" name="project[periodStart]" value="{{ form.periodStart }}" inputmode="numeric" maxlength="4" placeholder="Début" aria-label="Année de début"{{ f.invalid(form, 'periodStart') }}>
+                        <span aria-hidden="true">–</span>
+                        <input class="input" name="project[periodEnd]" value="{{ form.periodEnd }}" inputmode="numeric" maxlength="4" placeholder="Fin" aria-label="Année de fin"{{ f.invalid(form, 'periodEnd') }}>
+                    </div>
+                    <span class="field-hint">Années, facultatives. Même année deux fois pour un projet sur un an.</span>
+                    {{ f.error(form, 'periodStart') }}
+                    {{ f.error(form, 'periodEnd') }}
+                </div>
+                <label class="field">
+                    <span class="field-label">Site en ligne</span>
+                    <input class="input" type="url" name="project[url]" value="{{ form.url }}" placeholder="https://"{{ f.invalid(form, 'url') }}>
+                    <span class="field-hint">Facultatif. Lien « Voir le site » de la page projet.</span>
+                    {{ f.error(form, 'url') }}
+                </label>
+            </div>
+        </section>
+
+        <section class="card" aria-labelledby="tags-title">
+            <div class="card-head">
+                <h2 id="tags-title" class="card-title">Classement</h2>
+            </div>
+            <fieldset class="field fieldset"{{ f.invalid(form, 'categories') }}>
+                <legend class="field-label">Catégories</legend>
+                <div class="check-chips">
+                    {% for category in categories %}
+                        <label class="check-chip">
+                            <input type="checkbox" name="project[categories][]" value="{{ category.value }}"{% if category.value in form.categories %} checked{% endif %}>
+                            <span>{{ category|category_label }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+                <span class="field-hint">Servent de filtres sur la page Projets et relient le projet aux pages de services.</span>
+                {{ f.error(form, 'categories') }}
+            </fieldset>
+            <label class="field">
+                <span class="field-label">Technologies</span>
+                <input class="input" name="project[technologies]" value="{{ form.technologies }}" placeholder="Symfony, React, MySQL">
+                <span class="field-hint">Séparées par des virgules. Uniquement celles réellement utilisées sur ce projet.</span>
+            </label>
+        </section>
+
+        <section class="card" aria-labelledby="text-title">
+            <div class="card-head">
+                <h2 id="text-title" class="card-title">Présentation</h2>
+            </div>
+            <div class="grid-2">
+                <label class="field">
+                    <span class="field-label">Résumé <span class="lang">FR</span></span>
+                    <textarea class="input input--area" rows="4" name="project[summary_fr]"{{ f.invalid(form, 'summaryFr') }}>{{ form.summaryFr }}</textarea>
+                    {{ f.error(form, 'summaryFr') }}
+                </label>
+                <label class="field">
+                    <span class="field-label">Résumé <span class="lang">EN</span></span>
+                    <textarea class="input input--area" rows="4" name="project[summary_en]"{{ f.invalid(form, 'summaryEn') }}>{{ form.summaryEn }}</textarea>
+                    {{ f.error(form, 'summaryEn') }}
+                </label>
+            </div>
+        </section>
+
+        <section class="card" aria-labelledby="cover-title">
+            <div class="card-head">
+                <h2 id="cover-title" class="card-title">Capture</h2>
+            </div>
+            <div class="cover-editor">
+                <figure class="cover-preview" data-cover-preview>
+                    {% if cover %}
+                        <img src="{{ cover.path }}" alt="" width="{{ cover.width }}" height="{{ cover.height }}">
+                        <figcaption class="muted small">{{ cover.width }} × {{ cover.height }} px · {{ (cover.byteSize / 1024)|round }} Ko</figcaption>
+                    {% else %}
+                        <span class="cover-empty">Aucune image</span>
+                    {% endif %}
+                </figure>
+                <div class="stack-sm">
+                    <input type="hidden" name="project[coverId]" value="{{ form.coverId }}">
+                    <label class="field">
+                        <span class="field-label">{{ cover ? 'Remplacer l’image' : 'Choisir une image' }}</span>
+                        <input class="input input--file" type="file" name="cover" accept="image/jpeg,image/png,image/webp,image/avif" data-cover-input{{ f.invalid(form, 'cover') }}>
+                        <span class="field-hint">JPEG, PNG, WebP ou AVIF, {{ max_upload_mb }} Mo maximum. Idéalement 1600 px de large, format 4:3. Le site l’optimise automatiquement.</span>
+                        {{ f.error(form, 'cover') }}
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Description de l’image <span class="lang">FR</span></span>
+                        <input class="input" name="project[coverAlt_fr]" value="{{ form.coverAltFr }}"{{ f.invalid(form, 'coverAltFr') }}>
+                        {{ f.error(form, 'coverAltFr') }}
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Description de l’image <span class="lang">EN</span></span>
+                        <input class="input" name="project[coverAlt_en]" value="{{ form.coverAltEn }}"{{ f.invalid(form, 'coverAltEn') }}>
+                        <span class="field-hint">Lue par les lecteurs d’écran et les moteurs de recherche.</span>
+                        {{ f.error(form, 'coverAltEn') }}
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section class="card" aria-labelledby="publish-title">
+            <div class="card-head">
+                <h2 id="publish-title" class="card-title">Publication</h2>
+            </div>
+            <div class="switches">
+                <label class="switch">
+                    <input type="checkbox" name="project[published]" value="1"{% if form.published %} checked{% endif %}>
+                    <span class="switch-text"><span class="strong">Publié</span><span class="muted small">Décoché : brouillon, absent du site.</span></span>
+                </label>
+                <label class="switch">
+                    <input type="checkbox" name="project[featured]" value="1"{% if form.featured %} checked{% endif %}>
+                    <span class="switch-text"><span class="strong">À la une</span><span class="muted small">Mis en avant sur la page d’accueil.</span></span>
+                </label>
+            </div>
+        </section>
+
+        <div class="savebar">
+            {% if project %}
+                <a class="link-button link-button--danger" href="{{ path('admin_project_delete', {id: project.id}) }}">Supprimer ce projet</a>
+            {% else %}
+                <p class="muted small">Les modifications seront en ligne à la prochaine publication du site.</p>
+            {% endif %}
+            <button class="button button--primary" type="submit">{{ project ? 'Enregistrer' : 'Créer le projet' }}</button>
+        </div>
+    </form>
+{% endblock %}

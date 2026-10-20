@@ -1,0 +1,12 @@
+twig:
+    file_name_pattern: '*.twig'
+    # Dates du back-office à l'heure de l'équipe (stockées en UTC).
+    date:
+        timezone: Indian/Antananarivo
+    globals:
+        # Lien « Voir le site » du back-office.
+        site_url: '%env(SITE_URL)%'
+
+when@test:
+    twig:
+        strict_variables: true

@@ -1,0 +1,107 @@
+---
+import AiTrace from '@/components/sections/AiTrace.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import { AI_PAGE, AI_PATH, AI_SERVICE } from '@/content/ai';
+import { localizePath, toLocale, useTranslations } from '@/lib/i18n';
+import { CONTACT_PATH } from '@/lib/navigation';
+import { breadcrumbs } from '@/lib/seo/schema';
+
+/**
+ * En-tête de la page IA, sur la surface nuit (l'en-tête du site la reprend tant qu'il le
+ * recouvre) : promesse, deux actions et le schéma « trace ».
+ */
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const copy = AI_PAGE[locale].hero;
+const site = Astro.site ?? new URL('https://genius-at-work.com');
+const crumbs = [
+  { label: t('nav.home'), href: localizePath('/', locale) },
+  { label: t('nav.services'), href: localizePath('/services/', locale) },
+];
+---
+
+<JsonLd
+  data={breadcrumbs(site, [
+    ...crumbs,
+    { label: copy.eyebrow, href: localizePath(AI_PATH, locale) },
+  ])}
+/>
+
+<section data-surface="night" data-hero class="ai-hero relative isolate overflow-hidden">
+  <script is:inline>
+    document.documentElement.dataset.heroSurface = 'night';
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#07081a');
+  </script>
+  <Container class="grid min-h-[88svh] content-center items-center gap-14 pt-32 pb-20 lg:grid-cols-12 lg:gap-x-12 lg:pt-36">
+    <div class="flex flex-col gap-7 lg:col-span-6">
+      <nav aria-label={t('a11y.breadcrumb')} class="text-small text-fg-muted">
+        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+          {crumbs.map((crumb) => (
+            <li class="flex items-center gap-2">
+              <a href={crumb.href} class="no-underline hover:text-fg">
+                {crumb.label}
+              </a>
+              <span aria-hidden="true" class="text-border-strong">
+                /
+              </span>
+            </li>
+          ))}
+          <li aria-current="page" class="text-fg">
+            {copy.eyebrow}
+          </li>
+        </ol>
+      </nav>
+      <p class="eyebrow" data-anim="reveal-up" data-anim-trigger="load">
+        {copy.eyebrow}
+      </p>
+      <h1 class="type-display max-w-[18ch]" data-anim="reveal-lines" data-anim-trigger="load">
+        {copy.title}
+      </h1>
+      <p
+        class="type-lead max-w-[50ch]"
+        data-anim="reveal-up"
+        data-anim-trigger="load"
+        data-anim-delay="0.25"
+      >
+        {copy.lead}
+      </p>
+      <div
+        class="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1"
+        data-anim="reveal-up"
+        data-anim-trigger="load"
+        data-anim-delay="0.35"
+      >
+        <Button
+          href={`${localizePath(CONTACT_PATH, locale)}?service=${AI_SERVICE}`}
+          variant="accent"
+        >
+          {t('cta.discussProject')}
+        </Button>
+        <Button href="#use-cases" variant="secondary" icon="arrow-down">
+          {copy.secondaryCta}
+        </Button>
+      </div>
+    </div>
+    <div class="lg:col-span-6">
+      <AiTrace class="mx-auto max-w-[36rem]" />
+    </div>
+  </Container>
+</section>
+
+<style>
+  /* Lumière discrète derrière le schéma. */
+  .ai-hero::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: -20%;
+    right: -25%;
+    width: min(80rem, 120vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(0 194 255 / 0.12), transparent);
+    pointer-events: none;
+  }
+</style>

@@ -1,0 +1,2655 @@
+{
+  "settings": {
+    "name": "Genius At Work",
+    "email": "contact@genius-at-work.com",
+    "socials": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/genius-at-work-com/"
+      },
+      {
+        "label": "Facebook",
+        "url": "https://www.facebook.com/geniusatworksarl"
+      }
+    ],
+    "offices": [
+      {
+        "id": "madagascar",
+        "name": {
+          "fr": "Bureau d’Antananarivo",
+          "en": "Antananarivo office"
+        },
+        "city": "Antananarivo",
+        "addressLines": [
+          "Établissement Dialopro",
+          "Rue Tsiadana",
+          "Antananarivo, Madagascar"
+        ],
+        "phones": [
+          "+261 34 85 311 20"
+        ],
+        "timeZone": "Indian/Antananarivo",
+        "coordinates": {
+          "lat": -18.88,
+          "lng": 47.51
+        }
+      }
+    ]
+  },
+  "projects": [
+    {
+      "slug": "magicstay",
+      "title": "MagicStay",
+      "client": "MagicStay",
+      "clientType": "company",
+      "period": {
+        "start": 2022,
+        "end": 2022
+      },
+      "categories": [
+        "ux-ui",
+        "innovation",
+        "travel"
+      ],
+      "technologies": [
+        "Bootstrap",
+        "jQuery"
+      ],
+      "url": "https://www.magicstay.com/",
+      "summary": {
+        "fr": "Location de vacances, location courte durée, location saisonnière et appart-hôtel, pensés pour les voyages d’affaires.",
+        "en": "Vacation rental, short-term rental, seasonal rental and apartment hotel, designed for business travel."
+      },
+      "cover": "magicstay.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site MagicStay",
+        "en": "MagicStay website home page"
+      },
+      "featured": true,
+      "published": true
+    },
+    {
+      "slug": "transparency-international",
+      "title": "Transparency International",
+      "client": "Transparency International Initiative Madagascar",
+      "clientType": "ngo",
+      "period": {
+        "start": 2019,
+        "end": 2019
+      },
+      "categories": [
+        "web-app",
+        "ux-ui",
+        "showcase"
+      ],
+      "technologies": [
+        "Zend",
+        "jQuery"
+      ],
+      "url": "https://transparency.mg/",
+      "summary": {
+        "fr": "Amélioration du site de Transparency International Initiative Madagascar.",
+        "en": "Improvement of the Transparency International Initiative Madagascar website."
+      },
+      "cover": "transparency.png",
+      "coverAlt": {
+        "fr": "Page d’accueil du site Transparency International Initiative Madagascar",
+        "en": "Transparency International Initiative Madagascar website home page"
+      },
+      "featured": true,
+      "published": true
+    },
+    {
+      "slug": "sqvf-direction-generale-des-impots",
+      "title": "SQVF — Direction Générale des Impôts",
+      "client": "DGI Madagascar",
+      "clientType": "institution",
+      "period": {
+        "start": 2019,
+        "end": 2022
+      },
+      "categories": [
+        "web-app",
+        "innovation"
+      ],
+      "technologies": [
+        "Zend",
+        "Node.js",
+        "jQuery"
+      ],
+      "url": null,
+      "summary": {
+        "fr": "Outils de gestion centralisée et de suivi des contrôles fiscaux au sein de la DGI.",
+        "en": "Centralised management and tax audit monitoring tools within the DGI."
+      },
+      "cover": "sqvf.jpg",
+      "coverAlt": {
+        "fr": "Interface de l’outil SQVF de la Direction Générale des Impôts",
+        "en": "Interface of the SQVF tool of the Directorate General of Taxes"
+      },
+      "featured": true,
+      "published": true
+    },
+    {
+      "slug": "taxibrousse-mg",
+      "title": "Taxibrousse.mg",
+      "client": "Genius At Work",
+      "clientType": "in-house",
+      "period": {
+        "start": 2019,
+        "end": 2022
+      },
+      "categories": [
+        "web-app",
+        "mobile",
+        "ux-ui",
+        "e-commerce",
+        "innovation",
+        "travel"
+      ],
+      "technologies": [
+        "Zend",
+        "Cordova",
+        "Framework7",
+        "Bootstrap",
+        "jQuery"
+      ],
+      "url": "https://www.taxibrousse.mg/",
+      "summary": {
+        "fr": "Application et site de réservation de billets de taxi-brousse, avec choix des places et paiement Mobile money ou carte bancaire.",
+        "en": "App and website for booking bush-taxi tickets, with seat selection and Mobile money or card payment."
+      },
+      "cover": "taxibrousse.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil de Taxibrousse.mg : recherche de trajet par ville de départ, d’arrivée et date",
+        "en": "Taxibrousse.mg home page: trip search by departure city, arrival city and date"
+      },
+      "featured": true,
+      "published": true
+    },
+    {
+      "slug": "wellcoloc",
+      "title": "Wellcoloc",
+      "client": null,
+      "clientType": null,
+      "period": null,
+      "categories": [
+        "ux-ui",
+        "e-commerce",
+        "innovation",
+        "travel"
+      ],
+      "technologies": [
+        "Laravel",
+        "Nuxt",
+        "Vue.js",
+        "Node.js",
+        "Bootstrap"
+      ],
+      "url": "https://wellcoloc.com/",
+      "summary": {
+        "fr": "Plateforme de mise en relation entre locataires, colocataires et propriétaires.",
+        "en": "Platform connecting tenants, flatmates and landlords."
+      },
+      "cover": "wellcoloc.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site Wellcoloc",
+        "en": "Wellcoloc website home page"
+      },
+      "featured": true,
+      "published": true
+    },
+    {
+      "slug": "e-rdv",
+      "title": "E-rdv",
+      "client": "Genius At Work",
+      "clientType": "in-house",
+      "period": {
+        "start": 2019,
+        "end": 2021
+      },
+      "categories": [
+        "web-app",
+        "ux-ui",
+        "innovation"
+      ],
+      "technologies": [
+        "Zend",
+        "Node.js",
+        "Bootstrap",
+        "jQuery"
+      ],
+      "url": "http://e-rdv.mg/",
+      "summary": {
+        "fr": "Application de prise de rendez-vous auprès des professionnels.",
+        "en": "Application for booking appointments with professionals."
+      },
+      "cover": "e-rdv.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site E-rdv",
+        "en": "E-rdv website home page"
+      },
+      "featured": true,
+      "published": true
+    },
+    {
+      "slug": "dfc-com",
+      "title": "DFC Com",
+      "client": "DFC Com",
+      "clientType": "company",
+      "period": {
+        "start": 2020,
+        "end": 2022
+      },
+      "categories": [
+        "ux-ui"
+      ],
+      "technologies": [
+        "Zend",
+        "Node.js",
+        "jQuery"
+      ],
+      "url": "https://www.dfccom.com/",
+      "summary": {
+        "fr": "Spécialiste de la communication par l’objet et de la fabrication sur mesure.",
+        "en": "Specialist in promotional products and custom manufacturing."
+      },
+      "cover": "dfc-com.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site DFC Com",
+        "en": "DFC Com website home page"
+      },
+      "featured": false,
+      "published": true
+    },
+    {
+      "slug": "fashionshopgroup",
+      "title": "Fashionshopgroup",
+      "client": "Fashionshopgroup",
+      "clientType": "company",
+      "period": {
+        "start": 2019,
+        "end": 2020
+      },
+      "categories": [
+        "e-commerce",
+        "innovation"
+      ],
+      "technologies": [
+        "PrestaShop",
+        "Bootstrap",
+        "jQuery"
+      ],
+      "url": "https://fashionshopgroup.com/fr/",
+      "summary": {
+        "fr": "Boutique en ligne qui sélectionne les plus beaux articles de mode féminine à travers le monde.",
+        "en": "Online store selecting the finest women’s fashion items from around the world."
+      },
+      "cover": "fashionshopgroup.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site Fashionshopgroup",
+        "en": "Fashionshopgroup website home page"
+      },
+      "featured": false,
+      "published": true
+    },
+    {
+      "slug": "alter-smoke",
+      "title": "Alter Smoke",
+      "client": "Alter Smoke",
+      "clientType": "company",
+      "period": {
+        "start": 2012,
+        "end": 2013
+      },
+      "categories": [
+        "e-commerce"
+      ],
+      "technologies": [
+        "PrestaShop"
+      ],
+      "url": "https://www.altersmoke.com/fr/",
+      "summary": {
+        "fr": "E-commerce d’un réseau de 50 boutiques de cigarette électronique en France (dont 15 à Paris), en Belgique et en Suisse.",
+        "en": "E-commerce for a network of 50 e-cigarette stores in France (15 in Paris), Belgium and Switzerland."
+      },
+      "cover": "altersmoke.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site Alter Smoke",
+        "en": "Alter Smoke website home page"
+      },
+      "featured": false,
+      "published": true
+    },
+    {
+      "slug": "chronolivraison",
+      "title": "Chronolivraison",
+      "client": "Genius At Work",
+      "clientType": "in-house",
+      "period": {
+        "start": 2020,
+        "end": 2020
+      },
+      "categories": [
+        "web-app",
+        "mobile",
+        "ux-ui",
+        "e-commerce",
+        "innovation",
+        "showcase"
+      ],
+      "technologies": [
+        "Laravel",
+        "Cordova",
+        "Framework7",
+        "Bootstrap",
+        "jQuery"
+      ],
+      "url": "https://chronolivraison.mg/",
+      "summary": {
+        "fr": "Service de livraison rapide, connecté à Antananarivo et aux provinces.",
+        "en": "Fast delivery service connecting Antananarivo and the provinces."
+      },
+      "cover": "chronolivraison.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site Chronolivraison",
+        "en": "Chronolivraison website home page"
+      },
+      "featured": false,
+      "published": true
+    },
+    {
+      "slug": "eurocomputer",
+      "title": "Eurocomputer",
+      "client": "Eurocomputer",
+      "clientType": "company",
+      "period": {
+        "start": 2016,
+        "end": 2018
+      },
+      "categories": [
+        "web-app",
+        "ux-ui",
+        "e-commerce",
+        "innovation"
+      ],
+      "technologies": [
+        "Zend",
+        "Bootstrap",
+        "jQuery"
+      ],
+      "url": "https://eurocomputer.fr/",
+      "summary": {
+        "fr": "Réparation d’imprimantes et de scanners code-barres en 24/72 h, achat et location de matériel de traçabilité neuf ou reconditionné depuis 1994.",
+        "en": "Printer and barcode scanner repair within 24/72 h, sale and rental of new or refurbished traceability equipment since 1994."
+      },
+      "cover": "eurocomputer.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site Eurocomputer",
+        "en": "Eurocomputer website home page"
+      },
+      "featured": false,
+      "published": true
+    },
+    {
+      "slug": "emarket-mg",
+      "title": "Emarket.mg",
+      "client": "Genius At Work",
+      "clientType": "in-house",
+      "period": {
+        "start": 2020,
+        "end": 2021
+      },
+      "categories": [
+        "ux-ui",
+        "e-commerce",
+        "innovation"
+      ],
+      "technologies": [
+        "Laravel",
+        "Bootstrap",
+        "jQuery"
+      ],
+      "url": "https://emarket.mg/",
+      "summary": {
+        "fr": "Premier site multivendeurs à Madagascar, avec paiement Mobile money et carte Visa/Mastercard.",
+        "en": "The first multi-vendor marketplace in Madagascar, with Mobile money and Visa/Mastercard payment."
+      },
+      "cover": "emarket.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site Emarket.mg",
+        "en": "Emarket.mg website home page"
+      },
+      "featured": false,
+      "published": true
+    },
+    {
+      "slug": "dialopro",
+      "title": "Dialopro",
+      "client": "Dialopro",
+      "clientType": "company",
+      "period": {
+        "start": 2020,
+        "end": 2020
+      },
+      "categories": [
+        "ux-ui",
+        "innovation",
+        "showcase"
+      ],
+      "technologies": [
+        "Zend",
+        "Bootstrap",
+        "jQuery"
+      ],
+      "url": "https://dialopro.com/",
+      "summary": {
+        "fr": "Site d’une entreprise spécialisée en relation client et en BPO.",
+        "en": "Website for a company specialising in customer relations and BPO."
+      },
+      "cover": "dialopro.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site Dialopro",
+        "en": "Dialopro website home page"
+      },
+      "featured": false,
+      "published": true
+    },
+    {
+      "slug": "miarakap",
+      "title": "Miarakap",
+      "client": "Miarakap",
+      "clientType": "company",
+      "period": {
+        "start": 2019,
+        "end": 2019
+      },
+      "categories": [
+        "showcase"
+      ],
+      "technologies": [
+        "Zend",
+        "Bootstrap",
+        "jQuery"
+      ],
+      "url": "https://miarakap.com/",
+      "summary": {
+        "fr": "Le premier fonds d’investissement à impact de Madagascar, dédié aux PME et aux startups.",
+        "en": "The first impact investment fund in Madagascar, dedicated to SMEs and startups."
+      },
+      "cover": "miarakap.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site Miarakap",
+        "en": "Miarakap website home page"
+      },
+      "featured": false,
+      "published": true
+    },
+    {
+      "slug": "evasommeil",
+      "title": "Evasommeil",
+      "client": null,
+      "clientType": "company",
+      "period": {
+        "start": 2020,
+        "end": 2021
+      },
+      "categories": [
+        "web-app",
+        "ux-ui",
+        "innovation",
+        "showcase"
+      ],
+      "technologies": [
+        "Node.js",
+        "jQuery"
+      ],
+      "url": "https://www.evasommeil.com/",
+      "summary": {
+        "fr": "Plateforme d’analyse de données médicales : polygraphie et polysomnographie.",
+        "en": "Medical data analysis platform: polygraphy and polysomnography."
+      },
+      "cover": "evasommeil.jpg",
+      "coverAlt": {
+        "fr": "Page d’accueil du site Evasommeil",
+        "en": "Evasommeil website home page"
+      },
+      "featured": false,
+      "published": true
+    }
+  ],
+  "services": [
+    {
+      "slug": "websites",
+      "title": {
+        "fr": "Sites internet",
+        "en": "Websites"
+      },
+      "summary": {
+        "fr": "Des sites sur mesure, conçus pour votre activité : un design qui vous distingue, une navigation simple, un socle rapide et bien référencé.",
+        "en": "Custom websites built for your business: a design that sets you apart, simple navigation, a fast and well-indexed foundation."
+      },
+      "intro": {
+        "fr": "Un site est souvent le premier contact avec vos clients. Nous le concevons sur mesure, de l’architecture de contenu à la mise en ligne, pour qu’il présente clairement votre activité, se charge vite et reste simple à faire évoluer.",
+        "en": "A website is often the first contact with your customers. We design it from scratch, from content architecture to launch, so it presents your business clearly, loads fast and stays easy to evolve."
+      },
+      "scope": {
+        "fr": [
+          "Architecture de contenu et parcours",
+          "Design UX/UI sur mesure",
+          "Intégration responsive et accessible",
+          "Gestion de contenu autonome",
+          "SEO technique et performances",
+          "Version multilingue"
+        ],
+        "en": [
+          "Content architecture and user journeys",
+          "Custom UX/UI design",
+          "Responsive, accessible build",
+          "Self-serve content management",
+          "Technical SEO and performance",
+          "Multilingual version"
+        ]
+      },
+      "technologies": [
+        "Astro",
+        "TypeScript",
+        "Tailwind CSS",
+        "Sanity",
+        "WordPress"
+      ],
+      "relatedProjects": [
+        "dialopro",
+        "miarakap",
+        "transparency-international"
+      ]
+    },
+    {
+      "slug": "mobile-apps",
+      "title": {
+        "fr": "Applications mobiles",
+        "en": "Mobile apps"
+      },
+      "summary": {
+        "fr": "Des applications sur mesure, pensées pour l’usage réel : fonctionnalités avancées, interface soignée, paiement mobile quand le marché l’exige.",
+        "en": "Custom apps designed for real-world use: advanced features, a polished interface, mobile payment when the market calls for it."
+      },
+      "intro": {
+        "fr": "Nous concevons des applications pensées pour l’usage réel : réseau variable, paiement local, synchronisation avec une plateforme web. Taxibrousse.mg et Chronolivraison en sont deux exemples en production.",
+        "en": "We design apps built for real-world use: variable networks, local payment, sync with a web platform. Taxibrousse.mg and Chronolivraison are two examples in production."
+      },
+      "scope": {
+        "fr": [
+          "Conception des parcours mobiles",
+          "Application connectée à votre plateforme",
+          "Paiement Mobile money ou carte bancaire",
+          "Back-office de gestion",
+          "Évolutions et maintenance"
+        ],
+        "en": [
+          "Mobile user journey design",
+          "App connected to your platform",
+          "Mobile money or card payment",
+          "Management back office",
+          "Evolutions and maintenance"
+        ]
+      },
+      "technologies": [
+        "Cordova",
+        "Framework7",
+        "React"
+      ],
+      "relatedProjects": [
+        "taxibrousse-mg",
+        "chronolivraison"
+      ]
+    },
+    {
+      "slug": "web-apps",
+      "title": {
+        "fr": "Applications web",
+        "en": "Web apps"
+      },
+      "summary": {
+        "fr": "Des outils web qui simplifient le travail de vos équipes : interface claire, fonctionnalités solides, productivité mesurable.",
+        "en": "Web tools that simplify your teams’ work: a clear interface, solid features, measurable productivity."
+      },
+      "intro": {
+        "fr": "Prise de rendez-vous, analyse de données médicales, réparation et location de matériel : nos applications web remplacent des processus manuels par des outils clairs, sécurisés et adaptés à vos équipes.",
+        "en": "Appointment booking, medical data analysis, equipment repair and rental: our web apps replace manual processes with clear, secure tools fitted to your teams."
+      },
+      "scope": {
+        "fr": [
+          "Analyse des besoins et des processus",
+          "Interfaces métier et tableaux de bord",
+          "API et intégrations",
+          "Gestion des rôles et des accès",
+          "Tests et déploiement continu"
+        ],
+        "en": [
+          "Needs and process analysis",
+          "Business interfaces and dashboards",
+          "APIs and integrations",
+          "Roles and access management",
+          "Testing and continuous deployment"
+        ]
+      },
+      "technologies": [
+        "React",
+        "Vue.js",
+        "Node.js",
+        "Symfony",
+        "API Platform"
+      ],
+      "relatedProjects": [
+        "e-rdv",
+        "eurocomputer",
+        "evasommeil"
+      ]
+    },
+    {
+      "slug": "business-software",
+      "title": {
+        "fr": "Logiciels métier",
+        "en": "Business software"
+      },
+      "summary": {
+        "fr": "Des logiciels adaptés à vos processus : personnalisables, évolutifs et sécurisés, jusqu’aux outils internes d’une administration.",
+        "en": "Software shaped around your processes: customisable, scalable and secure, up to the internal tools of a public administration."
+      },
+      "intro": {
+        "fr": "Quand un outil standard ne suffit plus, nous développons le logiciel autour de vos processus. Pour la Direction Générale des Impôts de Madagascar, nous avons conçu les outils de gestion centralisée et de suivi des contrôles fiscaux.",
+        "en": "When an off-the-shelf tool no longer fits, we build the software around your processes. For the Directorate General of Taxes of Madagascar, we designed the centralised management and tax audit monitoring tools."
+      },
+      "scope": {
+        "fr": [
+          "Cartographie des processus",
+          "Workflows et circuits de validation",
+          "Suivi, statistiques et reporting",
+          "Sécurité et traçabilité des actions",
+          "Formation et accompagnement"
+        ],
+        "en": [
+          "Process mapping",
+          "Workflows and approval circuits",
+          "Tracking, statistics and reporting",
+          "Security and audit trail",
+          "Training and support"
+        ]
+      },
+      "technologies": [
+        "Symfony",
+        "PHP 8",
+        "MySQL",
+        "Redis"
+      ],
+      "relatedProjects": [
+        "sqvf-direction-generale-des-impots"
+      ]
+    },
+    {
+      "slug": "ai",
+      "title": {
+        "fr": "IA & automatisation",
+        "en": "AI & automation"
+      },
+      "summary": {
+        "fr": "Modèles d’IA, données de l’entreprise et agents, intégrés à vos applications et à vos processus, puis supervisés comme le reste du logiciel.",
+        "en": "AI models, company data and agents, built into your applications and processes, then monitored like the rest of your software."
+      },
+      "intro": {
+        "fr": "Nous ne vendons ni des prompts ni un chatbot posé sur un site. Nous intégrons l’IA là où elle fait gagner du temps : dans vos applications, vos outils internes et vos flux de travail, avec la même exigence d’ingénierie que pour un logiciel métier.",
+        "en": "We don’t sell prompts or a chatbot bolted onto a website. We put AI where it saves time: inside your applications, internal tools and workflows, engineered to the same standard as any business software."
+      },
+      "scope": {
+        "fr": [
+          "Intégration de modèles d’IA dans vos applications",
+          "Agents et automatisation des tâches métier",
+          "Assistants sur vos documents (RAG)",
+          "Extraction et analyse de documents",
+          "Mise en production et supervision"
+        ],
+        "en": [
+          "AI models integrated into your applications",
+          "Agents and business task automation",
+          "Assistants grounded in your documents (RAG)",
+          "Document extraction and analysis",
+          "Production deployment and monitoring"
+        ]
+      },
+      "technologies": [
+        "OpenAI",
+        "Anthropic",
+        "Gemini",
+        "Python",
+        "TypeScript",
+        "n8n"
+      ],
+      "relatedProjects": []
+    },
+    {
+      "slug": "e-commerce",
+      "title": {
+        "fr": "E-commerce",
+        "en": "E-commerce"
+      },
+      "summary": {
+        "fr": "Des plateformes de vente robustes et faciles à gérer : boutiques, places de marché multivendeurs, paiement par carte ou Mobile money.",
+        "en": "Robust, easy-to-run sales platforms: online stores, multi-vendor marketplaces, card or Mobile money payment."
+      },
+      "intro": {
+        "fr": "Boutique de marque, réseau de magasins ou place de marché multivendeurs : nous construisons des plateformes de vente robustes, adaptées aux moyens de paiement de vos clients, en France comme à Madagascar.",
+        "en": "Brand store, retail network or multi-vendor marketplace: we build robust sales platforms, adapted to your customers’ payment methods, in France as in Madagascar."
+      },
+      "scope": {
+        "fr": [
+          "Boutique sur mesure ou PrestaShop",
+          "Place de marché multivendeurs",
+          "Paiement Mobile money et carte Visa/Mastercard",
+          "Catalogue, stocks et commandes",
+          "Performances et référencement"
+        ],
+        "en": [
+          "Custom or PrestaShop store",
+          "Multi-vendor marketplace",
+          "Mobile money and Visa/Mastercard payment",
+          "Catalogue, stock and orders",
+          "Performance and search visibility"
+        ]
+      },
+      "technologies": [
+        "PrestaShop",
+        "Laravel",
+        "Symfony"
+      ],
+      "relatedProjects": [
+        "emarket-mg",
+        "alter-smoke",
+        "fashionshopgroup"
+      ]
+    },
+    {
+      "slug": "maintenance-hosting",
+      "title": {
+        "fr": "Maintenance & hébergement",
+        "en": "Maintenance & hosting"
+      },
+      "summary": {
+        "fr": "Stabilité, sécurité et évolutions de votre plateforme dans la durée, avec une équipe dédiée pour vous accompagner.",
+        "en": "Stability, security and ongoing evolution of your platform, with a dedicated team by your side."
+      },
+      "intro": {
+        "fr": "Un produit en ligne vit : mises à jour de sécurité, corrections, nouvelles fonctionnalités, montée en charge. Nous assurons sa stabilité dans la durée, avec une équipe dédiée qui connaît votre plateforme.",
+        "en": "An online product is alive: security updates, fixes, new features, growing traffic. We keep it stable over time, with a dedicated team that knows your platform."
+      },
+      "scope": {
+        "fr": [
+          "Maintenance corrective et évolutive",
+          "Mises à jour de sécurité",
+          "Hébergement et sauvegardes",
+          "Surveillance et performances",
+          "Assistance dédiée"
+        ],
+        "en": [
+          "Corrective and evolutive maintenance",
+          "Security updates",
+          "Hosting and backups",
+          "Monitoring and performance",
+          "Dedicated support"
+        ]
+      },
+      "technologies": [
+        "Docker",
+        "Cloudflare",
+        "GitHub Actions"
+      ],
+      "relatedProjects": []
+    }
+  ],
+  "pages": {
+    "home": {
+      "fr": {
+        "hero": {
+          "seoTitle": "Genius At Work",
+          "seoDescription": "Agence d’ingénierie digitale à Antananarivo, Madagascar : sites, applications web et mobiles, logiciels métier, e-commerce, maintenance et hébergement.",
+          "eyebrow": "Agence d’ingénierie digitale · Antananarivo",
+          "title": "Nous construisons des produits numériques",
+          "titleHighlight": "qui tiennent la charge.",
+          "lead": "Sites, applications web et mobiles, logiciels métier et e-commerce. Une équipe de plus de 20 personnes et 15 ans d’expérience.",
+          "scroll": "Défiler",
+          "visual": {
+            "caption": "requêtes simulées",
+            "hint": "Bougez la souris ou touchez : le système encaisse.",
+            "clock": "{time} à {city}",
+            "moments": {
+              "dawn": "aube",
+              "day": "jour",
+              "dusk": "soir",
+              "night": "nuit"
+            }
+          }
+        },
+        "sections": {
+          "hero": {
+            "badge": "{n} projets publiés"
+          },
+          "work": {
+            "label": "Réalisations",
+            "title": "Des projets en production, pas des maquettes.",
+            "intro": "Plateformes de réservation, outils d’administration fiscale, places de marché : une sélection de ce que nous avons conçu et livré.",
+            "all": "Toutes les réalisations",
+            "visit": "Voir le projet"
+          },
+          "manifesto": {
+            "label": "Manifeste",
+            "text": "Une équipe nouvelle génération, encadrée par des experts. Nos maîtres-mots : la performance et la confiance. Nous écoutons, nous analysons, puis nous construisons des produits qui restent rapides, sûrs et maintenables longtemps après la mise en ligne.",
+            "stats": [
+              {
+                "value": 15,
+                "suffix": "",
+                "label": "ans d’expérience"
+              },
+              {
+                "value": 20,
+                "suffix": "+",
+                "label": "personnes"
+              },
+              {
+                "value": 115,
+                "suffix": "+",
+                "label": "projets livrés"
+              }
+            ]
+          },
+          "services": {
+            "label": "Services",
+            "title": "Ce que nous construisons.",
+            "intro": "Six métiers, une même exigence : du site vitrine au logiciel métier, de la conception à l’hébergement."
+          },
+          "engineering": {
+            "label": "Ingénierie",
+            "title": "Une stack moderne, couche par couche.",
+            "intro": "Chaque couche a un rôle précis et se remplace sans tout réécrire. C’est ce qui rend un produit rapide aujourd’hui et maintenable demain.",
+            "cta": "Notre approche technique"
+          },
+          "method": {
+            "label": "Méthode",
+            "title": "Quatre temps, un cycle Scrum.",
+            "intro": "Une méthode simple, que vous suivez à chaque itération."
+          },
+          "reasons": {
+            "label": "Pourquoi nous",
+            "title": "Ce qui fait la différence."
+          }
+        }
+      },
+      "en": {
+        "hero": {
+          "seoTitle": "Genius At Work",
+          "seoDescription": "Digital engineering agency in Antananarivo, Madagascar: websites, web and mobile apps, business software, e-commerce, maintenance and hosting.",
+          "eyebrow": "Digital engineering agency · Antananarivo",
+          "title": "We build digital products",
+          "titleHighlight": "that hold up under load.",
+          "lead": "Websites, web and mobile apps, business software and e-commerce. A team of over 20 people and 15 years of experience.",
+          "scroll": "Scroll",
+          "visual": {
+            "caption": "simulated requests",
+            "hint": "Move your mouse or tap: the system takes the load.",
+            "clock": "{time} in {city}",
+            "moments": {
+              "dawn": "dawn",
+              "day": "day",
+              "dusk": "evening",
+              "night": "night"
+            }
+          }
+        },
+        "sections": {
+          "hero": {
+            "badge": "{n} published projects"
+          },
+          "work": {
+            "label": "Work",
+            "title": "Projects in production, not mock-ups.",
+            "intro": "Booking platforms, tax administration tools, marketplaces: a selection of what we have designed and shipped.",
+            "all": "All projects",
+            "visit": "View project"
+          },
+          "manifesto": {
+            "label": "Manifesto",
+            "text": "A new-generation team, supervised by experts. Our watchwords: performance and trust. We listen, we analyse, then we build products that stay fast, secure and maintainable long after launch.",
+            "stats": [
+              {
+                "value": 15,
+                "suffix": "",
+                "label": "years of experience"
+              },
+              {
+                "value": 20,
+                "suffix": "+",
+                "label": "people"
+              },
+              {
+                "value": 115,
+                "suffix": "+",
+                "label": "projects delivered"
+              }
+            ]
+          },
+          "services": {
+            "label": "Services",
+            "title": "What we build.",
+            "intro": "Six disciplines, one standard: from showcase sites to business software, from design to hosting."
+          },
+          "engineering": {
+            "label": "Engineering",
+            "title": "A modern stack, layer by layer.",
+            "intro": "Each layer has a precise role and can be replaced without rewriting everything. That is what keeps a product fast today and maintainable tomorrow.",
+            "cta": "Our technical approach"
+          },
+          "method": {
+            "label": "Method",
+            "title": "Four stages, one Scrum cycle.",
+            "intro": "A simple method you can follow at every iteration."
+          },
+          "reasons": {
+            "label": "Why us",
+            "title": "What makes the difference."
+          }
+        }
+      }
+    },
+    "services-page": {
+      "fr": {
+        "hero": {
+          "seoTitle": "Services",
+          "seoDescription": "Sites internet, applications mobiles et web, logiciels métier, e-commerce, maintenance et hébergement : les six métiers de Genius At Work.",
+          "eyebrow": "Services",
+          "title": "Six métiers, une même équipe.",
+          "lead": "De la conception à l’hébergement, nous prenons en charge tout le cycle de vie de vos produits numériques, avec les mêmes standards de qualité."
+        },
+        "list": {
+          "label": "Index",
+          "title": "Ce que nous construisons.",
+          "intro": "Chaque service s’appuie sur des projets livrés et en production."
+        },
+        "detail": {
+          "scopeLabel": "Périmètre",
+          "scopeTitle": "Ce que nous prenons en charge.",
+          "techLabel": "Technologies",
+          "techTitle": "Les outils que nous utilisons.",
+          "projectsLabel": "Réalisations",
+          "projectsTitle": "Déjà livré pour nos clients.",
+          "methodLabel": "Méthode",
+          "otherServices": "Autres services",
+          "seoSuffix": "sur mesure, depuis Antananarivo."
+        }
+      },
+      "en": {
+        "hero": {
+          "seoTitle": "Services",
+          "seoDescription": "Websites, mobile and web apps, business software, e-commerce, maintenance and hosting: the six disciplines of Genius At Work.",
+          "eyebrow": "Services",
+          "title": "Six disciplines, one team.",
+          "lead": "From design to hosting, we handle the whole life cycle of your digital products, to the same quality standards."
+        },
+        "list": {
+          "label": "Index",
+          "title": "What we build.",
+          "intro": "Every service is backed by projects delivered and running in production."
+        },
+        "detail": {
+          "scopeLabel": "Scope",
+          "scopeTitle": "What we take care of.",
+          "techLabel": "Technologies",
+          "techTitle": "The tools we use.",
+          "projectsLabel": "Work",
+          "projectsTitle": "Already delivered for our clients.",
+          "methodLabel": "Method",
+          "otherServices": "Other services",
+          "seoSuffix": "built to measure, from Antananarivo."
+        }
+      }
+    },
+    "projects-page": {
+      "fr": {
+        "hero": {
+          "seoTitle": "Réalisations",
+          "seoDescription": "Quinze projets publiés : plateformes de réservation, outils pour la Direction Générale des Impôts, e-commerce, applications mobiles et sites institutionnels.",
+          "eyebrow": "Réalisations",
+          "title": "Quinze projets publiés.",
+          "lead": "Pour des entreprises, une administration fiscale, une ONG, et pour nos propres produits. Filtrez par type de projet."
+        },
+        "filterLabel": "Filtrer par catégorie",
+        "all": "Tous",
+        "detail": {
+          "client": "Client",
+          "clientTypes": {
+            "company": "Entreprise",
+            "institution": "Institution",
+            "ngo": "ONG",
+            "in-house": "Produit Genius At Work"
+          },
+          "period": "Période",
+          "categories": "Catégories",
+          "technologies": "Technologies",
+          "services": "Services",
+          "visit": "Voir le site",
+          "overview": "Le projet",
+          "previous": "Projet précédent",
+          "next": "Projet suivant",
+          "back": "Toutes les réalisations",
+          "more": "Autres réalisations"
+        },
+        "countOne": "{n} projet",
+        "countMany": "{n} projets"
+      },
+      "en": {
+        "hero": {
+          "seoTitle": "Work",
+          "seoDescription": "Fifteen published projects: booking platforms, tools for the Directorate General of Taxes, e-commerce, mobile apps and institutional websites.",
+          "eyebrow": "Work",
+          "title": "Fifteen published projects.",
+          "lead": "For companies, a tax administration, an NGO, and for our own products. Filter by project type."
+        },
+        "filterLabel": "Filter by category",
+        "all": "All",
+        "detail": {
+          "client": "Client",
+          "clientTypes": {
+            "company": "Company",
+            "institution": "Institution",
+            "ngo": "NGO",
+            "in-house": "Genius At Work product"
+          },
+          "period": "Period",
+          "categories": "Categories",
+          "technologies": "Technologies",
+          "services": "Services",
+          "visit": "Visit the site",
+          "overview": "The project",
+          "previous": "Previous project",
+          "next": "Next project",
+          "back": "All projects",
+          "more": "More work"
+        },
+        "countOne": "{n} project",
+        "countMany": "{n} projects"
+      }
+    },
+    "technology-page": {
+      "fr": {
+        "hero": {
+          "seoTitle": "Technologie",
+          "seoDescription": "Notre stack : Astro, TypeScript, React, Symfony, API Platform, MySQL, Redis, Docker, Cloudflare et GitHub Actions, et les technologies déjà livrées en production.",
+          "eyebrow": "Technologie",
+          "title": "L’ingénierie derrière nos produits.",
+          "lead": "Une stack moderne, découpée en couches indépendantes, et plus de 115 projets livrés avec des technologies éprouvées."
+        },
+        "principles": {
+          "label": "Principes",
+          "title": "Nos règles de construction.",
+          "items": [
+            {
+              "title": "Performance",
+              "description": "Pages statiques servies par un CDN, JavaScript chargé seulement là où il sert, images optimisées au build."
+            },
+            {
+              "title": "Accessibilité",
+              "description": "HTML sémantique, navigation au clavier, contrastes vérifiés, animations désactivées si l’utilisateur le demande."
+            },
+            {
+              "title": "SEO",
+              "description": "URLs propres, versions linguistiques déclarées, données structurées Schema.org, sitemap généré automatiquement."
+            },
+            {
+              "title": "Sécurité",
+              "description": "Secrets hors du code, accès par JWT ou OAuth, protection Cloudflare, dépendances tenues à jour."
+            },
+            {
+              "title": "Qualité",
+              "description": "Typage strict, linting et tests automatisés à chaque modification, revue de code avant fusion."
+            },
+            {
+              "title": "Livraison",
+              "description": "Environnements identiques grâce à Docker, déploiements automatisés par GitHub Actions, retour arrière possible."
+            }
+          ]
+        },
+        "usage": {
+          "label": "En production",
+          "title": "Ce que nous avons déjà livré.",
+          "intro": "Les technologies réellement utilisées dans nos quinze projets publiés, de la plus fréquente à la plus rare.",
+          "projectsOne": "{n} projet",
+          "projectsMany": "{n} projets"
+        }
+      },
+      "en": {
+        "hero": {
+          "seoTitle": "Technology",
+          "seoDescription": "Our stack: Astro, TypeScript, React, Symfony, API Platform, MySQL, Redis, Docker, Cloudflare and GitHub Actions, plus the technologies already shipped to production.",
+          "eyebrow": "Technology",
+          "title": "The engineering behind our products.",
+          "lead": "A modern stack, split into independent layers, and over 115 projects shipped with proven technologies."
+        },
+        "principles": {
+          "label": "Principles",
+          "title": "How we build.",
+          "items": [
+            {
+              "title": "Performance",
+              "description": "Static pages served from a CDN, JavaScript loaded only where it helps, images optimised at build time."
+            },
+            {
+              "title": "Accessibility",
+              "description": "Semantic HTML, keyboard navigation, checked contrast, animations turned off when users ask for it."
+            },
+            {
+              "title": "SEO",
+              "description": "Clean URLs, declared language versions, Schema.org structured data, automatically generated sitemap."
+            },
+            {
+              "title": "Security",
+              "description": "Secrets kept out of the code, JWT or OAuth access, Cloudflare protection, dependencies kept up to date."
+            },
+            {
+              "title": "Quality",
+              "description": "Strict typing, linting and automated tests on every change, code review before merging."
+            },
+            {
+              "title": "Delivery",
+              "description": "Identical environments with Docker, automated deployments with GitHub Actions, rollback available."
+            }
+          ]
+        },
+        "usage": {
+          "label": "In production",
+          "title": "What we have already shipped.",
+          "intro": "The technologies actually used across our fifteen published projects, from most to least frequent.",
+          "projectsOne": "{n} project",
+          "projectsMany": "{n} projects"
+        }
+      }
+    },
+    "about": {
+      "fr": {
+        "hero": {
+          "seoTitle": "À propos",
+          "seoDescription": "Genius At Work : une équipe de plus de 20 personnes et 15 ans d’expérience, à Antananarivo.",
+          "eyebrow": "À propos",
+          "title": "Une équipe, quinze ans d’expérience.",
+          "lead": "Genius At Work est une agence d’ingénierie digitale implantée à Antananarivo, Madagascar."
+        },
+        "story": {
+          "label": "L’équipe",
+          "title": "Une équipe nouvelle génération.",
+          "paragraphs": [
+            "Genius At Work réunit plus de 20 personnes, encadrées par des experts, qui suivent de près les bonnes pratiques de leurs stacks techniques et repoussent leurs limites jour après jour.",
+            "Depuis quinze ans, l’équipe conçoit des sites, des applications web et mobiles, des logiciels métier et des plateformes e-commerce, pour des entreprises, des institutions et des ONG.",
+            "Nous développons aussi nos propres produits, comme Taxibrousse.mg, Emarket.mg, E-rdv ou Chronolivraison : nous savons ce que signifie exploiter un service au quotidien."
+          ]
+        },
+        "values": {
+          "label": "Valeurs",
+          "title": "Nos deux maîtres-mots.",
+          "items": [
+            {
+              "title": "Performance",
+              "description": "Des produits rapides, solides et maintenables, qui tiennent la charge longtemps après la mise en ligne."
+            },
+            {
+              "title": "Confiance",
+              "description": "Une relation claire : écoute de vos idées, échanges réguliers, démonstrations à chaque itération."
+            }
+          ]
+        },
+        "offices": {
+          "label": "Bureau",
+          "title": "Notre bureau, à Antananarivo.",
+          "intro": "Adresse, téléphones et heure locale : pour nous appeler ou passer nous voir."
+        }
+      },
+      "en": {
+        "hero": {
+          "seoTitle": "About",
+          "seoDescription": "Genius At Work: a team of over 20 people and 15 years of experience, in Antananarivo.",
+          "eyebrow": "About",
+          "title": "One team, fifteen years of experience.",
+          "lead": "Genius At Work is a digital engineering agency based in Antananarivo, Madagascar."
+        },
+        "story": {
+          "label": "The team",
+          "title": "A new-generation team.",
+          "paragraphs": [
+            "Genius At Work brings together over 20 people, supervised by experts, who keep up with the best practices of their technical stacks and push their limits day after day.",
+            "For fifteen years, the team has designed websites, web and mobile apps, business software and e-commerce platforms for companies, institutions and NGOs.",
+            "We also build our own products, such as Taxibrousse.mg, Emarket.mg, E-rdv and Chronolivraison: we know what running a service day to day means."
+          ]
+        },
+        "values": {
+          "label": "Values",
+          "title": "Our two watchwords.",
+          "items": [
+            {
+              "title": "Performance",
+              "description": "Fast, solid, maintainable products that hold up under load long after launch."
+            },
+            {
+              "title": "Trust",
+              "description": "A clear relationship: listening to your ideas, regular exchanges, demos at every iteration."
+            }
+          ]
+        },
+        "offices": {
+          "label": "Office",
+          "title": "Our office, in Antananarivo.",
+          "intro": "Address, phone numbers and local time: to call us or come and see us."
+        }
+      }
+    },
+    "contact": {
+      "fr": {
+        "seoTitle": "Contact",
+        "seoDescription": "Parlez-nous de votre projet : site, application web ou mobile, logiciel métier, e-commerce, maintenance. Bureau à Antananarivo, Madagascar.",
+        "eyebrow": "Contact",
+        "title": "Parlons de votre projet.",
+        "lead": "Trois étapes, deux minutes. Décrivez votre besoin avec vos mots : nous revenons vers vous par e-mail.",
+        "direct": {
+          "label": "Contact direct",
+          "email": "E-mail",
+          "phones": "Téléphone"
+        },
+        "offices": {
+          "label": "Bureau",
+          "title": "Ou passez nous voir.",
+          "intro": "Antananarivo, Madagascar."
+        }
+      },
+      "en": {
+        "seoTitle": "Contact",
+        "seoDescription": "Tell us about your project: website, web or mobile app, business software, e-commerce, maintenance. Office in Antananarivo, Madagascar.",
+        "eyebrow": "Contact",
+        "title": "Let’s talk about your project.",
+        "lead": "Three steps, two minutes. Describe your needs in your own words: we will get back to you by e-mail.",
+        "direct": {
+          "label": "Direct contact",
+          "email": "E-mail",
+          "phones": "Phone"
+        },
+        "offices": {
+          "label": "Office",
+          "title": "Or come and see us.",
+          "intro": "Antananarivo, Madagascar."
+        }
+      }
+    },
+    "contact-form": {
+      "fr": {
+        "steps": [
+          {
+            "title": "Votre projet",
+            "description": "De quoi avez-vous besoin ?"
+          },
+          {
+            "title": "Cadrage",
+            "description": "Facultatif, mais utile pour bien vous répondre."
+          },
+          {
+            "title": "Vous",
+            "description": "Pour que nous puissions vous répondre."
+          }
+        ],
+        "stepCounter": "Étape {current} sur {total}",
+        "projectType": {
+          "legend": "Type de projet",
+          "options": {
+            "website": "Site internet",
+            "mobile-app": "Application mobile",
+            "web-app": "Application web",
+            "business-software": "Logiciel métier",
+            "e-commerce": "E-commerce",
+            "maintenance": "Maintenance & hébergement",
+            "other": "Autre",
+            "ai": "IA & automatisation"
+          }
+        },
+        "message": {
+          "label": "Votre besoin",
+          "hint": "Contexte, objectifs, fonctionnalités, contraintes… Pas besoin d’être technique.",
+          "counter": "{count} / {max} caractères"
+        },
+        "budget": {
+          "legend": "Budget envisagé",
+          "options": {
+            "lt-10k": "Moins de 10 k€",
+            "10k-30k": "10 à 30 k€",
+            "30k-80k": "30 à 80 k€",
+            "gt-80k": "Plus de 80 k€",
+            "undefined": "À définir ensemble"
+          }
+        },
+        "timeline": {
+          "legend": "Échéance souhaitée",
+          "options": {
+            "asap": "Dès que possible",
+            "1-3-months": "D’ici 1 à 3 mois",
+            "3-6-months": "D’ici 3 à 6 mois",
+            "flexible": "Pas d’urgence"
+          }
+        },
+        "optional": "facultatif",
+        "fullName": "Nom et prénom",
+        "email": "E-mail professionnel",
+        "phone": "Téléphone",
+        "company": "Entreprise ou organisation",
+        "consent": {
+          "before": "J’accepte que Genius At Work utilise ces informations pour répondre à ma demande, conformément à la",
+          "link": "politique de confidentialité",
+          "after": "."
+        },
+        "honeypot": "Ne pas remplir ce champ",
+        "turnstile": {
+          "label": "Vérification anti-robot",
+          "pending": "Vérification en cours…",
+          "failed": "La vérification anti-robot a échoué. Rechargez la page ou écrivez-nous par e-mail."
+        },
+        "actions": {
+          "next": "Continuer",
+          "previous": "Retour",
+          "submit": "Envoyer ma demande",
+          "submitting": "Envoi en cours…",
+          "restart": "Envoyer une autre demande"
+        },
+        "errors": {
+          "summary": "Certains champs sont à corriger.",
+          "required": "Ce champ est obligatoire.",
+          "too_short": "Ce texte est trop court.",
+          "too_long": "Ce texte est trop long.",
+          "invalid_email": "Cette adresse e-mail n’est pas valide.",
+          "invalid_phone": "Ce numéro de téléphone n’est pas valide.",
+          "invalid_choice": "Choisissez une option.",
+          "consent_required": "Votre accord est nécessaire pour traiter la demande.",
+          "rateLimited": "Trop de demandes envoyées depuis cette connexion. Réessayez plus tard ou écrivez-nous par e-mail.",
+          "network": "Connexion impossible. Vérifiez votre réseau, ou écrivez-nous directement par e-mail.",
+          "server": "Une erreur est survenue de notre côté. Votre demande n’a pas été envoyée : écrivez-nous par e-mail."
+        },
+        "success": {
+          "title": "Merci, votre demande est bien reçue.",
+          "reference": "Référence",
+          "body": "Un e-mail de confirmation vous a été envoyé. Nous lisons chaque demande et revenons vers vous par e-mail.",
+          "next": "En attendant",
+          "projects": "Découvrir nos réalisations"
+        }
+      },
+      "en": {
+        "steps": [
+          {
+            "title": "Your project",
+            "description": "What do you need?"
+          },
+          {
+            "title": "Scope",
+            "description": "Optional, but it helps us answer well."
+          },
+          {
+            "title": "You",
+            "description": "So we can get back to you."
+          }
+        ],
+        "stepCounter": "Step {current} of {total}",
+        "projectType": {
+          "legend": "Project type",
+          "options": {
+            "website": "Website",
+            "mobile-app": "Mobile app",
+            "web-app": "Web app",
+            "business-software": "Business software",
+            "e-commerce": "E-commerce",
+            "maintenance": "Maintenance & hosting",
+            "other": "Other",
+            "ai": "AI & automation"
+          }
+        },
+        "message": {
+          "label": "Your needs",
+          "hint": "Context, goals, features, constraints… No need to be technical.",
+          "counter": "{count} / {max} characters"
+        },
+        "budget": {
+          "legend": "Expected budget",
+          "options": {
+            "lt-10k": "Under €10k",
+            "10k-30k": "€10k to €30k",
+            "30k-80k": "€30k to €80k",
+            "gt-80k": "Over €80k",
+            "undefined": "To be defined together"
+          }
+        },
+        "timeline": {
+          "legend": "Desired timeline",
+          "options": {
+            "asap": "As soon as possible",
+            "1-3-months": "Within 1 to 3 months",
+            "3-6-months": "Within 3 to 6 months",
+            "flexible": "No rush"
+          }
+        },
+        "optional": "optional",
+        "fullName": "Full name",
+        "email": "Work e-mail",
+        "phone": "Phone",
+        "company": "Company or organisation",
+        "consent": {
+          "before": "I agree that Genius At Work may use this information to answer my request, in line with the",
+          "link": "privacy policy",
+          "after": "."
+        },
+        "honeypot": "Do not fill in this field",
+        "turnstile": {
+          "label": "Anti-bot check",
+          "pending": "Checking…",
+          "failed": "The anti-bot check failed. Reload the page or e-mail us."
+        },
+        "actions": {
+          "next": "Continue",
+          "previous": "Back",
+          "submit": "Send my request",
+          "submitting": "Sending…",
+          "restart": "Send another request"
+        },
+        "errors": {
+          "summary": "Some fields need fixing.",
+          "required": "This field is required.",
+          "too_short": "This text is too short.",
+          "too_long": "This text is too long.",
+          "invalid_email": "This e-mail address is not valid.",
+          "invalid_phone": "This phone number is not valid.",
+          "invalid_choice": "Choose an option.",
+          "consent_required": "Your consent is needed to process the request.",
+          "rateLimited": "Too many requests from this connection. Try again later or e-mail us.",
+          "network": "Unable to connect. Check your network, or e-mail us directly.",
+          "server": "Something went wrong on our side. Your request was not sent: please e-mail us."
+        },
+        "success": {
+          "title": "Thank you, we have received your request.",
+          "reference": "Reference",
+          "body": "A confirmation e-mail is on its way. We read every request and will get back to you by e-mail.",
+          "next": "In the meantime",
+          "projects": "Explore our work"
+        }
+      }
+    },
+    "not-found": {
+      "fr": {
+        "seoTitle": "Page introuvable",
+        "seoDescription": "Cette page n’existe pas ou a été déplacée.",
+        "eyebrow": "Erreur 404",
+        "title": "Cette page n’existe pas, ou plus.",
+        "lead": "Le lien est peut-être ancien : le site a été entièrement refait. Ces pages devraient vous remettre sur la bonne voie.",
+        "links": [
+          {
+            "label": "Accueil",
+            "href": "/"
+          },
+          {
+            "label": "Réalisations",
+            "href": "/projects/"
+          },
+          {
+            "label": "Services",
+            "href": "/services/"
+          },
+          {
+            "label": "Contact",
+            "href": "/contact/"
+          }
+        ]
+      },
+      "en": {
+        "seoTitle": "Page not found",
+        "seoDescription": "This page does not exist or has moved.",
+        "eyebrow": "Error 404",
+        "title": "This page doesn’t exist, or no longer does.",
+        "lead": "The link may be old: the site has been entirely rebuilt. These pages should get you back on track.",
+        "links": [
+          {
+            "label": "Home",
+            "href": "/"
+          },
+          {
+            "label": "Work",
+            "href": "/projects/"
+          },
+          {
+            "label": "Services",
+            "href": "/services/"
+          },
+          {
+            "label": "Contact",
+            "href": "/contact/"
+          }
+        ]
+      }
+    },
+    "ai-page": {
+      "fr": {
+        "hero": {
+          "seoTitle": "Agence IA : intégration, agents et automatisation",
+          "seoDescription": "Développement IA pour les entreprises : intégration de modèles, agents, RAG sur vos documents et automatisation des processus, mis en production et supervisés.",
+          "eyebrow": "IA & automatisation",
+          "title": "De l’IA qui travaille dans vos processus, pas dans une démo.",
+          "lead": "Nous concevons des produits numériques intelligents : des modèles d’IA reliés à vos données et à vos outils, mis en production et supervisés comme le reste de votre logiciel.",
+          "secondaryCta": "Voir les cas d’usage"
+        },
+        "capabilities": {
+          "label": "Ce que nous construisons",
+          "title": "Cinq façons de mettre l’IA au travail.",
+          "intro": "Chaque brique s’appuie sur notre métier de base : concevoir, développer et maintenir du logiciel.",
+          "items": [
+            {
+              "title": "Intégration de modèles",
+              "description": "Brancher les bons modèles sur vos applications existantes, derrière une API que vous maîtrisez.",
+              "examples": [
+                "OpenAI",
+                "Anthropic (Claude)",
+                "Google Gemini",
+                "Modèles open source",
+                "Passerelle IA (AI Gateway)",
+                "Texte, image et documents"
+              ]
+            },
+            {
+              "title": "Agents et automatisation",
+              "description": "Des agents qui exécutent des tâches métier avec vos outils, dans un cadre défini et contrôlé.",
+              "examples": [
+                "Agents avec outils",
+                "Assistants métier",
+                "Orchestration de workflows",
+                "n8n, webhooks et API"
+              ]
+            },
+            {
+              "title": "RAG et connaissance",
+              "description": "Des assistants qui répondent à partir de vos documents et de vos bases, en citant leurs sources.",
+              "examples": [
+                "Bases documentaires",
+                "Recherche sémantique",
+                "Embeddings",
+                "Bases vectorielles",
+                "Assistants internes"
+              ]
+            },
+            {
+              "title": "Applications IA",
+              "description": "Des applications où l’IA fait partie du produit dès la conception.",
+              "examples": [
+                "Copilotes",
+                "Analyse de documents",
+                "Extraction de données",
+                "Classification",
+                "Recommandations",
+                "Recherche intelligente"
+              ]
+            },
+            {
+              "title": "Automatisation des processus",
+              "description": "Supprimer les tâches répétitives entre vos e-mails, votre CRM et vos outils internes.",
+              "examples": [
+                "Traitement des e-mails",
+                "Génération de documents",
+                "Qualification des prospects",
+                "Reporting",
+                "Support client"
+              ]
+            }
+          ]
+        },
+        "useCases": {
+          "label": "Cas d’usage",
+          "title": "Ce que l’IA peut faire pour votre entreprise.",
+          "intro": "Des usages concrets, qui partent d’un problème métier et pas d’une technologie.",
+          "items": [
+            {
+              "title": "Support client",
+              "description": "Un assistant qui répond à partir de votre documentation et transmet à un humain quand il le faut."
+            },
+            {
+              "title": "Analyse de documents",
+              "description": "Extraire et contrôler automatiquement les données de vos PDF, factures et contrats."
+            },
+            {
+              "title": "Ventes",
+              "description": "Qualifier les demandes entrantes et préparer des réponses personnalisées."
+            },
+            {
+              "title": "Connaissance interne",
+              "description": "Retrouver en quelques secondes une information dans les documents de l’équipe."
+            },
+            {
+              "title": "Automatisation des flux",
+              "description": "Relier CRM, e-mails, ERP et outils internes sans ressaisie."
+            },
+            {
+              "title": "Contenus",
+              "description": "Générer, résumer, transformer et classer des contenus à grande échelle."
+            }
+          ]
+        },
+        "chain": {
+          "label": "La chaîne complète",
+          "title": "Du besoin métier à la supervision en production.",
+          "intro": "Un prompt n’est qu’un maillon. Un système IA utile demande toute la chaîne.",
+          "steps": [
+            {
+              "title": "Stratégie",
+              "description": "Choisir les cas d’usage qui rapportent, et ceux à écarter."
+            },
+            {
+              "title": "Données",
+              "description": "Rassembler, nettoyer et sécuriser les données utiles."
+            },
+            {
+              "title": "Modèles",
+              "description": "Choisir le modèle adapté à la tâche, au coût et à la confidentialité."
+            },
+            {
+              "title": "Ingénierie IA",
+              "description": "Sorties structurées, appels d’outils, RAG, évaluation."
+            },
+            {
+              "title": "Intégration",
+              "description": "Relier l’IA à vos applications, API et outils existants."
+            },
+            {
+              "title": "Automatisation",
+              "description": "Faire tourner les tâches sans intervention, avec des garde-fous."
+            },
+            {
+              "title": "Déploiement",
+              "description": "Mettre en production avec la même rigueur que tout logiciel."
+            },
+            {
+              "title": "Supervision",
+              "description": "Mesurer la qualité, les coûts et les erreurs, puis améliorer."
+            }
+          ]
+        },
+        "approach": {
+          "label": "Notre approche",
+          "title": "L’IA fait partie du logiciel, pas d’une vitrine.",
+          "not": [
+            "Vendre des prompts",
+            "Poser un chatbot sur un site",
+            "Ajouter ChatGPT pour suivre la mode",
+            "Générer du contenu sans contrôle"
+          ],
+          "answer": "Nous associons ingénierie IA, développement logiciel et automatisation métier : l’IA est un composant de vos systèmes, testé, sécurisé et maintenu comme les autres."
+        },
+        "technologies": {
+          "label": "Technologies",
+          "title": "Les outils, au service du résultat.",
+          "intro": "Nous choisissons la technologie selon le besoin, pas l’inverse.",
+          "groups": [
+            {
+              "title": "Modèles",
+              "technologies": [
+                "OpenAI",
+                "Anthropic",
+                "Gemini",
+                "Open-source LLMs"
+              ]
+            },
+            {
+              "title": "Ingénierie IA",
+              "technologies": [
+                "Python",
+                "TypeScript",
+                "APIs",
+                "Structured outputs",
+                "Function calling / Tool use",
+                "Embeddings",
+                "RAG",
+                "Vector search"
+              ]
+            },
+            {
+              "title": "Automatisation",
+              "technologies": [
+                "n8n",
+                "Webhooks",
+                "APIs",
+                "Event-driven workflows"
+              ]
+            },
+            {
+              "title": "Infrastructure",
+              "technologies": [
+                "Docker",
+                "Cloud",
+                "Redis",
+                "PostgreSQL / MySQL",
+                "Vector databases"
+              ]
+            }
+          ]
+        },
+        "method": {
+          "label": "Méthode",
+          "title": "Un projet IA se mène comme un projet logiciel.",
+          "intro": "Mêmes étapes, mêmes exigences : cadrage, conception, développement, mise en production et suivi."
+        },
+        "caseStudies": {
+          "label": "Réalisations",
+          "title": "Projets IA livrés.",
+          "intro": "Des systèmes IA en production chez nos clients."
+        },
+        "cta": {
+          "label": "Votre projet",
+          "title": "Un processus à automatiser, des documents à exploiter ?",
+          "text": "Décrivez-nous le problème. Nous vous dirons si l’IA est la bonne réponse, et comment la mettre en production.",
+          "button": "Parler de votre projet IA"
+        }
+      },
+      "en": {
+        "hero": {
+          "seoTitle": "AI development agency: integration, agents and automation",
+          "seoDescription": "AI engineering for businesses: model integration, AI agents, RAG over your documents and process automation, deployed and monitored in production.",
+          "eyebrow": "AI & automation",
+          "title": "AI that runs your processes, not a demo.",
+          "lead": "We design and build intelligent digital products: AI models connected to your data and tools, shipped to production and monitored like the rest of your software.",
+          "secondaryCta": "See use cases"
+        },
+        "capabilities": {
+          "label": "What we build",
+          "title": "Five ways to put AI to work.",
+          "intro": "Every piece rests on our core craft: designing, building and maintaining software.",
+          "items": [
+            {
+              "title": "Model integration",
+              "description": "Plug the right models into your existing applications, behind an API you control.",
+              "examples": [
+                "OpenAI",
+                "Anthropic (Claude)",
+                "Google Gemini",
+                "Open-source models",
+                "AI gateway",
+                "Text, image and documents"
+              ]
+            },
+            {
+              "title": "Agents & automation",
+              "description": "Agents that carry out business tasks with your tools, within clear, controlled boundaries.",
+              "examples": [
+                "Tool-using agents",
+                "Business assistants",
+                "Workflow orchestration",
+                "n8n, webhooks and APIs"
+              ]
+            },
+            {
+              "title": "RAG & knowledge",
+              "description": "Assistants that answer from your documents and databases, and cite their sources.",
+              "examples": [
+                "Document bases",
+                "Semantic search",
+                "Embeddings",
+                "Vector databases",
+                "Internal assistants"
+              ]
+            },
+            {
+              "title": "AI-powered applications",
+              "description": "Applications where AI is part of the product from day one.",
+              "examples": [
+                "Copilots",
+                "Document analysis",
+                "Data extraction",
+                "Classification",
+                "Recommendations",
+                "Smart search"
+              ]
+            },
+            {
+              "title": "Process automation",
+              "description": "Remove repetitive work between your inbox, CRM and internal tools.",
+              "examples": [
+                "Email triage",
+                "Document generation",
+                "Lead qualification",
+                "Reporting",
+                "Customer support"
+              ]
+            }
+          ]
+        },
+        "useCases": {
+          "label": "Use cases",
+          "title": "What can AI do for your business?",
+          "intro": "Concrete uses that start from a business problem, not from a technology.",
+          "items": [
+            {
+              "title": "Customer support",
+              "description": "An assistant that answers from your documentation and hands over to a person when needed."
+            },
+            {
+              "title": "Document intelligence",
+              "description": "Extract and check data from PDFs, invoices and contracts automatically."
+            },
+            {
+              "title": "Sales",
+              "description": "Qualify inbound leads and draft tailored replies."
+            },
+            {
+              "title": "Internal knowledge",
+              "description": "Find any answer in your team’s documents in seconds."
+            },
+            {
+              "title": "Workflow automation",
+              "description": "Connect CRM, email, ERP and internal tools without re-keying."
+            },
+            {
+              "title": "Content intelligence",
+              "description": "Generate, summarise, transform and classify content at scale."
+            }
+          ]
+        },
+        "chain": {
+          "label": "The full chain",
+          "title": "From business need to production monitoring.",
+          "intro": "A prompt is one link. A useful AI system needs the whole chain.",
+          "steps": [
+            {
+              "title": "Strategy",
+              "description": "Pick the use cases that pay off, and drop the ones that don’t."
+            },
+            {
+              "title": "Data",
+              "description": "Gather, clean and secure the data that matters."
+            },
+            {
+              "title": "Models",
+              "description": "Match the model to the task, the budget and your privacy needs."
+            },
+            {
+              "title": "AI engineering",
+              "description": "Structured outputs, tool calling, RAG, evaluation."
+            },
+            {
+              "title": "Integration",
+              "description": "Connect AI to your applications, APIs and existing tools."
+            },
+            {
+              "title": "Automation",
+              "description": "Run tasks hands-free, with guardrails."
+            },
+            {
+              "title": "Deployment",
+              "description": "Ship to production with the rigour of any software."
+            },
+            {
+              "title": "Monitoring",
+              "description": "Track quality, cost and errors, then improve."
+            }
+          ]
+        },
+        "approach": {
+          "label": "Our approach",
+          "title": "AI is part of the software, not a showcase.",
+          "not": [
+            "Selling prompts",
+            "Dropping a chatbot on a website",
+            "Adding ChatGPT to follow the trend",
+            "Generating content unchecked"
+          ],
+          "answer": "We combine AI engineering, software engineering and business automation: AI becomes a component of your systems, tested, secured and maintained like any other."
+        },
+        "technologies": {
+          "label": "Technologies",
+          "title": "Tools that serve the outcome.",
+          "intro": "We choose technology to fit the need, never the other way round.",
+          "groups": [
+            {
+              "title": "Models",
+              "technologies": [
+                "OpenAI",
+                "Anthropic",
+                "Gemini",
+                "Open-source LLMs"
+              ]
+            },
+            {
+              "title": "AI engineering",
+              "technologies": [
+                "Python",
+                "TypeScript",
+                "APIs",
+                "Structured outputs",
+                "Function calling / Tool use",
+                "Embeddings",
+                "RAG",
+                "Vector search"
+              ]
+            },
+            {
+              "title": "Automation",
+              "technologies": [
+                "n8n",
+                "Webhooks",
+                "APIs",
+                "Event-driven workflows"
+              ]
+            },
+            {
+              "title": "Infrastructure",
+              "technologies": [
+                "Docker",
+                "Cloud",
+                "Redis",
+                "PostgreSQL / MySQL",
+                "Vector databases"
+              ]
+            }
+          ]
+        },
+        "method": {
+          "label": "Method",
+          "title": "An AI project is run like a software project.",
+          "intro": "Same steps, same standards: scoping, design, development, release and follow-up."
+        },
+        "caseStudies": {
+          "label": "Work",
+          "title": "AI projects delivered.",
+          "intro": "AI systems running in production for our clients."
+        },
+        "cta": {
+          "label": "Your project",
+          "title": "A process to automate, documents to put to work?",
+          "text": "Tell us about the problem. We’ll tell you whether AI is the right answer, and how to take it to production.",
+          "button": "Discuss your AI project"
+        }
+      }
+    },
+    "legal": {
+      "fr": {
+        "seoTitle": "Mentions légales",
+        "seoDescription": "Mentions légales du site genius-at-work.com : éditeur, hébergeur, propriété intellectuelle.",
+        "title": "Mentions légales",
+        "missing": "À compléter",
+        "publisher": {
+          "title": "Éditeur du site",
+          "labels": {
+            "name": "Raison sociale",
+            "legalForm": "Forme juridique",
+            "capital": "Capital social",
+            "rcs": "RCS",
+            "siret": "SIRET",
+            "vat": "TVA intracommunautaire",
+            "director": "Directeur de la publication",
+            "address": "Siège",
+            "phone": "Téléphone",
+            "email": "E-mail"
+          }
+        },
+        "host": {
+          "title": "Hébergement",
+          "labels": {
+            "name": "Hébergeur",
+            "address": "Adresse",
+            "phone": "Téléphone"
+          }
+        },
+        "sections": [
+          {
+            "title": "Propriété intellectuelle",
+            "paragraphs": [
+              "L’ensemble des contenus de ce site (textes, graphismes, logo, code) est la propriété de Genius at work Services, sauf mention contraire. Toute reproduction sans autorisation écrite préalable est interdite.",
+              "Les captures d’écran des réalisations présentent des projets conçus ou développés par Genius At Work ; les marques et logos qui y figurent appartiennent à leurs titulaires respectifs."
+            ],
+            "items": []
+          },
+          {
+            "title": "Données personnelles",
+            "paragraphs": [
+              "Le traitement des données transmises via le formulaire de contact est décrit dans la politique de confidentialité."
+            ],
+            "items": []
+          }
+        ],
+        "publisherInfo": {
+          "name": "Genius at work Services",
+          "legalForm": "",
+          "capital": "",
+          "rcs": "",
+          "siret": "",
+          "vat": "",
+          "director": "",
+          "address": "",
+          "phone": ""
+        },
+        "hostInfo": {
+          "name": "",
+          "address": "",
+          "phone": ""
+        }
+      },
+      "en": {
+        "seoTitle": "Legal notice",
+        "seoDescription": "Legal notice for genius-at-work.com: publisher, host, intellectual property.",
+        "title": "Legal notice",
+        "missing": "To be completed",
+        "publisher": {
+          "title": "Publisher",
+          "labels": {
+            "name": "Company name",
+            "legalForm": "Legal form",
+            "capital": "Share capital",
+            "rcs": "Trade register (RCS)",
+            "siret": "SIRET",
+            "vat": "EU VAT number",
+            "director": "Publication director",
+            "address": "Registered office",
+            "phone": "Phone",
+            "email": "E-mail"
+          }
+        },
+        "host": {
+          "title": "Hosting",
+          "labels": {
+            "name": "Host",
+            "address": "Address",
+            "phone": "Phone"
+          }
+        },
+        "sections": [
+          {
+            "title": "Intellectual property",
+            "paragraphs": [
+              "All content on this site (text, graphics, logo, code) is the property of Genius at work Services unless otherwise stated. Any reproduction without prior written permission is prohibited.",
+              "Project screenshots show work designed or developed by Genius At Work; the brands and logos they contain belong to their respective owners."
+            ],
+            "items": []
+          },
+          {
+            "title": "Personal data",
+            "paragraphs": [
+              "The processing of data sent through the contact form is described in the privacy policy."
+            ],
+            "items": []
+          }
+        ],
+        "publisherInfo": {
+          "name": "Genius at work Services",
+          "legalForm": "",
+          "capital": "",
+          "rcs": "",
+          "siret": "",
+          "vat": "",
+          "director": "",
+          "address": "",
+          "phone": ""
+        },
+        "hostInfo": {
+          "name": "",
+          "address": "",
+          "phone": ""
+        }
+      }
+    },
+    "privacy": {
+      "fr": {
+        "seoTitle": "Politique de confidentialité",
+        "seoDescription": "Quelles données collecte genius-at-work.com, pourquoi, combien de temps elles sont conservées et comment exercer vos droits.",
+        "title": "Politique de confidentialité",
+        "updated": "Dernière mise à jour : 19 octobre 2026",
+        "sections": [
+          {
+            "title": "Responsable du traitement",
+            "paragraphs": [
+              "Genius at work Services, {address}. Contact : {email}."
+            ],
+            "items": []
+          },
+          {
+            "title": "Données collectées",
+            "paragraphs": [
+              "Le site ne collecte des données personnelles que lorsque vous envoyez le formulaire de contact :"
+            ],
+            "items": [
+              "votre nom et votre adresse e-mail ;",
+              "votre téléphone et votre organisation, si vous choisissez de les indiquer ;",
+              "le contenu de votre demande : type de projet, message, budget et échéance (facultatifs) ;",
+              "la langue du site, la page d’où vous écrivez et la date de votre accord."
+            ]
+          },
+          {
+            "title": "Finalités et base légale",
+            "paragraphs": [
+              "Ces données servent uniquement à répondre à votre demande et à assurer le suivi de la relation commerciale qui peut en découler. Le traitement repose sur des mesures précontractuelles prises à votre demande (article 6.1.b du RGPD).",
+              "Nous ne vendons ni ne louons vos données, et nous ne les utilisons pas pour de la prospection automatisée."
+            ],
+            "items": []
+          },
+          {
+            "title": "Protection contre les abus",
+            "paragraphs": [
+              "Pour bloquer les robots, le formulaire utilise Cloudflare Turnstile, chargé uniquement à la dernière étape du formulaire de contact. Votre adresse IP est transmise à Cloudflare pour cette vérification.",
+              "Pour limiter le nombre d’envois (5 par heure, 20 par jour), une empreinte non réversible de votre adresse IP est conservée au maximum 24 heures. L’adresse IP n’est pas enregistrée avec votre demande."
+            ],
+            "items": []
+          },
+          {
+            "title": "Destinataires",
+            "paragraphs": [
+              "Vos données sont accessibles à l’équipe Genius At Work chargée de répondre aux demandes, à Madagascar. Elles sont traitées par nos prestataires techniques : l’hébergeur du site et de sa base de données, Cloudflare (diffusion du site et protection anti-robot) et notre prestataire d’envoi d’e-mails."
+            ],
+            "items": []
+          },
+          {
+            "title": "Durée de conservation",
+            "paragraphs": [
+              "Votre demande est conservée 3 ans à compter de notre dernier échange. Au-delà, elle est automatiquement anonymisée : nom, e-mail, téléphone, organisation et message sont effacés."
+            ],
+            "items": []
+          },
+          {
+            "title": "Cookies",
+            "paragraphs": [
+              "Le site ne dépose aucun cookie publicitaire ni de mesure d’audience. Il ne mémorise aucune préférence dans votre navigateur."
+            ],
+            "items": []
+          },
+          {
+            "title": "Vos droits",
+            "paragraphs": [
+              "Vous pouvez à tout moment accéder à vos données, les faire rectifier ou effacer, vous opposer à leur traitement, en demander la limitation ou la portabilité, en écrivant à {email}. Nous répondons dans un délai d’un mois.",
+              "Si vous estimez que vos droits ne sont pas respectés, vous pouvez adresser une réclamation à la CNIL (www.cnil.fr)."
+            ],
+            "items": []
+          }
+        ]
+      },
+      "en": {
+        "seoTitle": "Privacy policy",
+        "seoDescription": "What data genius-at-work.com collects, why, how long it is kept and how to exercise your rights.",
+        "title": "Privacy policy",
+        "updated": "Last updated: 19 October 2026",
+        "sections": [
+          {
+            "title": "Data controller",
+            "paragraphs": [
+              "Genius at work Services, {address}. Contact: {email}."
+            ],
+            "items": []
+          },
+          {
+            "title": "Data we collect",
+            "paragraphs": [
+              "The site only collects personal data when you send the contact form:"
+            ],
+            "items": [
+              "your name and e-mail address;",
+              "your phone number and organisation, if you choose to provide them;",
+              "the content of your request: project type, message, budget and timeline (optional);",
+              "the site language, the page you wrote from and the date of your consent."
+            ]
+          },
+          {
+            "title": "Purposes and legal basis",
+            "paragraphs": [
+              "This data is used solely to answer your request and to follow up on any business relationship that may result. Processing is based on pre-contractual measures taken at your request (Article 6(1)(b) GDPR).",
+              "We do not sell or rent your data, and we do not use it for automated marketing."
+            ],
+            "items": []
+          },
+          {
+            "title": "Abuse protection",
+            "paragraphs": [
+              "To block bots, the form uses Cloudflare Turnstile, loaded only at the last step of the contact form. Your IP address is sent to Cloudflare for this check.",
+              "To limit the number of submissions (5 per hour, 20 per day), a non-reversible fingerprint of your IP address is kept for up to 24 hours. Your IP address is not stored with your request."
+            ],
+            "items": []
+          },
+          {
+            "title": "Recipients",
+            "paragraphs": [
+              "Your data is accessible to the Genius At Work team in charge of answering requests, in Madagascar. It is processed by our technical providers: the host of the site and its database, Cloudflare (site delivery and bot protection) and our e-mail delivery provider."
+            ],
+            "items": []
+          },
+          {
+            "title": "Retention",
+            "paragraphs": [
+              "Your request is kept for 3 years from our last exchange. After that, it is automatically anonymised: name, e-mail, phone, organisation and message are erased."
+            ],
+            "items": []
+          },
+          {
+            "title": "Cookies",
+            "paragraphs": [
+              "The site sets no advertising or audience-measurement cookies. It does not store any preference in your browser."
+            ],
+            "items": []
+          },
+          {
+            "title": "Your rights",
+            "paragraphs": [
+              "You may at any time access your data, have it corrected or erased, object to its processing, or request its restriction or portability by writing to {email}. We reply within one month.",
+              "If you believe your rights are not respected, you can lodge a complaint with the CNIL (www.cnil.fr), the French data protection authority."
+            ],
+            "items": []
+          }
+        ]
+      }
+    },
+    "ai-section": {
+      "fr": {
+        "label": "IA & automatisation",
+        "title": "L’IA, câblée dans vos systèmes.",
+        "intro": "Modèles, données de l’entreprise et agents, reliés à vos outils et supervisés comme le reste du logiciel.",
+        "input": "Une demande entre",
+        "output": "Valeur métier",
+        "lanes": [
+          {
+            "title": "Modèles",
+            "caption": "Comprendre et générer",
+            "examples": [
+              "LLM",
+              "Vision",
+              "Sorties structurées"
+            ]
+          },
+          {
+            "title": "Connaissance",
+            "caption": "Répondre avec vos données",
+            "examples": [
+              "RAG",
+              "Recherche sémantique",
+              "Bases vectorielles"
+            ]
+          },
+          {
+            "title": "Agents",
+            "caption": "Agir dans vos outils",
+            "examples": [
+              "Outils et API",
+              "Workflows",
+              "Automatisation"
+            ]
+          }
+        ],
+        "cta": "Explorer nos solutions IA"
+      },
+      "en": {
+        "label": "AI & automation",
+        "title": "AI, wired into your systems.",
+        "intro": "Models, company data and agents, connected to your tools and monitored like any other software.",
+        "input": "A request comes in",
+        "output": "Business value",
+        "lanes": [
+          {
+            "title": "Models",
+            "caption": "Understand and generate",
+            "examples": [
+              "LLMs",
+              "Vision",
+              "Structured outputs"
+            ]
+          },
+          {
+            "title": "Knowledge",
+            "caption": "Answer from your data",
+            "examples": [
+              "RAG",
+              "Semantic search",
+              "Vector databases"
+            ]
+          },
+          {
+            "title": "Agents",
+            "caption": "Act in your tools",
+            "examples": [
+              "Tools & APIs",
+              "Workflows",
+              "Automation"
+            ]
+          }
+        ],
+        "cta": "Explore AI solutions"
+      }
+    },
+    "method": {
+      "fr": {
+        "steps": [
+          {
+            "title": "Empathie",
+            "description": "Nous écoutons vos idées et partageons notre expérience pour cadrer le vrai besoin."
+          },
+          {
+            "title": "Expertise",
+            "description": "Nos talents analysent vos besoins : usages, contraintes, intégrations."
+          },
+          {
+            "title": "Solution",
+            "description": "Nous concevons la stratégie et l’architecture, avec inventivité."
+          },
+          {
+            "title": "Développement",
+            "description": "Le modèle Scrum rythme le cycle : itérations courtes, démonstrations, ajustements."
+          }
+        ],
+        "reasons": [
+          {
+            "title": "Performance et confiance",
+            "description": "Nos deux maîtres-mots depuis le premier jour."
+          },
+          {
+            "title": "15 ans d’expérience",
+            "description": "Une expérience en évolution permanente, des sites vitrines aux outils d’une administration fiscale."
+          },
+          {
+            "title": "Une équipe encadrée",
+            "description": "Plus de 20 personnes, encadrées par des experts, à jour des bonnes pratiques."
+          },
+          {
+            "title": "1 à 2 h de décalage",
+            "description": "Depuis Antananarivo (UTC+3), nos journées se recouvrent presque entièrement avec celles de l’Europe."
+          },
+          {
+            "title": "Entreprises, institutions, ONG",
+            "description": "Nous avons livré pour des PME, la Direction Générale des Impôts et Transparency International."
+          },
+          {
+            "title": "Nos propres produits",
+            "description": "Taxibrousse.mg, Emarket.mg, E-rdv, Chronolivraison : nous savons aussi exploiter ce que nous construisons."
+          }
+        ]
+      },
+      "en": {
+        "steps": [
+          {
+            "title": "Empathy",
+            "description": "We listen to your ideas and share our experience to frame the real need."
+          },
+          {
+            "title": "Expertise",
+            "description": "Our people analyse your needs: usage, constraints, integrations."
+          },
+          {
+            "title": "Solution",
+            "description": "We design the strategy and the architecture, with inventiveness."
+          },
+          {
+            "title": "Development",
+            "description": "Scrum paces the cycle: short iterations, demos, adjustments."
+          }
+        ],
+        "reasons": [
+          {
+            "title": "Performance and trust",
+            "description": "Our two watchwords since day one."
+          },
+          {
+            "title": "15 years of experience",
+            "description": "Constantly evolving experience, from showcase sites to the tools of a tax administration."
+          },
+          {
+            "title": "A supervised team",
+            "description": "Over 20 people, supervised by experts, up to date with best practices."
+          },
+          {
+            "title": "1–2 h time difference",
+            "description": "From Antananarivo (UTC+3), our working days almost fully overlap with Europe’s."
+          },
+          {
+            "title": "Companies, institutions, NGOs",
+            "description": "We have delivered for SMEs, the Directorate General of Taxes and Transparency International."
+          },
+          {
+            "title": "Our own products",
+            "description": "Taxibrousse.mg, Emarket.mg, E-rdv, Chronolivraison: we also know how to run what we build."
+          }
+        ]
+      }
+    },
+    "technologies": {
+      "fr": {
+        "stack": [
+          {
+            "layer": "frontend",
+            "title": "Interface",
+            "role": "Pages statiques, rapides et accessibles",
+            "technologies": [
+              "Astro",
+              "TypeScript",
+              "React",
+              "Vue.js",
+              "Tailwind CSS",
+              "GSAP"
+            ]
+          },
+          {
+            "layer": "cms",
+            "title": "Contenu",
+            "role": "Édition autonome, SEO structuré",
+            "technologies": [
+              "Sanity",
+              "Schema.org"
+            ]
+          },
+          {
+            "layer": "api",
+            "title": "API",
+            "role": "Contrats clairs, accès sécurisés",
+            "technologies": [
+              "API Platform",
+              "JWT",
+              "OAuth"
+            ]
+          },
+          {
+            "layer": "backend",
+            "title": "Métier",
+            "role": "Règles métier, tâches asynchrones, e-mails",
+            "technologies": [
+              "Symfony",
+              "Laravel",
+              "PHP 8",
+              "Python",
+              "Messenger",
+              "Mailer"
+            ]
+          },
+          {
+            "layer": "data",
+            "title": "Données",
+            "role": "Persistance et cache",
+            "technologies": [
+              "MySQL",
+              "PostgreSQL",
+              "Redis"
+            ]
+          },
+          {
+            "layer": "infrastructure",
+            "title": "Infrastructure",
+            "role": "Conteneurs, CDN, protection",
+            "technologies": [
+              "Docker",
+              "Cloudflare"
+            ]
+          },
+          {
+            "layer": "cicd",
+            "title": "Livraison",
+            "role": "Tests et déploiements automatisés",
+            "technologies": [
+              "GitHub",
+              "GitHub Actions"
+            ]
+          }
+        ]
+      },
+      "en": {
+        "stack": [
+          {
+            "layer": "frontend",
+            "title": "Frontend",
+            "role": "Static, fast, accessible pages",
+            "technologies": [
+              "Astro",
+              "TypeScript",
+              "React",
+              "Vue.js",
+              "Tailwind CSS",
+              "GSAP"
+            ]
+          },
+          {
+            "layer": "cms",
+            "title": "Content",
+            "role": "Self-serve editing, structured SEO",
+            "technologies": [
+              "Sanity",
+              "Schema.org"
+            ]
+          },
+          {
+            "layer": "api",
+            "title": "API",
+            "role": "Clear contracts, secured access",
+            "technologies": [
+              "API Platform",
+              "JWT",
+              "OAuth"
+            ]
+          },
+          {
+            "layer": "backend",
+            "title": "Backend",
+            "role": "Business rules, async jobs, e-mail",
+            "technologies": [
+              "Symfony",
+              "Laravel",
+              "PHP 8",
+              "Python",
+              "Messenger",
+              "Mailer"
+            ]
+          },
+          {
+            "layer": "data",
+            "title": "Data",
+            "role": "Persistence and cache",
+            "technologies": [
+              "MySQL",
+              "PostgreSQL",
+              "Redis"
+            ]
+          },
+          {
+            "layer": "infrastructure",
+            "title": "Infrastructure",
+            "role": "Containers, CDN, protection",
+            "technologies": [
+              "Docker",
+              "Cloudflare"
+            ]
+          },
+          {
+            "layer": "cicd",
+            "title": "Delivery",
+            "role": "Automated tests and deployments",
+            "technologies": [
+              "GitHub",
+              "GitHub Actions"
+            ]
+          }
+        ]
+      }
+    },
+    "interface": {
+      "fr": {
+        "a11y": {
+          "skipToContent": "Aller au contenu",
+          "mainNav": "Navigation principale",
+          "languageSwitcher": "Changer de langue",
+          "breadcrumb": "Fil d’Ariane",
+          "newTab": "s’ouvre dans un nouvel onglet"
+        },
+        "nav": {
+          "home": "Accueil",
+          "services": "Services",
+          "projects": "Réalisations",
+          "technology": "Technologie",
+          "about": "À propos",
+          "contact": "Contact",
+          "menu": "Menu",
+          "close": "Fermer",
+          "ai": "IA"
+        },
+        "cta": {
+          "discussProject": "Parler de votre projet",
+          "seeProjects": "Voir les réalisations"
+        },
+        "footer": {
+          "rights": "Tous droits réservés.",
+          "legal": "Mentions légales",
+          "privacy": "Confidentialité",
+          "cta": "Construisons quelque chose de solide.",
+          "ctaLabel": "Un projet en tête ?",
+          "ctaText": "Décrivez-nous votre besoin en quelques lignes : nous revenons vers vous avec un premier regard concret sur le périmètre et la démarche.",
+          "tagline": "Agence d’ingénierie digitale à Antananarivo, Madagascar. Sites, applications et logiciels métier depuis 15 ans.",
+          "navigation": "Navigation",
+          "offices": "Bureau",
+          "follow": "Suivre",
+          "localTime": "Heure locale",
+          "backToTop": "Haut de page"
+        },
+        "office": {
+          "coordinates": "Coordonnées"
+        }
+      },
+      "en": {
+        "a11y": {
+          "skipToContent": "Skip to content",
+          "mainNav": "Main navigation",
+          "languageSwitcher": "Change language",
+          "breadcrumb": "Breadcrumb",
+          "newTab": "opens in a new tab"
+        },
+        "nav": {
+          "home": "Home",
+          "services": "Services",
+          "projects": "Work",
+          "technology": "Technology",
+          "about": "About",
+          "contact": "Contact",
+          "menu": "Menu",
+          "close": "Close",
+          "ai": "AI"
+        },
+        "cta": {
+          "discussProject": "Discuss your project",
+          "seeProjects": "See our work"
+        },
+        "footer": {
+          "rights": "All rights reserved.",
+          "legal": "Legal notice",
+          "privacy": "Privacy",
+          "cta": "Let's build something solid.",
+          "ctaLabel": "Have a project in mind?",
+          "ctaText": "Tell us about your needs in a few lines: we will come back with a first concrete view of the scope and approach.",
+          "tagline": "Digital engineering agency in Antananarivo, Madagascar. Websites, apps and business software for 15 years.",
+          "navigation": "Navigation",
+          "offices": "Office",
+          "follow": "Follow",
+          "localTime": "Local time",
+          "backToTop": "Back to top"
+        },
+        "office": {
+          "coordinates": "Coordinates"
+        }
+      }
+    }
+  }
+}

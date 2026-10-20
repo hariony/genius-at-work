@@ -1,0 +1,25 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Services{% endblock %}
+
+{% block main %}
+    <header class="page-head">
+        <p class="eyebrow">Contenu du site</p>
+        <h1 class="page-title">Services</h1>
+        <p class="muted">Les six pages de services. Leur adresse et leur ordre sont fixes ; tout leur contenu se modifie ici.</p>
+    </header>
+
+    <ul class="service-list">
+        {% for service in services %}
+            {% set details = service.details %}
+            <li class="service-item">
+                <span class="service-index" aria-hidden="true">{{ '%02d'|format(loop.index) }}</span>
+                <div>
+                    <h2 class="service-title"><a class="project-link" href="{{ path('admin_service_edit', {slug: service.slug.value}) }}">{{ details.title.fr }}</a></h2>
+                    <p class="muted small">{{ details.summary.fr }}</p>
+                </div>
+                <p class="muted small service-meta">/services/{{ service.slug.value }}/<br>modifié {{ service.updatedAt|ago }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

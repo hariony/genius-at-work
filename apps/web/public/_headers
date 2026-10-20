@@ -1,0 +1,23 @@
+# En-têtes HTTP appliqués par Cloudflare (Workers Static Assets) à tous les fichiers du site.
+# La CSP complète (scripts et styles par empreinte) est dans une <meta> de chaque page, générée
+# par Astro (astro.config.mjs, security.csp). Ici : les directives ignorées en <meta>.
+
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy: frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self'
+
+# Fichiers versionnés par Astro (nom contenant un hash) : cache permanent.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cartes Open Graph : régénérées à chaque build, cache d'un jour.
+/og/*
+  Cache-Control: public, max-age=86400
+
+/design-system/*
+  X-Robots-Tag: noindex

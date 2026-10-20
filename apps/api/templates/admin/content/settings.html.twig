@@ -1,0 +1,136 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Réglages du site{% endblock %}
+
+{% block main %}
+    {% import 'admin/content/_form.html.twig' as f %}
+
+    <header class="page-head">
+        <p class="eyebrow">Contenu du site</p>
+        <h1 class="page-title">Réglages</h1>
+        <p class="muted">Coordonnées affichées dans l’en-tête, le pied de page, la page Contact et la page À propos.</p>
+    </header>
+
+    <form method="post" class="editor" novalidate>
+        <input type="hidden" name="_token" value="{{ csrf_token(csrf_id) }}">
+        {# Entrée dans un champ = Enregistrer (le premier bouton du formulaire est l'action par défaut). #}
+        <button class="visually-hidden" type="submit" name="action" value="save" tabindex="-1" aria-hidden="true">Enregistrer</button>
+
+        <section class="card" aria-labelledby="identity-title">
+            <div class="card-head">
+                <h2 id="identity-title" class="card-title">Entreprise</h2>
+            </div>
+            <div class="grid-2">
+                <label class="field">
+                    <span class="field-label">Nom</span>
+                    <input class="input" name="settings[name]" value="{{ form.name }}" required{{ f.invalid(form, 'name') }}>
+                    <span class="field-hint">Utilisé dans les titres des pages et les données pour Google.</span>
+                    {{ f.error(form, 'name') }}
+                </label>
+                <label class="field">
+                    <span class="field-label">E-mail de contact</span>
+                    <input class="input" type="email" name="settings[email]" value="{{ form.email }}" required{{ f.invalid(form, 'email') }}>
+                    <span class="field-hint">Affiché sur le site. Les demandes du formulaire arrivent sur l’adresse configurée dans l’API.</span>
+                    {{ f.error(form, 'email') }}
+                </label>
+            </div>
+        </section>
+
+        <section class="card" aria-labelledby="socials-title">
+            <div class="card-head">
+                <h2 id="socials-title" class="card-title">Réseaux sociaux</h2>
+                <p class="muted small">Laissez une ligne vide pour retirer un réseau.</p>
+            </div>
+            <div class="rows">
+                {% for social in form.socialRows %}
+                    {% set i = loop.index0 %}
+                    <div class="row-fields">
+                        <label class="field">
+                            <span class="field-label{% if not loop.first %} visually-hidden{% endif %}">Nom</span>
+                            <input class="input" name="settings[socials][{{ i }}][label]" value="{{ social.label }}" placeholder="Nom du réseau"{{ f.invalid(form, 'socials.' ~ i ~ '.label') }}>
+                            {{ f.error(form, 'socials.' ~ i ~ '.label') }}
+                        </label>
+                        <label class="field">
+                            <span class="field-label{% if not loop.first %} visually-hidden{% endif %}">Adresse de la page</span>
+                            <input class="input" type="url" name="settings[socials][{{ i }}][url]" value="{{ social.url }}" placeholder="https://"{{ f.invalid(form, 'socials.' ~ i ~ '.url') }}>
+                            {{ f.error(form, 'socials.' ~ i ~ '.url') }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        {% for office in form.offices %}
+            {% set i = loop.index0 %}
+            {% set p = 'offices.' ~ i ~ '.' %}
+            <section class="card" aria-labelledby="office-{{ i }}-title">
+                <div class="card-head">
+                    <h2 id="office-{{ i }}-title" class="card-title">Bureau{% if form.offices|length > 1 %} {{ loop.index }}{% endif %}{% if office.city %} · {{ office.city }}{% endif %}</h2>
+                    {% if form.offices|length > 1 %}
+                        <button class="link-button link-button--danger" type="submit" name="action" value="remove_office:{{ i }}" formnovalidate>Retirer ce bureau</button>
+                    {% endif %}
+                </div>
+                <input type="hidden" name="settings[offices][{{ i }}][id]" value="{{ office.id }}">
+                <div class="grid-2">
+                    <label class="field">
+                        <span class="field-label">Nom <span class="lang">FR</span></span>
+                        <input class="input" name="settings[offices][{{ i }}][name_fr]" value="{{ office.name_fr }}" placeholder="Bureau d’Antananarivo"{{ f.invalid(form, p ~ 'name_fr') }}>
+                        {{ f.error(form, p ~ 'name_fr') }}
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Nom <span class="lang">EN</span></span>
+                        <input class="input" name="settings[offices][{{ i }}][name_en]" value="{{ office.name_en }}" placeholder="Antananarivo office"{{ f.invalid(form, p ~ 'name_en') }}>
+                        {{ f.error(form, p ~ 'name_en') }}
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Ville</span>
+                        <input class="input" name="settings[offices][{{ i }}][city]" value="{{ office.city }}"{{ f.invalid(form, p ~ 'city') }}>
+                        {{ f.error(form, p ~ 'city') }}
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Fuseau horaire</span>
+                        <select class="input input--select" name="settings[offices][{{ i }}][timeZone]"{{ f.invalid(form, p ~ 'timeZone') }}>
+                            <option value="">Choisir…</option>
+                            {% for zone in time_zones %}
+                                <option value="{{ zone }}"{% if zone == office.timeZone %} selected{% endif %}>{{ zone|replace({'_': ' '}) }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="field-hint">Pour l’heure locale affichée sur le site.</span>
+                        {{ f.error(form, p ~ 'timeZone') }}
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Adresse</span>
+                        <textarea class="input input--area" rows="3" name="settings[offices][{{ i }}][address]"{{ f.invalid(form, p ~ 'address') }}>{{ office.address }}</textarea>
+                        <span class="field-hint">Une ligne par ligne d’adresse.</span>
+                        {{ f.error(form, p ~ 'address') }}
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Téléphones</span>
+                        <textarea class="input input--area" rows="3" name="settings[offices][{{ i }}][phones]" placeholder="+261 34 00 000 00"{{ f.invalid(form, p ~ 'phones') }}>{{ office.phones }}</textarea>
+                        <span class="field-hint">Un numéro par ligne, au format international.</span>
+                        {{ f.error(form, p ~ 'phones') }}
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Latitude</span>
+                        <input class="input" inputmode="decimal" name="settings[offices][{{ i }}][lat]" value="{{ office.lat }}" placeholder="-18.88"{{ f.invalid(form, p ~ 'lat') }}>
+                        {{ f.error(form, p ~ 'lat') }}
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Longitude</span>
+                        <input class="input" inputmode="decimal" name="settings[offices][{{ i }}][lng]" value="{{ office.lng }}" placeholder="47.51"{{ f.invalid(form, p ~ 'lng') }}>
+                        <span class="field-hint">Affichées sur la page À propos.</span>
+                        {{ f.error(form, p ~ 'lng') }}
+                    </label>
+                </div>
+            </section>
+        {% endfor %}
+        {% if form.errors.offices is defined %}<p class="flash flash--error">{{ form.errors.offices }}</p>{% endif %}
+
+        <button class="button button--ghost add-button" type="submit" name="action" value="add_office" formnovalidate>+ Ajouter un bureau</button>
+
+        <div class="savebar">
+            <p class="muted small">Les modifications seront en ligne à la prochaine publication du site.</p>
+            <button class="button button--primary" type="submit" name="action" value="save">Enregistrer</button>
+        </div>
+    </form>
+{% endblock %}

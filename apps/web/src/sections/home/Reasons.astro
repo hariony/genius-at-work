@@ -1,0 +1,34 @@
+---
+import { markerTint } from '@/lib/brand';
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import Container from '@/components/ui/Container.astro';
+import { HOME_SECTIONS } from '@/content/home';
+import { REASONS } from '@/content/process';
+import { toLocale } from '@/lib/i18n';
+
+/** Ce qui distingue l'agence : six points courts, sans cadres appuyés. */
+interface Props {
+  /** Textes d'en-tête ; par défaut ceux de l'accueil. */
+  heading?: { label: string; title: string; intro?: string } | undefined;
+  surface?: 'base' | 'subtle' | undefined;
+}
+
+const locale = toLocale(Astro.currentLocale);
+const { heading, surface = 'base' } = Astro.props;
+const copy = heading ?? HOME_SECTIONS[locale].reasons;
+---
+
+<section data-surface={surface} class="py-section" aria-labelledby="reasons-title">
+  <Container class="flex flex-col gap-section-gap">
+    <ChapterHeader label={copy.label} title={copy.title} id="reasons-title" />
+    <ul class="grid gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3" data-anim="stagger">
+      {REASONS.map((reason, i) => (
+        <li class="flex flex-col gap-2.5">
+          <span class:list={['mb-2 h-1.5 w-10 rounded-pill', markerTint(i)]} aria-hidden="true" />
+          <h3 class="type-h3">{reason.title[locale]}</h3>
+          <p class="text-fg-muted">{reason.description[locale]}</p>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>

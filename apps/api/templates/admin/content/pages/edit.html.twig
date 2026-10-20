@@ -1,0 +1,45 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block main %}
+    {% import 'admin/content/pages/_node.html.twig' as m %}
+
+    <a class="back" href="{{ path('admin_pages') }}">← Toutes les pages</a>
+    <header class="page-head">
+        <p class="eyebrow">{{ page.group }}</p>
+        <h1 class="page-title">{{ page.title }}</h1>
+        <p class="muted">{{ page.description }}</p>
+        <p class="muted small">
+            {% if stored %}Modifié {{ stored.updatedAt|ago }} par {{ stored.updatedBy }}.{% else %}Pas encore enregistré.{% endif %}
+            {% if page.sitePath %} <a href="{{ site_url ~ page.sitePath }}" target="_blank" rel="noopener">Voir sur le site ↗</a>{% endif %}
+        </p>
+    </header>
+
+    {% if field_errors or list_errors %}
+        <div class="error-summary" role="alert">
+            <p class="strong">À corriger avant d’enregistrer :</p>
+            <ul>
+                {% for error in field_errors|slice(0, 12) %}
+                    <li><a href="#{{ error.id }}">{{ error.label }}</a> : {{ error.message|lower }}</li>
+                {% endfor %}
+                {% for message in list_errors %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% if field_errors|length > 12 %}<p class="small">… et {{ field_errors|length - 12 }} autres, signalés sous chaque champ.</p>{% endif %}
+        </div>
+    {% endif %}
+
+    <form method="post" class="editor" novalidate>
+        <input type="hidden" name="_token" value="{{ csrf_token(csrf_id) }}">
+        <button class="visually-hidden" type="submit" tabindex="-1" aria-hidden="true">Enregistrer</button>
+
+        {% for n in nodes %}{{ m.node(n, 0) }}{% endfor %}
+
+        <div class="savebar">
+            <p class="muted small">Les modifications seront en ligne à la prochaine publication du site.</p>
+            <button class="button button--primary" type="submit">Enregistrer</button>
+        </div>
+    </form>
+{% endblock %}

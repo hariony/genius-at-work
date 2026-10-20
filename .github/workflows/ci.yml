@@ -1,0 +1,148 @@
+# Intégration continue : qualité, tests, image Docker et sécurité.
+# Lancée sur chaque pull request et chaque push hors main ; main la lance via deploy.yml.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  web:
+    name: Site (Astro)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Formatage (Prettier)
+        run: pnpm format:check
+      - name: ESLint
+        run: pnpm lint
+      - name: Types (astro check, tsc)
+        run: pnpm check
+      - name: Build
+        env:
+          # Pas d'API en CI : contenu initial rendu par l'API (vérifié par ses tests), et ses images
+          # (/media/…) servies depuis apps/api/data, comme le ferait l'API.
+          CONTENT_SNAPSHOT: ${{ github.workspace }}/apps/api/data/site-content.snapshot.json
+          PUBLIC_API_URL: http://127.0.0.1:8088
+        run: |
+          python3 -m http.server 8088 --bind 127.0.0.1 --directory apps/api/data >/dev/null 2>&1 &
+          trap 'kill $!' EXIT
+          for _ in $(seq 20); do curl -sf -o /dev/null http://127.0.0.1:8088/media/ && break || sleep 0.5; done
+          pnpm build
+      - name: Audit des dépendances de production
+        run: pnpm audit --prod --audit-level high
+
+  api:
+    name: API (Symfony)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: apps/api
+    env:
+      APP_SECRET: ci-not-a-secret
+    services:
+      # Base jetable : vérifie que les migrations s'appliquent sur le vrai moteur de production.
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: gaw
+          MYSQL_USER: gaw
+          MYSQL_PASSWORD: gaw
+          MYSQL_ROOT_PASSWORD: ci-root
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -ugaw -pgaw"
+          --health-interval=5s --health-timeout=5s --health-retries=30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: apcu, intl, pdo_mysql, pdo_sqlite, redis
+          coverage: none
+          tools: composer:v2
+      - name: Cache Composer
+        uses: actions/cache@v6
+        with:
+          path: ~/.composer/cache/files
+          key: composer-${{ hashFiles('apps/api/composer.lock') }}
+          restore-keys: composer-
+      - run: composer validate --no-check-publish
+      - run: composer install --prefer-dist --no-progress --no-interaction
+      - name: Style (PHP-CS-Fixer)
+        run: vendor/bin/php-cs-fixer check --diff
+      - name: Analyse statique (PHPStan, niveau max)
+        run: vendor/bin/phpstan analyse --no-progress
+      - name: Configuration Symfony
+        run: |
+          bin/console lint:container
+          bin/console lint:yaml config --parse-tags
+          bin/console lint:twig templates
+      - name: Tests (PHPUnit)
+        run: bin/phpunit
+      - name: Migrations sur MySQL 8.4
+        env:
+          DATABASE_URL: mysql://gaw:gaw@127.0.0.1:3306/gaw?serverVersion=8.4.0&charset=utf8mb4
+        run: |
+          bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+          bin/console doctrine:schema:validate
+      - name: Audit des dépendances
+        run: composer audit
+
+  image:
+    name: Image Docker de l'API
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      - name: Build (cible prod)
+        uses: docker/build-push-action@v7
+        with:
+          context: apps/api
+          file: infra/docker/api/Dockerfile
+          build-contexts: docker=infra/docker/api
+          target: prod
+          load: true
+          tags: gaw-api:ci
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+      - name: Vulnérabilités de l'image (Trivy)
+        uses: aquasecurity/trivy-action@0.36.0
+        with:
+          image-ref: gaw-api:ci
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: '1'
+
+  safety:
+    name: Secrets et garde-fous
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Aucune commande destructive dans l'infrastructure
+        run: infra/scripts/check-safe-ops.sh
+      - name: Aucun secret dans l'historique (gitleaks)
+        run: >-
+          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1
+          git /repo --redact --no-banner --exit-code 1

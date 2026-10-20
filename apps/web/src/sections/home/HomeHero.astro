@@ -1,0 +1,130 @@
+---
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import { HOME_HERO } from '@/content/home';
+import { SITE } from '@/content/site';
+import { localizePath, toLocale, useTranslations } from '@/lib/i18n';
+import { CONTACT_PATH } from '@/lib/navigation';
+import HeroLoadField from './HeroLoadField.astro';
+
+/**
+ * Hero d'accueil « sous charge » : qui (surtitre) → ce que nous faisons (titre) → pourquoi
+ * nous (chapeau), puis la stack sous un trafic simulé.
+ * Sa lumière suit l'heure d'Antananarivo : jour sur fond papier ; aube, soir et nuit sur fond
+ * nuit. Le script en ligne la pose avant l'affichage (aperçu : ?moment=dawn|day|dusk|night).
+ * Sans JS : version jour.
+ */
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const copy = HOME_HERO[locale];
+const office = SITE.offices.find((o) => o.id === 'madagascar') ?? SITE.offices[0];
+---
+
+<section
+  data-surface="base"
+  data-hero
+  data-moment="day"
+  data-tz={office?.timeZone ?? 'Indian/Antananarivo'}
+  data-city={office?.city ?? ''}
+  data-clock-template={copy.visual.clock}
+  data-moments={JSON.stringify(copy.visual.moments)}
+  class="hero-load relative isolate overflow-hidden"
+>
+  <script is:inline>
+    (() => {
+      const hero = document.currentScript.parentElement;
+      const MOMENTS = ['dawn', 'day', 'dusk', 'night'];
+      const asked = new URLSearchParams(location.search).get('moment');
+      const hour = Number(
+        new Intl.DateTimeFormat('en-GB', {
+          hour: 'numeric',
+          hourCycle: 'h23',
+          timeZone: hero.dataset.tz,
+        }).format(new Date()),
+      );
+      const moment = MOMENTS.includes(asked)
+        ? asked
+        : hour >= 20 || hour < 5
+          ? 'night'
+          : hour < 8
+            ? 'dawn'
+            : hour < 17
+              ? 'day'
+              : 'dusk';
+      const surface = moment === 'day' ? 'base' : 'night';
+      hero.dataset.moment = moment;
+      hero.dataset.surface = surface;
+      document.documentElement.dataset.heroSurface = surface;
+      if (surface === 'night') {
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#07081a');
+      }
+    })();
+  </script>
+  <Container class="grid min-h-[100svh] content-center items-center gap-12 pt-28 pb-14 lg:grid-cols-12 lg:gap-x-12 lg:pt-32">
+    <div class="flex flex-col gap-7 lg:col-span-6">
+      <p class="eyebrow" data-anim="reveal-up" data-anim-trigger="load">
+        {copy.eyebrow}
+      </p>
+      <h1 class="type-display max-w-[17ch]" data-anim="reveal-lines" data-anim-trigger="load">
+        {copy.title} <span class="mark">{copy.titleHighlight}</span>
+      </h1>
+      <p
+        class="type-lead max-w-[48ch]"
+        data-anim="reveal-up"
+        data-anim-trigger="load"
+        data-anim-delay="0.25"
+      >
+        {copy.lead}
+      </p>
+      <div
+        class="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1"
+        data-anim="reveal-up"
+        data-anim-trigger="load"
+        data-anim-delay="0.35"
+      >
+        <Button href={localizePath(CONTACT_PATH, locale)} variant="accent">
+          {t('cta.discussProject')}
+        </Button>
+        <Button href={localizePath('/projects/', locale)} variant="secondary" icon={false}>
+          {t('cta.seeProjects')}
+        </Button>
+      </div>
+    </div>
+    <div
+      class="lg:col-span-6"
+      data-anim="reveal-up"
+      data-anim-trigger="load"
+      data-anim-delay="0.45"
+    >
+      <HeroLoadField city={office?.city ?? ''} />
+    </div>
+  </Container>
+</section>
+
+<style>
+  /* Halo selon le moment de la journée : bleu léger le jour, braise à l'aube et au soir. */
+  .hero-load {
+    --hero-glow: rgb(31 75 255 / 0.08);
+  }
+  .hero-load[data-moment='dawn'] {
+    --hero-glow: rgb(255 140 90 / 0.2);
+  }
+  .hero-load[data-moment='dusk'] {
+    --hero-glow: rgb(255 90 54 / 0.24);
+  }
+  .hero-load[data-moment='night'] {
+    --hero-glow: rgb(0 194 255 / 0.13);
+  }
+  .hero-load::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: -25%;
+    right: -20%;
+    width: min(90rem, 120vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, var(--hero-glow), transparent);
+    pointer-events: none;
+  }
+</style>

@@ -1,0 +1,50 @@
+---
+import PageHero from '@/components/sections/PageHero.astro';
+import Container from '@/components/ui/Container.astro';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { HOST, LEGAL_COMPLETE, LEGAL_PAGE, PUBLISHER } from '@/content/legal';
+import { toLocale } from '@/lib/i18n';
+import LegalSections from '@/sections/legal/LegalSections.astro';
+
+const locale = toLocale(Astro.currentLocale);
+const copy = LEGAL_PAGE[locale];
+
+const blocks = [
+  {
+    title: copy.publisher.title,
+    entries: Object.entries(PUBLISHER),
+    labels: copy.publisher.labels,
+  },
+  { title: copy.host.title, entries: Object.entries(HOST), labels: copy.host.labels },
+] as const;
+---
+
+<PageLayout title={copy.seoTitle} description={copy.seoDescription} noindex={!LEGAL_COMPLETE}>
+  <PageHero eyebrow={copy.seoTitle} title={copy.title} />
+  <section data-surface="base" class="py-section">
+    <Container width="prose" class="flex flex-col gap-12">
+      {blocks.map((block) => (
+        <section class="flex flex-col gap-6">
+          <h2 class="type-h3">{block.title}</h2>
+          <dl class="grid gap-x-8 gap-y-3 sm:grid-cols-[14rem_1fr]">
+            {block.entries.map(([key, value]) => (
+              <>
+                <dt class="type-label pt-1 text-fg-muted">
+                  {block.labels[key as keyof typeof block.labels]}
+                </dt>
+                <dd>
+                  {value ?? (
+                    <span class="type-label rounded-xs border border-danger px-2 py-0.5 text-danger">
+                      {copy.missing}
+                    </span>
+                  )}
+                </dd>
+              </>
+            ))}
+          </dl>
+        </section>
+      ))}
+      <LegalSections sections={copy.sections} />
+    </Container>
+  </section>
+</PageLayout>

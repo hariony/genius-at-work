@@ -1,0 +1,81 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}{{ service.details.title.fr }}{% endblock %}
+
+{% macro bilingual(form, name, label, rows, hint) %}
+    {% import 'admin/content/_form.html.twig' as f %}
+    <div class="grid-2">
+        {% for lang in ['fr', 'en'] %}
+            {% set path = name ~ '_' ~ lang %}
+            <label class="field">
+                <span class="field-label">{{ label }} <span class="lang">{{ lang|upper }}</span></span>
+                {% if rows %}
+                    <textarea class="input input--area" rows="{{ rows }}" name="service[{{ path }}]"{{ f.invalid(form, path) }}>{{ form.texts[path] }}</textarea>
+                {% else %}
+                    <input class="input" name="service[{{ path }}]" value="{{ form.texts[path] }}"{{ f.invalid(form, path) }}>
+                {% endif %}
+                {% if hint and lang == 'en' %}<span class="field-hint">{{ hint }}</span>{% endif %}
+                {{ f.error(form, path) }}
+            </label>
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% block main %}
+    {% import _self as m %}
+
+    <a class="back" href="{{ path('admin_services') }}">← Tous les services</a>
+    <header class="page-head">
+        <p class="eyebrow">Services · /services/{{ service.slug.value }}/</p>
+        <h1 class="page-title">{{ service.details.title.fr }}</h1>
+        <p class="muted small">Modifié {{ service.updatedAt|ago }} par {{ service.updatedBy }}.</p>
+    </header>
+
+    <form method="post" class="editor" novalidate>
+        <input type="hidden" name="_token" value="{{ csrf_token(csrf_id) }}">
+        <button class="visually-hidden" type="submit" tabindex="-1" aria-hidden="true">Enregistrer</button>
+
+        <section class="card" aria-labelledby="head-title">
+            <div class="card-head">
+                <h2 id="head-title" class="card-title">Titre et accroche</h2>
+            </div>
+            {{ m.bilingual(form, 'title', 'Titre', null, null) }}
+            {{ m.bilingual(form, 'summary', 'Accroche', 3, 'Affichée sur la carte du service (accueil, page Services) et en description pour Google.') }}
+        </section>
+
+        <section class="card" aria-labelledby="intro-title">
+            <div class="card-head">
+                <h2 id="intro-title" class="card-title">Page du service</h2>
+            </div>
+            {{ m.bilingual(form, 'intro', 'Introduction', 5, null) }}
+            {{ m.bilingual(form, 'scope', 'Ce que comprend le service', 7, 'Un point par ligne.') }}
+            <label class="field">
+                <span class="field-label">Technologies</span>
+                <input class="input" name="service[technologies]" value="{{ form.technologies }}">
+                <span class="field-hint">Séparées par des virgules.</span>
+            </label>
+        </section>
+
+        <section class="card" aria-labelledby="related-title">
+            <div class="card-head">
+                <h2 id="related-title" class="card-title">Projets mis en avant</h2>
+                <p class="muted small">Affichés en premier sur la page, suivis des projets de la même catégorie.</p>
+            </div>
+            <div class="check-list">
+                {% for project in projects %}
+                    <label class="check-row">
+                        <input type="checkbox" name="service[relatedProjects][]" value="{{ project.slug }}"{% if project.slug in form.relatedProjects %} checked{% endif %}>
+                        <img src="{{ project.cover.path }}" alt="" width="48" height="36" loading="lazy">
+                        <span>{{ project.title }}</span>
+                        {% if not project.published %}<span class="badge badge--archived">Brouillon</span>{% endif %}
+                    </label>
+                {% endfor %}
+            </div>
+        </section>
+
+        <div class="savebar">
+            <p class="muted small">Les modifications seront en ligne à la prochaine publication du site.</p>
+            <button class="button button--primary" type="submit">Enregistrer</button>
+        </div>
+    </form>
+{% endblock %}

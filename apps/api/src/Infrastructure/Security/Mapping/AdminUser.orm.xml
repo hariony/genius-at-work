@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Infrastructure\Security\AdminUser" table="admin_user">
+        <unique-constraints>
+            <unique-constraint name="uniq_admin_user_email" columns="email"/>
+        </unique-constraints>
+
+        <id name="id" type="string" length="26"/>
+
+        <field name="email" type="string" length="180"/>
+        <field name="password" type="string" length="255"/>
+        <field name="createdAt" type="datetime_immutable"/>
+    </entity>
+</doctrine-mapping>

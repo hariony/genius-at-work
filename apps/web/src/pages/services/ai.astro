@@ -1,0 +1,53 @@
+---
+import JsonLd from '@/components/seo/JsonLd.astro';
+import { AI_PAGE, AI_PATH, AI_SERVICE } from '@/content/ai';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { localizePath, toLocale } from '@/lib/i18n';
+import { organizationId } from '@/lib/seo/schema';
+import AiApproach from '@/sections/ai/AiApproach.astro';
+import AiCapabilities from '@/sections/ai/AiCapabilities.astro';
+import AiCaseStudies from '@/sections/ai/AiCaseStudies.astro';
+import AiChain from '@/sections/ai/AiChain.astro';
+import AiCta from '@/sections/ai/AiCta.astro';
+import AiHero from '@/sections/ai/AiHero.astro';
+import AiTechnologies from '@/sections/ai/AiTechnologies.astro';
+import AiUseCases from '@/sections/ai/AiUseCases.astro';
+import Method from '@/sections/home/Method.astro';
+import { getService } from '@/services/content';
+
+/** Page d'atterrissage de l'offre IA (textes : back-office › Pages et textes › IA & automatisation). */
+const locale = toLocale(Astro.currentLocale);
+const copy = AI_PAGE[locale];
+const service = getService(AI_SERVICE);
+const site = Astro.site ?? new URL('https://genius-at-work.com');
+---
+
+<PageLayout title={copy.hero.seoTitle} description={copy.hero.seoDescription} footerCta={false}>
+  <JsonLd
+    data={{
+      '@type': 'Service',
+      name: service?.title[locale] ?? copy.hero.eyebrow,
+      serviceType: copy.capabilities.items.map((item) => item.title),
+      description: copy.hero.seoDescription,
+      url: new URL(localizePath(AI_PATH, locale), site).href,
+      provider: { '@id': organizationId(site) },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: copy.capabilities.title,
+        itemListElement: copy.capabilities.items.map((item) => ({
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: item.title, description: item.description },
+        })),
+      },
+    }}
+  />
+  <AiHero />
+  <AiCapabilities />
+  <AiUseCases />
+  <AiChain />
+  <AiApproach />
+  <AiTechnologies />
+  <Method heading={copy.method} surface="subtle" />
+  <AiCaseStudies />
+  <AiCta />
+</PageLayout>

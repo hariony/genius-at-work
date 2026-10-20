@@ -1,0 +1,18 @@
+node_modules/
+dist/
+.astro/
+.turbo/
+.env
+.env.*
+!.env.example
+.DS_Store
+coverage/
+playwright-report/
+test-results/
+/apps/api/var/
+/apps/api/vendor/
+
+# Symfony : .env et .env.test ne contiennent que des valeurs non secrètes et sont versionnés.
+!/apps/api/.env
+!/apps/api/.env.test
+/apps/api/public/bundles/

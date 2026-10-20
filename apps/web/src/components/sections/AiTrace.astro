@@ -1,0 +1,109 @@
+---
+import { AI_SECTION } from '@/content/ai';
+import { toLocale } from '@/lib/i18n';
+
+/**
+ * Schéma « trace » de l'offre IA : une demande entre, passe par l'une des trois voies
+ * (modèles, connaissance, agents) et ressort en valeur métier. Décoratif : les mêmes textes
+ * sont lisibles dans la page. La scène ai-trace dessine les liaisons puis fait circuler des
+ * impulsions ; sans animation, le schéma est affiché complet.
+ */
+interface Props {
+  class?: string | undefined;
+}
+
+const { class: className } = Astro.props;
+const copy = AI_SECTION[toLocale(Astro.currentLocale)];
+const LANE_Y = [80, 230, 380];
+const lanes = copy.lanes.slice(0, LANE_Y.length).map((lane, i) => ({ ...lane, y: LANE_Y[i] ?? 0 }));
+---
+
+<div class:list={['ai-trace', className]} data-scene="ai-trace" aria-hidden="true">
+  <svg viewBox="0 0 600 460" class="h-auto w-full overflow-visible">
+    <g class="ai-trace__links">
+      {lanes.map((lane, i) => (
+        <>
+          <path data-trace-path={`in-${i}`} d={`M46 230 C110 230 110 ${lane.y} 170 ${lane.y}`} />
+          <path data-trace-path={`out-${i}`} d={`M430 ${lane.y} C490 ${lane.y} 490 230 554 230`} />
+        </>
+      ))}
+    </g>
+
+    <g data-trace-node="input" class="ai-trace__end">
+      <circle cx="36" cy="230" r="10"></circle>
+    </g>
+    <g data-trace-node="output" class="ai-trace__end">
+      <circle cx="564" cy="230" r="10"></circle>
+    </g>
+
+    {lanes.map((lane, i) => (
+      <g data-trace-node={`lane-${i}`} class="ai-trace__lane">
+        <rect x="170" y={lane.y - 38} width="260" height="76" rx="14"></rect>
+        <text x="194" y={lane.y - 4} class="ai-trace__title">
+          {lane.title}
+        </text>
+        <text x="194" y={lane.y + 20} class="ai-trace__caption">
+          {lane.caption}
+        </text>
+      </g>
+    ))}
+
+    {lanes.map((_, i) => (
+      <circle data-trace-pulse={i} class="ai-trace__pulse" r="5" cx="36" cy="230"></circle>
+    ))}
+  </svg>
+  <p class="type-mono mt-3 flex justify-between gap-4 text-fg-muted">
+    <span>{copy.input} →</span>
+    <span>→ {copy.output}</span>
+  </p>
+</div>
+
+<style>
+  .ai-trace__links path {
+    fill: none;
+    stroke: var(--surface-border-strong);
+    stroke-width: 1.5;
+  }
+
+  .ai-trace__end circle {
+    fill: var(--surface-bg);
+    stroke: var(--surface-highlight);
+    stroke-width: 2;
+    transition: fill var(--duration-base) var(--ease-out);
+  }
+
+  .ai-trace__lane rect {
+    fill: var(--surface-bg-raised);
+    stroke: var(--surface-border-strong);
+    transition:
+      stroke var(--duration-base) var(--ease-out),
+      fill var(--duration-base) var(--ease-out);
+  }
+
+  .ai-trace__title {
+    fill: var(--surface-fg);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .ai-trace__caption {
+    fill: var(--surface-fg-muted);
+    font-family: var(--font-mono);
+    font-size: 15px;
+  }
+
+  .ai-trace__pulse {
+    fill: var(--surface-highlight);
+    opacity: 0;
+  }
+
+  /* Nœud traversé par une impulsion (posé par la scène). */
+  [data-active] rect {
+    stroke: var(--surface-highlight);
+    fill: var(--surface-accent-soft);
+  }
+  [data-active] circle {
+    fill: var(--surface-highlight);
+  }
+</style>

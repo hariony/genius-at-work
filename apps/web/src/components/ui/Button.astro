@@ -1,0 +1,87 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon, { type IconName } from './Icon.astro';
+
+/**
+ * Bouton ou lien-bouton. Les couleurs suivent la surface ([data-surface]).
+ *   primary   : pilule pleine couleur du texte (encre sur fond clair, clair sur fond sombre)
+ *   accent    : pilule bleu électrique, réservée à l'action de conversion
+ *   outline   : pilule à bordure fine
+ *   secondary : lien texte avec flèche, soulignement au survol
+ * Tailles : md (44 px, par défaut) et sm (36 px, en-tête).
+ */
+type Variant = 'primary' | 'accent' | 'outline' | 'secondary';
+type Size = 'sm' | 'md';
+
+type Props = Omit<HTMLAttributes<'a'>, 'class' | 'href' | 'type'> & {
+  variant?: Variant;
+  size?: Size;
+  icon?: IconName | false;
+  class?: string;
+  /** Présent : rendu en lien. Absent : rendu en <button>. */
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+};
+
+const {
+  variant = 'primary',
+  size = 'md',
+  icon = 'arrow-right',
+  class: className,
+  href,
+  type = 'button',
+  disabled,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+const tagAttrs: Record<string, unknown> = href ? { href, ...rest } : { type, disabled, ...rest };
+const pill = variant !== 'secondary';
+
+const SIZES: Record<Size, string> = {
+  sm: 'min-h-9 px-4 gap-1.5',
+  md: 'min-h-11 px-5 gap-2',
+};
+
+const VARIANTS: Record<Variant, string> = {
+  primary: 'bg-fg text-bg hover:bg-fg/88 hover:shadow-sm',
+  accent: 'bg-accent text-accent-fg hover:bg-accent/90 hover:shadow-sm',
+  outline: 'border border-border-strong text-fg hover:border-fg',
+  secondary: 'btn-link min-h-11 gap-1.5 text-fg',
+};
+---
+
+<Tag
+  {...tagAttrs}
+  class:list={[
+    'group/btn inline-flex items-center justify-center text-small font-semibold whitespace-nowrap no-underline transition-[background-color,border-color,box-shadow,color] duration-fast ease-standard disabled:cursor-not-allowed disabled:opacity-60',
+    pill && ['rounded-pill', SIZES[size]],
+    VARIANTS[variant],
+    className,
+  ]}
+>
+  <span>
+    <slot />
+  </span>
+  {icon && (
+    <Icon
+      name={icon}
+      size={size === 'sm' ? 14 : 16}
+      class="shrink-0 transition-transform duration-base ease-out group-hover/btn:translate-x-0.5"
+    />
+  )}
+</Tag>
+
+<style>
+  /* Lien texte : soulignement fin qui se dessine de gauche à droite au survol. */
+  .btn-link > span:first-child {
+    background: linear-gradient(currentColor, currentColor) no-repeat left bottom / 0% 1px;
+    padding-bottom: 2px;
+    transition: background-size var(--duration-slow) var(--ease-out);
+  }
+  .btn-link:hover > span:first-child,
+  .btn-link:focus-visible > span:first-child {
+    background-size: 100% 1px;
+  }
+</style>

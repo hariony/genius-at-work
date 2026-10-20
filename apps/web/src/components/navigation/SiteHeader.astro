@@ -1,0 +1,115 @@
+---
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Wordmark from '@/components/ui/Wordmark.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import MenuOverlay from './MenuOverlay.astro';
+import { localizePath, stripLocale, toLocale, useTranslations } from '@/lib/i18n';
+import { activeNavPath, CONTACT_PATH, MAIN_NAV } from '@/lib/navigation';
+
+/**
+ * En-tête fin (64 px). Transparent en haut de page, puis fond papier translucide et filet
+ * dès 16 px de défilement. Il se masque au défilement descendant et revient en remontant.
+ */
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const activePath = activeNavPath(stripLocale(Astro.url.pathname));
+---
+
+<header
+  data-site-header
+  class="fixed inset-x-0 top-0 z-[var(--z-nav)] border-b text-fg border-transparent transition-[transform,background-color,border-color] duration-base ease-out data-[hidden]:-translate-y-full data-[scrolled]:border-border data-[scrolled]:bg-bg/85 data-[scrolled]:backdrop-blur-md"
+>
+  <div class="mx-auto flex h-[4.5rem] lg:h-20 max-w-content items-center justify-between gap-6 px-gutter">
+    <a href={localizePath('/', locale)} class="no-underline" aria-label="Genius At Work">
+      <Wordmark size={40} class="text-[1.375rem] lg:text-[1.5rem]" />
+    </a>
+
+    <nav aria-label={t('a11y.mainNav')} class="hidden lg:block">
+      <ul class="flex items-center xl:gap-1">
+        {MAIN_NAV.map((item) => {
+          const active = item.path === activePath;
+          return (
+            <li>
+              <a
+                href={localizePath(item.path, locale)}
+                aria-current={active ? 'page' : undefined}
+                class:list={[
+                  'nav-link relative inline-flex h-9 items-center rounded-pill px-2.5 text-small font-medium whitespace-nowrap no-underline transition-colors duration-fast xl:px-3.5',
+                  active ? 'text-fg' : 'text-fg-muted hover:text-fg',
+                ]}
+              >
+                {t(item.key)}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <div class="hidden items-center gap-5 lg:flex">
+        <LanguageSwitcher />
+        <Button href={localizePath(CONTACT_PATH, locale)} size="sm">
+          {t('cta.discussProject')}
+        </Button>
+      </div>
+      <button
+        type="button"
+        data-menu-open
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="site-menu"
+        class="inline-flex min-h-11 items-center gap-2 rounded-pill px-3 text-small font-semibold lg:hidden"
+      >
+        {t('nav.menu')}
+        <Icon name="menu" size={18} />
+      </button>
+    </div>
+  </div>
+</header>
+
+<MenuOverlay />
+
+<style>
+  /* Page active : petit point primaire sous le libellé. */
+  .nav-link[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0.125rem;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    border-radius: 999px;
+    background: var(--surface-accent);
+  }
+</style>
+
+<script>
+  const SCROLLED_AT = 16;
+
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (header) {
+    let lastY = window.scrollY;
+    const update = () => {
+      const y = window.scrollY;
+      const scrolled = y > SCROLLED_AT;
+      header.toggleAttribute('data-scrolled', scrolled);
+      // Hero de nuit : l'en-tête garde sa surface tant qu'il le recouvre.
+      header.toggleAttribute(
+        'data-past-hero',
+        !hero || y > hero.offsetTop + hero.offsetHeight - header.offsetHeight,
+      );
+      header.toggleAttribute(
+        'data-hidden',
+        y > 240 && y > lastY && !header.contains(document.activeElement),
+      );
+      lastY = y;
+    };
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+</script>

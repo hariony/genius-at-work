@@ -1,0 +1,42 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+{% block body_class %}login{% endblock %}
+
+{% block body %}
+    <span class="login-shape login-shape--circle" aria-hidden="true"></span>
+    <span class="login-shape login-shape--square" aria-hidden="true"></span>
+    <main class="login-card">
+        <p class="brand brand--dark">
+            {% include 'admin/_logo.html.twig' with {size: 34} %}
+            <span class="brand-name">genius<span class="brand-at">@</span>work</span>
+        </p>
+        <h1 class="login-title">Back-office</h1>
+        <p class="muted">Connectez-vous pour suivre les demandes de contact.</p>
+
+        {% if error %}
+            <p class="flash flash--error" role="alert">
+                {%- if error.messageKey starts with 'Too many' -%}
+                    Trop de tentatives. Réessayez dans quelques minutes.
+                {%- elseif error.messageKey starts with 'Invalid CSRF' -%}
+                    La page a expiré. Rechargez-la et réessayez.
+                {%- else -%}
+                    Adresse e-mail ou mot de passe incorrect.
+                {%- endif -%}
+            </p>
+        {% endif %}
+
+        <form method="post" action="{{ path('admin_login') }}" class="stack">
+            <label class="field">
+                <span class="field-label">Adresse e-mail</span>
+                <input class="input" type="email" name="_username" value="{{ last_username }}" autocomplete="username" required autofocus>
+            </label>
+            <label class="field">
+                <span class="field-label">Mot de passe</span>
+                <input class="input" type="password" name="_password" autocomplete="current-password" required>
+            </label>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <button class="button button--primary button--block" type="submit">Se connecter</button>
+        </form>
+    </main>
+{% endblock %}

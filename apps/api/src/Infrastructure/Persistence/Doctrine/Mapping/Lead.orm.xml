@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Domain\Lead\Lead" table="crm_lead">
+        <indexes>
+            <index name="idx_lead_status_created" columns="status,created_at"/>
+            <index name="idx_lead_email" columns="email"/>
+            <index name="idx_lead_last_contact" columns="last_contact_at"/>
+        </indexes>
+        <unique-constraints>
+            <unique-constraint name="uniq_lead_reference" columns="reference"/>
+        </unique-constraints>
+
+        <id name="id" type="string" length="26"/>
+
+        <field name="reference" type="string" length="20"/>
+        <field name="fullName" type="string" length="120"/>
+        <field name="email" type="string" length="180"/>
+        <field name="phone" type="string" length="30" nullable="true"/>
+        <field name="company" type="string" length="120" nullable="true"/>
+        <field name="projectType" type="string" length="32" enum-type="App\Domain\Lead\ProjectType"/>
+        <field name="budgetRange" type="string" length="16" nullable="true" enum-type="App\Domain\Lead\BudgetRange"/>
+        <field name="timeline" type="string" length="16" nullable="true" enum-type="App\Domain\Lead\Timeline"/>
+        <field name="message" type="text"/>
+        <field name="locale" type="string" length="2" enum-type="App\Domain\Lead\Locale"/>
+        <field name="sourceUrl" type="string" length="500" nullable="true"/>
+        <field name="status" type="string" length="16" enum-type="App\Domain\Lead\LeadStatus"/>
+        <field name="consentAt" type="datetime_immutable"/>
+        <field name="createdAt" type="datetime_immutable"/>
+        <field name="lastContactAt" type="datetime_immutable"/>
+        <field name="anonymizedAt" type="datetime_immutable" nullable="true"/>
+    </entity>
+</doctrine-mapping>

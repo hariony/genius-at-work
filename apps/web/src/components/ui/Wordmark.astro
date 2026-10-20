@@ -1,0 +1,32 @@
+---
+import { SITE } from '@/content/site';
+import LogoMark from './LogoMark.astro';
+
+/**
+ * Logo : monogramme « G » + « genius@work » en minuscules extra-grasses.
+ * L'arobase prend la couleur de mise en valeur (bleu sur clair, cyan sur sombre).
+ */
+interface Props {
+  class?: string;
+  /** Taille du monogramme en pixels. */
+  size?: number;
+}
+
+const { class: className, size = 28 } = Astro.props;
+const [before, after] = SITE.wordmark.split('@');
+---
+
+<span
+  class:list={[
+    'inline-flex items-center gap-2.5 leading-none font-extrabold tracking-[-0.04em]',
+    className ?? 'text-[1.0625rem]',
+  ]}
+  translate="no"
+>
+  <LogoMark size={size} />
+  <span>
+    {before}
+    <span class="text-highlight">@</span>
+    {after}
+  </span>
+</span>

@@ -1,0 +1,110 @@
+---
+import ProjectCard from '@/components/sections/ProjectCard.astro';
+import Container from '@/components/ui/Container.astro';
+import { PROJECTS_PAGE } from '@/content/pages';
+import { CATEGORY_LABELS } from '@/lib/portfolio';
+import { toLocale } from '@/lib/i18n';
+import { getProjects, filterCategories } from '@/services/content';
+
+/**
+ * Liste des réalisations, filtrable par catégorie, en deux colonnes décalées (rythme
+ * éditorial plutôt qu'une grille uniforme). Sans JS, tout est affiché. Le filtre actif est
+ * reflété dans l'URL (?category=…), ce qui reprend les anciennes URL de catégories redirigées.
+ */
+const locale = toLocale(Astro.currentLocale);
+const copy = PROJECTS_PAGE[locale];
+const projects = getProjects();
+const categories = filterCategories();
+---
+
+<section data-surface="base" class="py-section" aria-label={copy.hero.eyebrow} data-project-filter>
+  <Container width="wide" class="flex flex-col gap-section-gap">
+    <div class="flex flex-col gap-4 border-b border-border pb-6 lg:flex-row lg:items-center lg:justify-between">
+      <div class="flex flex-wrap gap-2" role="group" aria-label={copy.filterLabel}>
+        <button type="button" class="chip" data-filter="all" aria-pressed="true">
+          {copy.all}
+        </button>
+        {categories.map((category) => (
+          <button type="button" class="chip" data-filter={category} aria-pressed="false">
+            {CATEGORY_LABELS[category][locale]}
+          </button>
+        ))}
+      </div>
+      <p
+        class="type-meta"
+        aria-live="polite"
+        data-filter-status
+        data-one={copy.count(1)}
+        data-many={copy.count(2).replace('2', '{n}')}
+      >
+        {copy.count(projects.length)}
+      </p>
+    </div>
+
+    <ul class="projects-grid grid gap-16 md:grid-cols-2 md:gap-x-10 md:gap-y-20">
+      {projects.map((project) => (
+        <li data-categories={project.categories.join(' ')}>
+          <ProjectCard project={project} sizes="(min-width: 48rem) 45vw, 100vw" ratio="wide" />
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  /* Deuxième colonne décalée vers le bas : rythme éditorial, ordre de lecture inchangé. */
+  @media (min-width: 48rem) {
+    .projects-grid > li:not([hidden]):nth-child(even of :not([hidden])) {
+      transform: translateY(6rem);
+    }
+    .projects-grid {
+      padding-bottom: 6rem;
+    }
+  }
+</style>
+
+<script>
+  import { LAYOUT_CHANGE_EVENT } from '@/animations/core/motion';
+
+  const init = () => {
+    const root = document.querySelector<HTMLElement>('[data-project-filter]');
+    if (!root) return;
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-categories]'));
+    const status = root.querySelector<HTMLElement>('[data-filter-status]');
+
+    const apply = (category: string, updateUrl: boolean) => {
+      const known = buttons.some((button) => button.dataset.filter === category);
+      const active = known ? category : 'all';
+      let visible = 0;
+      for (const item of items) {
+        const match =
+          active === 'all' || (item.dataset.categories ?? '').split(' ').includes(active);
+        item.hidden = !match;
+        if (match) visible += 1;
+      }
+      for (const button of buttons) {
+        button.setAttribute('aria-pressed', String(button.dataset.filter === active));
+      }
+      if (status) {
+        const template = visible > 1 ? status.dataset.many : status.dataset.one;
+        status.textContent = (template ?? '').replace('{n}', String(visible));
+      }
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        if (active === 'all') url.searchParams.delete('category');
+        else url.searchParams.set('category', active);
+        history.replaceState(history.state, '', url);
+      }
+      document.dispatchEvent(new CustomEvent(LAYOUT_CHANGE_EVENT));
+    };
+
+    for (const button of buttons) {
+      button.addEventListener('click', () => apply(button.dataset.filter ?? 'all', true));
+    }
+    const initial = new URL(window.location.href).searchParams.get('category');
+    if (initial) apply(initial, false);
+  };
+
+  init();
+</script>

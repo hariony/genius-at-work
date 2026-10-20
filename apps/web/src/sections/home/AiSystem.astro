@@ -1,0 +1,76 @@
+---
+import AiTrace from '@/components/sections/AiTrace.astro';
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import { AI_PATH, AI_SECTION } from '@/content/ai';
+import { localizePath, toLocale } from '@/lib/i18n';
+
+/**
+ * Section IA de l'accueil, sur la surface nuit : le schéma « trace » et ses trois voies
+ * détaillées. Survoler (ou parcourir au clavier) une voie l'allume dans le schéma.
+ * Textes : back-office › Pages et textes › Bloc IA (accueil).
+ */
+const locale = toLocale(Astro.currentLocale);
+const copy = AI_SECTION[locale];
+---
+
+<section
+  data-surface="night"
+  class="ai-system py-section"
+  aria-labelledby="ai-system-title"
+  data-ai-system
+>
+  <Container class="flex flex-col gap-section-gap">
+    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="ai-system-title">
+      <Button slot="aside" href={localizePath(AI_PATH, locale)} variant="secondary">
+        {copy.cta}
+      </Button>
+    </ChapterHeader>
+
+    <div class="grid items-center gap-y-12 lg:grid-cols-12 lg:gap-x-12">
+      <AiTrace class="lg:col-span-7" />
+      <ol class="flex flex-col border-t border-border lg:col-span-5" data-anim="stagger">
+        {copy.lanes.map((lane, i) => (
+          <li>
+            <a
+              href={localizePath(AI_PATH, locale)}
+              class="lane group grid grid-cols-[2.5rem_1fr] gap-x-4 gap-y-1 border-b border-border py-5 no-underline"
+              data-lane={i}
+            >
+              <span class="type-mono pt-1 text-fg-muted tabular-nums">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="flex flex-col gap-1">
+                <span class="type-h3 transition-colors duration-fast group-hover:text-accent group-focus-visible:text-accent">
+                  {lane.title}
+                </span>
+                <span class="text-fg-muted">{lane.caption}</span>
+                <span class="type-mono mt-1 text-fg-muted">{lane.examples.join(' · ')}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </Container>
+</section>
+
+<script>
+  // Une voie survolée ou atteinte au clavier s'allume dans le schéma.
+  document.querySelectorAll<HTMLElement>('[data-ai-system]').forEach((section) => {
+    const toggle = (lane: string | undefined, on: boolean) =>
+      section.querySelector(`[data-trace-node="lane-${lane}"]`)?.toggleAttribute('data-active', on);
+    section.querySelectorAll<HTMLElement>('[data-lane]').forEach((link) => {
+      const lane = link.dataset.lane;
+      for (const [event, on] of [
+        ['pointerenter', true],
+        ['pointerleave', false],
+        ['focus', true],
+        ['blur', false],
+      ] as const) {
+        link.addEventListener(event, () => toggle(lane, on));
+      }
+    });
+  });
+</script>

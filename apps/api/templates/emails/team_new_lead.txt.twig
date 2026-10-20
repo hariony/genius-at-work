@@ -1,0 +1,12 @@
+{{ lead.reference }} · {{ lead.locale.value|upper }}
+Nouvelle demande de {{ lead.fullName }}
+
+Type : {{ lead.projectType.value }}
+{% if lead.budgetRange %}Budget : {{ lead.budgetRange.value }}
+{% endif %}{% if lead.timeline %}Échéance : {{ lead.timeline.value }}
+{% endif %}E-mail : {{ lead.email }}
+{% if lead.phone %}Téléphone : {{ lead.phone }}
+{% endif %}{% if lead.company %}Organisation : {{ lead.company }}
+{% endif %}{% if lead.sourceUrl %}Page : {{ lead.sourceUrl }}
+{% endif %}
+{{ lead.message }}

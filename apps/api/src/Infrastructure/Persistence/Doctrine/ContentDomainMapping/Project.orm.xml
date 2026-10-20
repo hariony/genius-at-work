@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Domain\Content\Project" table="content_project">
+        <indexes>
+            <index name="idx_project_position" columns="position"/>
+        </indexes>
+        <unique-constraints>
+            <unique-constraint name="uniq_project_slug" columns="slug"/>
+        </unique-constraints>
+
+        <id name="id" type="string" length="26"/>
+
+        <field name="slug" type="string" length="80"/>
+        <field name="title" type="string" length="160"/>
+        <field name="client" type="string" length="160" nullable="true"/>
+        <field name="clientType" type="string" length="16" nullable="true" enum-type="App\Domain\Content\ClientType"/>
+        <field name="periodStart" type="smallint" nullable="true"/>
+        <field name="periodEnd" type="smallint" nullable="true"/>
+        <field name="categories" type="json"/>
+        <field name="technologies" type="json"/>
+        <field name="url" type="string" length="500" nullable="true"/>
+        <field name="summary" type="json"/>
+        <field name="coverAlt" type="json"/>
+        <field name="featured" type="boolean"/>
+        <field name="published" type="boolean"/>
+        <field name="position" type="integer"/>
+        <field name="updatedAt" type="datetime_immutable"/>
+        <field name="updatedBy" type="string" length="180"/>
+
+        <many-to-one field="cover" target-entity="App\Domain\Content\Media">
+            <join-column name="cover_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

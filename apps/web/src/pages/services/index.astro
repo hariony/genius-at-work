@@ -1,0 +1,16 @@
+---
+import PageHero from '@/components/sections/PageHero.astro';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { SERVICES_PAGE } from '@/content/pages';
+import { toLocale } from '@/lib/i18n';
+import Method from '@/sections/home/Method.astro';
+import ServicesIndex from '@/sections/home/ServicesIndex.astro';
+
+const copy = SERVICES_PAGE[toLocale(Astro.currentLocale)];
+---
+
+<PageLayout title={copy.hero.seoTitle} description={copy.hero.seoDescription}>
+  <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} />
+  <ServicesIndex heading={copy.list} />
+  <Method />
+</PageLayout>

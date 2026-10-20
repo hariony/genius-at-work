@@ -1,0 +1,24 @@
+framework:
+    messenger:
+        failure_transport: failed
+
+        transports:
+            # Redis en production (MESSENGER_TRANSPORT_DSN=redis://…), Doctrine en local.
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                retry_strategy:
+                    max_retries: 3
+                    delay: 2000
+                    multiplier: 4
+            failed: 'doctrine://default?queue_name=failed'
+            sync: 'sync://'
+
+        routing:
+            App\Domain\Lead\Event\LeadSubmitted: async
+
+when@test:
+    framework:
+        messenger:
+            transports:
+                async: 'in-memory://'
+                failed: 'in-memory://'

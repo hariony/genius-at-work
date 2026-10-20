@@ -1,0 +1,108 @@
+---
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import Container from '@/components/ui/Container.astro';
+import { AI_PAGE } from '@/content/ai';
+import { toLocale } from '@/lib/i18n';
+
+/**
+ * La chaîne complète, de la stratégie à la supervision : en ligne sur grand écran, en colonne
+ * sur mobile. La scène ai-chain fait avancer le trait au défilement.
+ */
+const copy = AI_PAGE[toLocale(Astro.currentLocale)].chain;
+---
+
+<section data-surface="night" class="py-section" aria-labelledby="ai-chain-title">
+  <Container class="flex flex-col gap-section-gap">
+    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="ai-chain-title" />
+    <div class="chain relative" data-scene="ai-chain">
+      <span class="chain__track" aria-hidden="true">
+        <span class="chain__fill"></span>
+      </span>
+      <ol class="relative grid gap-y-8 lg:grid-cols-8 lg:gap-x-6">
+        {copy.steps.map((step, i) => (
+          <li class="chain__step flex flex-col gap-2 pl-10 lg:pt-10 lg:pl-0" data-chain-step>
+            <span class="chain__dot" aria-hidden="true"></span>
+            <span class="type-mono text-fg-muted tabular-nums">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="font-bold text-fg">{step.title}</h3>
+            <p class="text-small text-fg-muted">{step.description}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .chain {
+    --chain-progress: 1;
+  }
+
+  /* Rail : vertical sur mobile (à gauche), horizontal sur grand écran (en haut). */
+  .chain__track {
+    position: absolute;
+    top: 0.375rem;
+    bottom: 0.375rem;
+    left: 0.4375rem;
+    width: 2px;
+    background: var(--surface-border);
+  }
+  .chain__fill {
+    position: absolute;
+    inset: 0;
+    background: var(--surface-highlight);
+    transform: scaleY(var(--chain-progress));
+    transform-origin: top;
+  }
+
+  .chain__step {
+    position: relative;
+  }
+  .chain__dot {
+    position: absolute;
+    top: 0.125rem;
+    left: 0;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 999px;
+    border: 2px solid var(--surface-border-strong);
+    background: var(--surface-bg);
+    transition:
+      border-color var(--duration-base) var(--ease-out),
+      background-color var(--duration-base) var(--ease-out),
+      box-shadow var(--duration-base) var(--ease-out);
+  }
+  .chain__step h3 {
+    transition: color var(--duration-base) var(--ease-out);
+  }
+
+  /* Étape atteinte : toutes le sont tant que la scène ne pilote pas la chaîne. */
+  .chain:not([data-chain-live]) .chain__dot,
+  .chain__step[data-lit] .chain__dot {
+    border-color: var(--surface-highlight);
+    background: var(--surface-highlight);
+    box-shadow: 0 0 0 4px var(--surface-accent-soft);
+  }
+  .chain[data-chain-live] .chain__step:not([data-lit]) h3 {
+    color: var(--surface-fg-muted);
+  }
+
+  @media (min-width: 64rem) {
+    .chain__track {
+      top: 0.4375rem;
+      bottom: auto;
+      left: 0;
+      right: 0;
+      width: auto;
+      height: 2px;
+    }
+    .chain__fill {
+      transform: scaleX(var(--chain-progress));
+      transform-origin: left;
+    }
+    .chain__dot {
+      top: 0;
+    }
+  }
+</style>

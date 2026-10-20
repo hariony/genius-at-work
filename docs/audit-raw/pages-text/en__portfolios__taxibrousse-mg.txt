@@ -1,0 +1,45 @@
+Taxibrousse.mg | Genius at work Services
+Home
+Services
+Projects
+Stacks
+Contact
+Home
+Services
+Projects
+Stacks
+Contact
+# Taxibrousse.mg
+Home
+Réalisations
+Taxibrousse.mg
+##
+Mobile application and website for online ticket booking for taxibrousses
+Date de début :
+9 May , 2019
+Date de fin :
+9 November , 2022
+Client :
+Genius
+Catégories :
+Web app, Design UX/UI, E-commerce, Innovation, Travel
+Technologies :
+Bootstrap, Cordova, Framework7, Jquery, Zend
+[link:https://www.taxibrousse.mg/] Voir le projet
+##### Détails du projet
+Online booking application and website with choice of seats and secure payment (Mobile money and credit card) for Taxi-brousses and first class transport in Madagascar
+## Prêt à discuter un projet avec nous ?
+######
+Vous avez des besoins spécifiques ? Nous avons des solutions techniques !
+Contactez-nous
+[link:https://www.facebook.com/geniusatworksarl]
+[link:https://www.linkedin.com/in/genius-at-work-com/]
+© Genius at work Services 2026
+
+--- IMAGES ---
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo-dark.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/flag/french.png | Sun images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/sun-01.svg | Sun images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/vector.svg | Vector Images
+https://genius-at-work.com/wp-content/uploads/2022/10/taxibrousse.jpg | Taxibrousse.mg

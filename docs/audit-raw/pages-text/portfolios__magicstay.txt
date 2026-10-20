@@ -1,0 +1,46 @@
+MagicStay | Genius at work Services
+Home
+Services
+Réalisations
+Technologies
+Contact
+Home
+Services
+Réalisations
+Technologies
+Contact
+# MagicStay
+Home
+Réalisations
+MagicStay
+##
+Location de vacances, location courte durée, location saisonnière et appart hotel
+Date de début :
+15 juillet , 2022
+Date de fin :
+22 juillet , 2022
+Client :
+Magistay
+Catégories :
+Design UX/UI, Innovation, Voyage
+Technologies :
+Bootstrap, Jquery
+[link:https://fr.magicstay.com/] Voir le projet
+##### Détails du projet
+### MagicStay, le meilleur de l’hébergement pour vos voyages d’affaires ou la mobilité professionnelle
+L’aventure a commencé en 2013. Valéry travaillait alors dans un groupe organisateur de nombreux salons internationaux. Il voyageait beaucoup, seul ou avec son équipe, et n’avait pas le droit de réserver des appartements car ils n’étaient pas référencés dans le SBT (Self Booking Tool) utilisé par son entreprise. Les appartements ne répondaient pas aux enjeux de sécurité et ne pouvaient pas être réservés en réservation immédiate. Pourtant Valéry utilisait ce type d’hébergement durant ses vacances et appréciait l’espace, l’indépendance et le « vivre comme à la maison ».
+## Prêt à discuter un projet avec nous ?
+######
+Vous avez des besoins spécifiques ? Nous avons des solutions techniques !
+Contactez-nous
+[link:https://www.facebook.com/geniusatworksarl]
+[link:https://www.linkedin.com/in/genius-at-work-com/]
+© Genius at work Services 2026
+
+--- IMAGES ---
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/logo/logo-dark.png | Genius at work services logo
+https://genius-at-work.com/wp-content/themes/genius/assets/images/flag/english.png | Vector Images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/sun-01.svg | Sun images
+https://genius-at-work.com/wp-content/themes/genius/assets/images/icons/vector.svg | Vector Images
+https://genius-at-work.com/wp-content/uploads/2022/07/magicstay.jpg | MagicStay

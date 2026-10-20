@@ -1,0 +1,27 @@
+---
+import ChapterHeader from '@/components/sections/ChapterHeader.astro';
+import Container from '@/components/ui/Container.astro';
+import { AI_PAGE } from '@/content/ai';
+import { toLocale } from '@/lib/i18n';
+
+/** Technologies IA, en texte et par groupe : discrètes, sans mur de logos. */
+const copy = AI_PAGE[toLocale(Astro.currentLocale)].technologies;
+---
+
+<section data-surface="subtle" class="py-section" aria-labelledby="ai-tech-title">
+  <Container class="flex flex-col gap-section-gap">
+    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="ai-tech-title" />
+    <div class="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4" data-anim="stagger">
+      {copy.groups.map((group) => (
+        <div class="flex flex-col gap-4 border-t border-border-strong pt-5">
+          <h3 class="type-label text-fg-muted">{group.title}</h3>
+          <ul class="type-mono flex flex-col gap-2 text-[0.8125rem] text-fg">
+            {group.technologies.map((tech) => (
+              <li>{tech}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </Container>
+</section>

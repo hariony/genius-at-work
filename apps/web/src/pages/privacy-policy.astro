@@ -1,0 +1,20 @@
+---
+import PageHero from '@/components/sections/PageHero.astro';
+import Container from '@/components/ui/Container.astro';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { LEGAL_COMPLETE, PRIVACY_PAGE } from '@/content/legal';
+import { toLocale } from '@/lib/i18n';
+import LegalSections from '@/sections/legal/LegalSections.astro';
+
+const locale = toLocale(Astro.currentLocale);
+const copy = PRIVACY_PAGE[locale];
+---
+
+<PageLayout title={copy.seoTitle} description={copy.seoDescription} noindex={!LEGAL_COMPLETE}>
+  <PageHero eyebrow={copy.updated} title={copy.title} />
+  <section data-surface="base" class="py-section">
+    <Container width="prose" class="flex flex-col gap-12">
+      <LegalSections sections={copy.sections} />
+    </Container>
+  </section>
+</PageLayout>

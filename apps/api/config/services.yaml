@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+parameters:
+    # Images du back-office : écrites ici, servies par Caddy sous /media (volume Docker en production).
+    app.media_dir: '%kernel.project_dir%/public/media'
+    # Durée de conservation d'un lead après le dernier contact (format DateTime::modify).
+    app.lead_retention: '3 years'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Domain/'
+            - '../src/Kernel.php'
+            - '../src/Infrastructure/Security/AdminUser.php'
+            - '../src/Infrastructure/Persistence/Doctrine/ContentDocument.php'
+
+    # Ports du domaine → adaptateurs (le dossier Domain n'est pas scanné : PHP pur).
+    App\Domain\Lead\LeadRepository: '@App\Infrastructure\Persistence\Doctrine\DoctrineLeadRepository'
+    App\Domain\Content\ContentRepository: '@App\Infrastructure\Persistence\Doctrine\DoctrineContentRepository'
+    App\Domain\Content\ProjectRepository: '@App\Infrastructure\Persistence\Doctrine\DoctrineProjectRepository'
+    App\Domain\Content\ServiceRepository: '@App\Infrastructure\Persistence\Doctrine\DoctrineServiceRepository'
+    App\Domain\Content\MediaRepository: '@App\Infrastructure\Persistence\Doctrine\DoctrineMediaRepository'
+    App\Application\Crm\Port\LeadFinder: '@App\Infrastructure\Persistence\Doctrine\DoctrineLeadFinder'
+
+when@test:
+    parameters:
+        app.media_dir: '%kernel.project_dir%/var/test-media'
+
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+
+        # Doublures de test : aucun appel réseau vers Cloudflare pendant les tests.
+        App\Tests\Double\:
+            resource: '../tests/Double/'
+        App\Application\Contact\Port\BotVerifier: '@App\Tests\Double\StubBotVerifier'

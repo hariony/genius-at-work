@@ -1,0 +1,184 @@
+---
+/**
+ * Styleguide vivant (interne, noindex, hors sitemap).
+ * Sert à valider les tokens, la typographie, les composants et les presets d'animation.
+ */
+import PageLayout from '@/layouts/PageLayout.astro';
+import ProjectCard from '@/components/sections/ProjectCard.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Tag from '@/components/ui/Tag.astro';
+import { getFeaturedProjects } from '@/services/content';
+
+/** Ratios de contraste WCAG calculés (texte sur fond). */
+const COLORS = [
+  { token: 'ink', role: 'Texte, fond sombre', hex: '#0A0B1E', ratio: '17,8 sur paper' },
+  { token: 'slate', role: 'Texte secondaire', hex: '#5B5E70', ratio: '5,9 sur paper' },
+  { token: 'paper', role: 'Fond', hex: '#F6F5F1', ratio: '—' },
+  { token: 'sand', role: 'Fond alterné', hex: '#EDECE6', ratio: 'slate 5,4' },
+  { token: 'blue', role: 'Primaire', hex: '#1F4BFF', ratio: '5,5 sur paper · blanc 6,0' },
+  { token: 'cyan', role: 'Aplat · primaire sur sombre', hex: '#00C2FF', ratio: '9,4 sur ink' },
+  { token: 'lilac', role: 'Aplat', hex: '#A98BFF', ratio: 'ink dessus 7,3' },
+  { token: 'lime', role: 'Surligneur, étincelle', hex: '#C8F031', ratio: 'ink dessus 14,8' },
+  { token: 'blue-soft', role: 'Aplat clair', hex: '#E6ECFF', ratio: 'ink dessus 16,5' },
+  { token: 'mist', role: 'Texte secondaire sombre', hex: '#A3A6BD', ratio: '8,1 sur ink' },
+];
+
+const TYPE_SCALE = [
+  { cls: 'type-display', name: 'display', sample: 'Ingénierie digitale' },
+  { cls: 'type-h1', name: 'h1', sample: 'Des produits qui tiennent la charge' },
+  { cls: 'type-h2', name: 'h2', sample: 'Une équipe, quinze ans d’expérience' },
+  { cls: 'type-h3', name: 'h3', sample: 'Application mobile' },
+  {
+    cls: 'type-lead',
+    name: 'lead',
+    sample: 'Sites, applications web et mobiles, logiciels métier et e-commerce.',
+  },
+  {
+    cls: 'text-body',
+    name: 'body',
+    sample:
+      'Application et site web de réservation en ligne avec choix de places et paiement sécurisé (Mobile money et carte bancaire) pour les taxi-brousses et le transport première classe à Madagascar.',
+  },
+  { cls: 'type-label', name: 'label', sample: 'App web · Mobile · E-commerce' },
+  { cls: 'type-meta', name: 'meta', sample: '2019 — 2022' },
+];
+
+const SPACING = [1, 2, 3, 4, 6, 8, 12, 16, 24, 32];
+const SURFACES = ['base', 'subtle', 'dark'] as const;
+const [project] = getFeaturedProjects();
+---
+
+<PageLayout title="Design system" description="Styleguide interne du site Genius At Work." noindex>
+  <Container class="flex flex-col gap-section-gap pt-32 pb-section">
+    <header class="flex flex-col gap-4">
+      <p class="eyebrow">Interne · Design system</p>
+      <h1 class="type-h1" data-anim="reveal-lines" data-anim-trigger="load">
+        Signal <span class="mark">bleu électrique</span>
+      </h1>
+      <p class="type-lead max-w-[60ch] text-fg-muted">
+        Tokens, typographie et composants de base. Chaque élément de cette page utilise les mêmes
+        classes que le site.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-6" aria-labelledby="ds-colors">
+      <h2 id="ds-colors" class="type-h2">
+        Couleurs
+      </h2>
+      <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5" data-anim="stagger">
+        {COLORS.map((color) => (
+          <li class="flex flex-col overflow-hidden rounded-sm border border-border bg-bg-raised">
+            <span class="h-16 border-b border-border" style={`background:${color.hex}`} />
+            <span class="flex flex-col gap-0.5 p-3">
+              <span class="font-semibold">{color.token}</span>
+              <span class="text-small text-fg-muted">{color.role}</span>
+              <span class="type-meta">{color.hex}</span>
+              <span class="type-meta">{color.ratio}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="flex flex-col gap-6" aria-labelledby="ds-type">
+      <h2 id="ds-type" class="type-h2">
+        Typographie
+      </h2>
+      <p class="max-w-prose text-fg-muted">
+        Une seule famille : Manrope variable. Hiérarchie par la taille et la graisse, labels en
+        capitales espacées. Tailles fluides de 320 à 1440 px.
+      </p>
+      <div class="flex flex-col divide-y divide-border border-y border-border">
+        {TYPE_SCALE.map((row) => (
+          <div class="grid gap-3 py-6 md:grid-cols-[10rem_minmax(0,1fr)]">
+            <span class="type-meta">{row.name}</span>
+            <span class={row.cls}>{row.sample}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-6" aria-labelledby="ds-space">
+      <h2 id="ds-space" class="type-h2">
+        Espacements
+      </h2>
+      <ul class="flex flex-col gap-2">
+        {SPACING.map((step) => (
+          <li class="grid grid-cols-[6rem_minmax(0,1fr)] items-center gap-4">
+            <span class="type-meta">
+              {step} · {step * 4}px
+            </span>
+            <span class="h-2 rounded-pill bg-accent" style={`width:${step * 4}px`} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  </Container>
+
+  {SURFACES.map((surface) => (
+    <section
+      data-surface={surface}
+      class="border-t border-border py-section-gap"
+      aria-label={`Composants sur ${surface}`}
+    >
+      <Container class="grid gap-12 lg:grid-cols-2">
+        <div class="flex flex-col gap-8">
+          <p class="eyebrow">Surface · {surface}</p>
+          <h2 class="type-h2">Boutons, tags, champs</h2>
+          <div class="flex flex-wrap items-center gap-4">
+            <Button href="#ds-colors" variant="accent">
+              Parler de votre projet
+            </Button>
+            <Button href="#ds-type">Primaire</Button>
+            <Button href="#ds-type" variant="outline" icon={false}>
+              Contour
+            </Button>
+            <Button href="#ds-type" variant="secondary">
+              Voir les réalisations
+            </Button>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <Tag>Astro</Tag>
+            <Tag>Symfony</Tag>
+            <Tag>React Native</Tag>
+          </div>
+          <label class="flex max-w-sm flex-col gap-2">
+            <span class="type-label">Nom</span>
+            <input class="field" type="text" placeholder="Votre nom" />
+          </label>
+        </div>
+        {surface !== 'dark' && project && <ProjectCard project={project} variant="feature" />}
+      </Container>
+    </section>
+  ))}
+
+  <section data-surface="subtle" class="py-section-gap" aria-labelledby="ds-motion">
+    <Container class="flex flex-col gap-10">
+      <h2 id="ds-motion" class="type-h2">
+        Presets d'animation
+      </h2>
+      <p class="max-w-prose text-fg-muted">
+        Déclarés par attribut <code class="type-meta">data-anim</code>. Joués une seule fois,
+        désactivés si le système demande moins de mouvement : le contenu reste affiché.
+      </p>
+      <div class="grid gap-10 md:grid-cols-3">
+        <div class="flex flex-col gap-2" data-anim="reveal-up">
+          <span class="type-meta">reveal-up</span>
+          <p>Bloc qui monte légèrement en apparaissant.</p>
+        </div>
+        <div class="flex flex-col gap-2" data-anim="stagger">
+          <span class="type-meta">stagger</span>
+          <p>Les enfants apparaissent l'un après l'autre.</p>
+        </div>
+        <div class="flex flex-col gap-2" data-anim="reveal-up">
+          <span class="type-meta">reveal-image · parallax</span>
+          <p>Révélation par clip-path, parallax limité à ±4 %.</p>
+        </div>
+      </div>
+      <h3 class="type-h2 max-w-[24ch]" data-anim="reveal-lines">
+        Les titres se révèlent ligne par ligne au défilement.
+      </h3>
+    </Container>
+  </section>
+</PageLayout>

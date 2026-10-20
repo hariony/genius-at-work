@@ -1,0 +1,85 @@
+/*
+ * Styles typographiques composés. Une seule famille (Manrope) : la hiérarchie vient de la
+ * taille, de la graisse et de l'interlettrage, jamais d'une seconde police.
+ * Titres extra-gras et serrés (direction « Signal ») ; texte courant en graisse normale.
+ *
+ *   display  titre du hero d'accueil (68 px max)
+ *   h1       titre des pages intérieures (56 px max)
+ *   h2       titre de section (44 px max)
+ *   h3       titre de bloc (21 px max)
+ *   lead     paragraphe d'introduction
+ *   label    surtitre, intitulé : capitales espacées, discret
+ *   meta     information secondaire (dates, compteurs)
+ */
+
+@utility type-display {
+  @apply text-display font-extrabold;
+}
+
+@utility type-h1 {
+  @apply text-h1 font-extrabold;
+}
+
+@utility type-h2 {
+  @apply text-h2 font-bold;
+}
+
+@utility type-h3 {
+  @apply text-h3 font-bold;
+}
+
+@utility type-lead {
+  @apply text-lead text-fg-muted;
+}
+
+@utility type-label {
+  @apply text-label font-semibold uppercase;
+}
+
+/* Libellé « système » en chasse fixe : couches, horloge, données d'un projet. */
+@utility type-mono {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+@utility type-meta {
+  @apply text-small text-fg-muted;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Surtitre de section : petite puce de la couleur d'étincelle + libellé. */
+@utility eyebrow {
+  @apply inline-flex items-center gap-2.5 type-label text-fg-muted;
+
+  &::before {
+    content: '';
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 999px;
+    background: var(--surface-spark);
+    flex: none;
+  }
+}
+
+/*
+ * Surligneur citron sous un mot ou une expression clé : une bande pleine sur la moitié basse
+ * du texte (arrêt net, pas de dégradé), qui ne déborde jamais sur la ligne précédente.
+ */
+@utility mark {
+  background-image: linear-gradient(to top, var(--surface-mark) 0 0.46em, transparent 0.46em);
+  padding-inline: 0.06em;
+  margin-inline: -0.06em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+@utility prose-gaw {
+  @apply max-w-prose text-body;
+
+  & > * + * {
+    margin-top: 1.25em;
+  }
+}

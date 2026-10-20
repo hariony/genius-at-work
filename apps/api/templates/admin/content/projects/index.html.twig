@@ -1,0 +1,62 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Projets{% endblock %}
+
+{% block main %}
+    {% set published = projects|filter(p => p.published)|length %}
+
+    <header class="page-head page-head--actions">
+        <div>
+            <p class="eyebrow">Contenu du site</p>
+            <h1 class="page-title">Projets</h1>
+            <p class="muted">Le portfolio, dans l’ordre d’affichage sur le site. {{ published }} publié{{ published > 1 ? 's' }} sur {{ projects|length }}.</p>
+        </div>
+        <a class="button button--primary" href="{{ path('admin_project_new') }}">+ Nouveau projet</a>
+    </header>
+
+    {% if projects is empty %}
+        <div class="panel empty">
+            <span class="empty-shape" aria-hidden="true"></span>
+            <p class="empty-title">Aucun projet pour l’instant.</p>
+            <p class="muted"><a href="{{ path('admin_project_new') }}">Ajouter le premier projet</a></p>
+        </div>
+    {% else %}
+        <ol class="project-grid">
+            {% for project in projects %}
+                {% set details = project.details %}
+                <li class="project-card{% if not project.published %} project-card--draft{% endif %}" id="project-{{ project.id }}">
+                    <div class="project-thumb">
+                        <img src="{{ project.cover.path }}" alt="" width="{{ project.cover.width }}" height="{{ project.cover.height }}" loading="lazy" decoding="async">
+                        <span class="project-rank" aria-hidden="true">{{ loop.index }}</span>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-badges">
+                            {% if not project.published %}<span class="badge badge--archived">Brouillon</span>{% endif %}
+                            {% if project.featured %}<span class="badge badge--won">À la une</span>{% endif %}
+                        </div>
+                        <h2 class="project-title">
+                            <a class="project-link" href="{{ path('admin_project_edit', {id: project.id}) }}">{{ project.title }}</a>
+                        </h2>
+                        <p class="muted small">
+                            {{ details.client ?? 'Client non précisé' }}
+                            {%- if details.periodStart %} · {{ details.periodStart == details.periodEnd ? details.periodStart : details.periodStart ~ '–' ~ details.periodEnd }}{% endif %}
+                        </p>
+                        <p class="project-tags small">{{ project.categories|map(c => c|category_label)|join(' · ') }}</p>
+                    </div>
+                    <div class="project-order">
+                        {% for move in [{direction: 'up', label: 'Monter', disabled: loop.first}, {direction: 'down', label: 'Descendre', disabled: loop.last}] %}
+                            <form method="post" action="{{ path('admin_project_move', {id: project.id}) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token(csrf_id) }}">
+                                <input type="hidden" name="direction" value="{{ move.direction }}">
+                                <button class="icon-button" type="submit" title="{{ move.label }}"{% if move.disabled %} disabled{% endif %}>
+                                    <span class="visually-hidden">{{ move.label }} « {{ project.title }} »</span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">{% if move.direction == 'up' %}<path d="m18 15-6-6-6 6"/>{% else %}<path d="m6 9 6 6 6-6"/>{% endif %}</svg>
+                                </button>
+                            </form>
+                        {% endfor %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+{% endblock %}

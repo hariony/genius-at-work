@@ -1,0 +1,30 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Pages et textes{% endblock %}
+
+{% block main %}
+    <header class="page-head">
+        <p class="eyebrow">Contenu du site</p>
+        <h1 class="page-title">Pages et textes</h1>
+        <p class="muted">Tous les textes du site, en français et en anglais. Les projets et les services ont leurs propres écrans.</p>
+    </header>
+
+    {% for group, items in groups %}
+        <section class="page-group" aria-labelledby="group-{{ loop.index }}">
+            <h2 class="editor-heading" id="group-{{ loop.index }}">{{ group }}</h2>
+            <ul class="service-list">
+                {% for item in items %}
+                    <li class="service-item service-item--page">
+                        <div>
+                            <h3 class="service-title"><a class="project-link" href="{{ path('admin_page_edit', {id: item.page.id}) }}">{{ item.page.title }}</a></h3>
+                            <p class="muted small">{{ item.page.description }}</p>
+                        </div>
+                        <p class="muted small service-meta">
+                            {% if item.content %}modifié {{ item.content.updatedAt|ago }}<br>par {{ item.content.updatedBy }}{% else %}<span class="badge badge--lost">À remplir</span>{% endif %}
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endfor %}
+{% endblock %}

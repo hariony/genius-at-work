@@ -1,0 +1,125 @@
+# Livraison continue depuis main : CI complète, puis préproduction automatique, puis
+# production après approbation manuelle (règle de protection de l'environnement « production »).
+# Tant que la variable de dépôt DEPLOY_ENABLED ne vaut pas « true », seule la CI s'exécute.
+name: Déploiement
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Jamais deux déploiements en parallèle, et jamais d'annulation d'un déploiement en cours.
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  web-staging:
+    needs: ci
+    if: vars.DEPLOY_ENABLED == 'true'
+    uses: ./.github/workflows/deploy-web.yml
+    with:
+      environment: staging
+    secrets: inherit
+
+  web-production:
+    needs: web-staging
+    uses: ./.github/workflows/deploy-web.yml
+    with:
+      environment: production
+    secrets: inherit
+
+  api-image:
+    name: Image de l'API → GHCR
+    needs: ci
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image: ${{ steps.name.outputs.image }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: name
+        run: echo "image=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/gaw-api:${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v7
+        with:
+          context: apps/api
+          file: infra/docker/api/Dockerfile
+          build-contexts: docker=infra/docker/api
+          target: prod
+          push: true
+          tags: ${{ steps.name.outputs.image }}
+          cache-from: type=gha,scope=api
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+
+  api-production:
+    name: API → production
+    needs: api-image
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: read
+    environment:
+      name: production
+      url: https://api.genius-at-work.com/api/v1/health
+    env:
+      SSH_HOST: ${{ vars.DEPLOY_SSH_HOST }}
+      SSH_USER: ${{ vars.DEPLOY_SSH_USER }}
+      IMAGE: ${{ needs.api-image.outputs.image }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Cloudflare Access (SSH à travers le tunnel)
+        run: |
+          curl -fsSL -o cloudflared.deb \
+            https://github.com/cloudflare/cloudflared/releases/download/2026.10.1/cloudflared-linux-amd64.deb
+          sudo dpkg -i cloudflared.deb
+      - name: Configuration SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
+          CF_ACCESS_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+        run: |
+          install -m 700 -d ~/.ssh
+          install -m 600 /dev/null ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<CONFIG
+          Host prod
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+            ProxyCommand cloudflared access ssh --hostname %h --service-token-id $CF_ACCESS_ID --service-token-secret $CF_ACCESS_SECRET
+          CONFIG
+          chmod 600 ~/.ssh/config
+      - name: Envoi des fichiers de déploiement
+        run: scp infra/docker/compose.prod.yaml infra/deploy/deploy.sh prod:/srv/gaw/
+      - name: Déploiement (sauvegarde, migrations, redémarrage, contrôle de santé)
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Jeton éphémère du job : expire à la fin du workflow, rien de permanent sur le serveur.
+          printf '%s' "$GHCR_TOKEN" | ssh prod "docker login ghcr.io -u ${{ github.actor }} --password-stdin"
+          status=0
+          # shellcheck disable=SC2029 # $IMAGE est volontairement développé côté runner.
+          ssh prod "chmod +x /srv/gaw/deploy.sh && /srv/gaw/deploy.sh '$IMAGE'" || status=$?
+          ssh prod 'docker logout ghcr.io' || true
+          exit $status

@@ -1,0 +1,16 @@
+---
+/**
+ * Données structurées schema.org (JSON-LD). Bloc de données, jamais exécuté :
+ * « < » est échappé pour qu'aucune chaîne ne puisse fermer la balise.
+ */
+interface Props {
+  data: Record<string, unknown>;
+}
+
+const json = JSON.stringify({ '@context': 'https://schema.org', ...Astro.props.data }).replace(
+  /</g,
+  '\\u003c',
+);
+---
+
+<script type="application/ld+json" set:html={json} />
