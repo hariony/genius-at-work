@@ -22,7 +22,7 @@ const blocks = [
 <PageLayout title={copy.seoTitle} description={copy.seoDescription} noindex={!LEGAL_COMPLETE}>
   <PageHero eyebrow={copy.seoTitle} title={copy.title} />
   <section data-surface="base" class="py-section">
-    <Container width="prose" class="flex flex-col gap-12">
+    <Container class="flex flex-col gap-12">
       {blocks.map((block) => (
         <section class="flex flex-col gap-6">
           <h2 class="type-h3">{block.title}</h2>

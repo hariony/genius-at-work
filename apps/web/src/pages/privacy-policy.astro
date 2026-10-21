@@ -13,7 +13,7 @@ const copy = PRIVACY_PAGE[locale];
 <PageLayout title={copy.seoTitle} description={copy.seoDescription} noindex={!LEGAL_COMPLETE}>
   <PageHero eyebrow={copy.updated} title={copy.title} />
   <section data-surface="base" class="py-section">
-    <Container width="prose" class="flex flex-col gap-12">
+    <Container class="flex flex-col gap-12">
       <LegalSections sections={copy.sections} />
     </Container>
   </section>

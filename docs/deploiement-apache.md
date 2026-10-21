@@ -133,6 +133,10 @@ qu'ailleurs.
 
 ## Opérations courantes
 
+Raccourci : `infra/apache/mep.sh` (commande `mep` : `ln -s "$PWD/infra/apache/mep.sh" ~/.local/bin/mep`) commite si besoin, pousse `main`
+sur GitHub puis lance le déploiement : `mep "Message de commit"`, ou `mep site "Message"` pour
+une seule cible (`api`, `site`, `all` par défaut).
+
 **Toute mise en production** (site, API ou back-office) est annoncée à l'hébergeur **la veille**,
 avec la date et l'heure : il fait sa propre sauvegarde et reste disponible. Sans réponse de sa
 part, on attend. Le script le rappelle et demande confirmation, même avec `--yes`.
