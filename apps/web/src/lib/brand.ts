@@ -6,15 +6,15 @@ import type { Project } from '@/types/content';
  * dans le portfolio : stable d'une page à l'autre, et deux projets voisins diffèrent.
  * Classes écrites en entier pour que Tailwind les génère.
  */
-const TINTS = ['bg-cyan', 'bg-lilac', 'bg-lime', 'bg-blue-soft'] as const;
+const TINTS = ['bg-blue', 'bg-lime', 'bg-navy', 'bg-blue-soft'] as const;
 
 export function projectTint(project: Project): (typeof TINTS)[number] {
   const index = Math.max(0, getProjects().indexOf(project));
-  return TINTS[index % TINTS.length] ?? 'bg-cyan';
+  return TINTS[index % TINTS.length] ?? 'bg-blue';
 }
 
-/** Aplats vifs en alternance pour les repères d'une liste (pastilles, traits), avec encre dessus. */
-const MARKERS = ['bg-cyan', 'bg-lilac', 'bg-lime'] as const;
+/** Repères d'une liste (pastilles, traits), avec de l'encre dessus : citron, la signature. */
+const MARKERS = ['bg-lime'] as const;
 
 export const markerTint = (index: number): (typeof MARKERS)[number] =>
-  MARKERS[index % MARKERS.length] ?? 'bg-cyan';
+  MARKERS[index % MARKERS.length] ?? 'bg-lime';

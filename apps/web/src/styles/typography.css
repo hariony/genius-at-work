@@ -1,13 +1,14 @@
 /*
  * Styles typographiques composés. Deux voix :
- *   - Manrope pour tout ce qui se lit (titres extra-gras et serrés, texte en graisse normale) ;
+ *   - Manrope pour tout ce qui se lit : titres extra-gras et serrés, texte en graisse normale ;
  *   - JetBrains Mono pour le « système » : surtitres, libellés, numéros, étiquettes, métadonnées.
  *
- *   display  titre du hero d'accueil (58 px max)
- *   h1       titre des pages intérieures (48 px max)
- *   h2       titre de section (44 px max)
- *   h3       titre de bloc (21 px max)
- *   lead     paragraphe d'introduction
+ *   display    titre du hero d'accueil (64 px max)
+ *   h1         titre des pages intérieures (44 px max)
+ *   h2         titre de section (34 px max)
+ *   h3         titre de bloc (22 px max)
+ *   statement  moment éditorial, une fois par page (48 px max)
+ *   lead       paragraphe d'introduction
  *   label    intitulé « système » : chasse fixe, capitales espacées, discret
  *   mono     donnée « système » : numéro, compteur, technologie, horloge
  *   meta     information secondaire (dates, compteurs)
@@ -27,6 +28,10 @@
 
 @utility type-h3 {
   @apply text-h3 font-bold;
+}
+
+@utility type-statement {
+  @apply text-statement font-semibold;
 }
 
 @utility type-lead {

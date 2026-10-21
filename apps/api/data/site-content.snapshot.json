@@ -866,11 +866,35 @@
                     "eyebrow": "Agence d’ingénierie digitale · Antananarivo",
                     "title": "Nous construisons des produits numériques",
                     "titleHighlight": "qui tiennent la charge.",
+                    "verbs": [
+                        "construisons",
+                        "déployons",
+                        "maintenons",
+                        "concevons"
+                    ],
                     "lead": "Sites, applications web et mobiles, logiciels métier et e-commerce. Une équipe de plus de 20 personnes et 15 ans d’expérience.",
                     "scroll": "Défiler",
                     "visual": {
                         "caption": "requêtes simulées",
                         "hint": "Bougez la souris ou touchez : le système encaisse.",
+                        "layers": [
+                            {
+                                "discipline": "Design",
+                                "layer": "Interface"
+                            },
+                            {
+                                "discipline": "Technologie",
+                                "layer": "API"
+                            },
+                            {
+                                "discipline": "IA",
+                                "layer": "Modèles"
+                            },
+                            {
+                                "discipline": "Ingénierie",
+                                "layer": "Données"
+                            }
+                        ],
                         "clock": "{time} à {city}",
                         "moments": {
                             "dawn": "aube",
@@ -878,6 +902,10 @@
                             "dusk": "soir",
                             "night": "nuit"
                         }
+                    },
+                    "strip": {
+                        "services": "{n} métiers",
+                        "featured": "À la une"
                     }
                 },
                 "sections": {
@@ -941,11 +969,35 @@
                     "eyebrow": "Digital engineering agency · Antananarivo",
                     "title": "We build digital products",
                     "titleHighlight": "that hold up under load.",
+                    "verbs": [
+                        "build",
+                        "ship",
+                        "maintain",
+                        "design"
+                    ],
                     "lead": "Websites, web and mobile apps, business software and e-commerce. A team of over 20 people and 15 years of experience.",
                     "scroll": "Scroll",
                     "visual": {
                         "caption": "simulated requests",
                         "hint": "Move your mouse or tap: the system takes the load.",
+                        "layers": [
+                            {
+                                "discipline": "Design",
+                                "layer": "Interface"
+                            },
+                            {
+                                "discipline": "Technology",
+                                "layer": "API"
+                            },
+                            {
+                                "discipline": "AI",
+                                "layer": "Models"
+                            },
+                            {
+                                "discipline": "Engineering",
+                                "layer": "Data"
+                            }
+                        ],
                         "clock": "{time} in {city}",
                         "moments": {
                             "dawn": "dawn",
@@ -953,6 +1005,10 @@
                             "dusk": "evening",
                             "night": "night"
                         }
+                    },
+                    "strip": {
+                        "services": "{n} disciplines",
+                        "featured": "Featured"
                     }
                 },
                 "sections": {

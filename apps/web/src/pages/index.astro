@@ -15,16 +15,17 @@ const copy = HOME_HERO[toLocale(Astro.currentLocale)];
 ---
 
 <!--
-  Parcours : qui nous sommes et ce que nous faisons (hero) → la preuve (réalisations)
-  → l'offre (services) → l'équipe et ses chiffres → la technique → la méthode → les raisons.
+  Parcours : qui nous sommes et ce que nous faisons (hero, clair) → la preuve (réalisations,
+  clair) → l'offre (services, navy) → l'équipe et ses chiffres (aplat bleu) → l'IA (navy)
+  → la technique (clair) → la méthode (sable) → les raisons (clair) → l'appel final (citron).
 -->
 <PageLayout title={copy.seoTitle} description={copy.seoDescription}>
   <HomeHero />
   <SelectedWork />
-  <ServicesIndex />
-  <AiSystem />
-  <Manifesto />
-  <Engineering />
-  <Method surface="subtle" />
-  <Reasons />
+  <ServicesIndex index="02" surface="night" fuchsia />
+  <Manifesto index="03" />
+  <AiSystem index="04" />
+  <Engineering index="05" />
+  <Method index="06" surface="subtle" />
+  <Reasons index="07" />
 </PageLayout>

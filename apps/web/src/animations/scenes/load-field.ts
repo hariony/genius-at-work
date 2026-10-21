@@ -1,6 +1,7 @@
 /**
- * Visuel du hero « sous charge » : des requêtes simulées traversent les quatre couches de la
- * stack (Interface → API → Métier → Données). Chaque nœud traite sa file à son rythme ; une
+ * Visuel du hero « sous charge » : des requêtes simulées traversent quatre couches
+ * (Interface → API → Modèles → Données), chacune portée par une discipline (Design,
+ * Technologie, IA, Ingénierie). Chaque nœud traite sa file à son rythme ; une
  * requête choisit le moins chargé de deux nœuds tirés au hasard (« power of two choices »).
  * Le pointeur envoie un surplus de trafic que le système absorbe.
  *
@@ -11,6 +12,8 @@
 export interface LoadFieldOptions {
   /** Libellés des couches, de l'entrée vers les données. */
   layers: string[];
+  /** Discipline au-dessus de chaque couche, en couleur de mise en valeur (facultatif). */
+  disciplines?: string[];
   /** Zone qui reçoit le pointeur (le hero entier). */
   pointerArea: HTMLElement;
   reduced: boolean;
@@ -90,7 +93,7 @@ export function mountLoadField(canvas: HTMLCanvasElement, options: LoadFieldOpti
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    top = 34;
+    top = options.disciplines?.length ? 52 : 34;
     nodeW = Math.min(64, width / layerCount / 2.2);
     nodeH = Math.max(14, Math.min(22, height / 22));
     const left = nodeW / 2 + 8;
@@ -220,10 +223,22 @@ export function mountLoadField(canvas: HTMLCanvasElement, options: LoadFieldOpti
     ctx.font = `500 11px ${colors.mono}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
-    ctx.fillStyle = colors.muted;
+    const disciplines = options.disciplines ?? [];
     nodes.forEach((column, layer) => {
-      const label = options.layers[layer] ?? '';
-      if (column[0]) ctx.fillText(label.toUpperCase(), column[0].x, 4);
+      const head = column[0];
+      if (!head) return;
+      // Centré sur la colonne, mais jamais rogné par les bords du canvas.
+      const label = (text: string, y: number) => {
+        const half = ctx.measureText(text).width / 2;
+        ctx.fillText(text, Math.min(Math.max(head.x, half), width - half), y);
+      };
+      const discipline = disciplines[layer];
+      if (discipline) {
+        ctx.fillStyle = colors.signal;
+        label(discipline.toUpperCase(), 4);
+      }
+      ctx.fillStyle = colors.muted;
+      label((options.layers[layer] ?? '').toUpperCase(), discipline ? 21 : 4);
     });
 
     // Nœuds : contour, puis remplissage selon la charge (chaud au-delà de 75 %).

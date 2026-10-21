@@ -1,45 +1,66 @@
 /*
- * Genius At Work — design tokens (direction « Sous charge »).
+ * Genius At Work — design tokens (direction « Charge »).
  * Référence : docs/design-system.md ; démonstration vivante : /design-system (non indexée).
  *
  * Deux niveaux :
- *   1. Palette brute (--color-ink, --color-blue…) : couleurs de marque.
+ *   1. Palette brute (--color-navy, --color-blue…) : couleurs de marque.
  *   2. Rôles sémantiques (--color-bg, --color-fg, --color-accent…) : consommés par les
  *      composants. Ils basculent selon la surface de la section :
- *      [data-surface="base|subtle|night"].
+ *      [data-surface="base|subtle|night|blue|lime"].
  *
- * Rôles de la palette (contrastes WCAG mesurés) :
- *   Neutres    papier #F6F5F1, sable #EDECE6, encre #0A0B1E, nuit #07081A,
- *              ardoise #5B5E70 (5,9:1 sur papier), brume #A3A6BD (8,3:1 sur nuit)
- *   Signal     bleu électrique #1F4BFF sur clair (5,5:1 ; blanc dessus 6:1),
- *              cyan #00C2FF sur sombre (9,6:1 ; encre dessus 9,4:1) : action, état
- *   Vives      cyan #00C2FF, lilas #A98BFF, citron #C8F031 : aplats, pastilles, surligneur,
- *              toujours avec de l'encre dessus (9,4 / 7,3 / 14,8:1), jamais en texte sur clair
- *   Vermillon  #FF5A36 sur sombre, #C93410 sur clair (4,8:1) : rare (charge, refus)
+ * Palette (contrastes WCAG mesurés, texte normal) :
+ *   Primary    bleu électrique #2A45FF : action, liens, aplat « blue »
+ *              (5,6:1 sur papier ; blanc dessus 6,2:1)
+ *   Signature  citron #C8F031 : mot clé, chiffres, survols, action sur sombre
+ *              (encre dessus 14,8:1 ; sur navy 14:1 ; sur bleu 4,7:1)
+ *   Secondary  navy #0B1033 : sections sombres (texte papier 16,8:1)
+ *   Touche     fuchsia #FF3DA8 en halo et aplat (sur navy 5,7:1), #C8107A en texte sur clair
+ *              (5:1 sur papier ; blanc dessus 5,5:1) : discret, à l'essai sur l'accueil
+ *   Accent     corail #FF6A45 sur sombre (6,5:1), #B93A18 sur clair (5,2:1) : rare (charge, refus)
+ *   Neutres    papier #F5F4EF, sable #ECEAE2, blanc, encre #0A0B1E,
+ *              ardoise #575A6C (6,2:1 sur papier), brume #A6ACCB (8,3:1 sur navy)
+ *
+ * Une seule couleur vive par écran en plus du bleu. Le cyan ne sert qu'au monogramme du logo.
  */
 
 @theme {
   /* ---------- Palette brute ---------- */
   --color-ink: #0a0b1e;
-  --color-ink-2: #14162c;
-  --color-ink-line: #2a2d4a;
-  --color-slate: #5b5e70;
-  --color-mist: #a3a6bd;
-  --color-paper: #f6f5f1;
-  --color-sand: #edece6;
+  --color-slate: #575a6c;
+  --color-paper: #f5f4ef;
+  --color-sand: #eceae2;
   --color-white: #ffffff;
-  --color-line: #e2e0d9;
-  --color-line-strong: #cbc8be;
-  --color-blue: #1f4bff;
-  --color-blue-deep: #1638d4;
-  --color-blue-soft: #e6ecff;
-  --color-cyan: #00c2ff;
-  --color-lilac: #a98bff;
+  --color-line: #dedcd4;
+  --color-line-strong: #c9c6bb;
+
+  --color-blue: #2a45ff;
+  --color-blue-deep: #1d34d6;
+  --color-blue-soft: #e5e9ff;
+  /* Bleu clair, lisible sur navy (8,4:1) : liens et traits actifs sur sombre. */
+  --color-blue-light: #9aa9ff;
+  /* Texte secondaire sur l'aplat bleu (4,8:1). */
+  --color-blue-mist: #dde2ff;
+
   --color-lime: #c8f031;
-  /* Nuit d'Antananarivo et accent chaud, rare. */
-  --color-night: #07081a;
-  --color-vermillion: #ff5a36; /* 6,3:1 sur encre ; encre dessus 6,3:1 */
-  --color-vermillion-deep: #c93410; /* texte sur papier : 4,8:1 */
+  /* Texte secondaire sur l'aplat citron (6,5:1). */
+  --color-lime-ink: #4a4f2e;
+
+  --color-navy: #0b1033;
+  --color-navy-raised: #151b47;
+  --color-navy-line: #252b57;
+  --color-navy-line-strong: #39407a;
+  --color-mist: #a6accb;
+
+  /* Touche fuchsia, discrète (à l'essai sur l'accueil). */
+  --color-fuchsia: #ff3da8;
+  --color-fuchsia-deep: #c8107a;
+
+  --color-coral: #ff6a45;
+  --color-coral-deep: #b93a18;
+
+  /* Monogramme du logo uniquement (components/ui/LogoMark.astro). */
+  --color-cyan: #00c2ff;
+
   --color-success: #167a4a;
   --color-danger: #b42318;
 
@@ -47,42 +68,49 @@
   --font-sans:
     'Manrope Variable', 'Manrope Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
     sans-serif;
-
-  /* Libellés « système » (couches, horloge, fiches projet) : la précision de l'ingénieur. */
   --font-mono:
     'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 
-  /* Échelle fluide 360 → 1440 px. Titres extra-gras et serrés : accueil 58 px, pages 48 px max. */
-  --text-display: clamp(2.25rem, 1.85rem + 2.1vw, 3.625rem);
-  --text-display--line-height: 1;
-  --text-display--letter-spacing: -0.045em;
-  --text-h1: clamp(2rem, 1.72rem + 1.25vw, 3rem);
-  --text-h1--line-height: 1.04;
-  --text-h1--letter-spacing: -0.04em;
-  --text-h2: clamp(1.875rem, 1.6rem + 1.2vw, 2.75rem);
-  --text-h2--line-height: 1.08;
-  --text-h2--letter-spacing: -0.035em;
-  --text-h3: clamp(1.125rem, 1.08rem + 0.21vw, 1.3125rem);
-  --text-h3--line-height: 1.3;
-  --text-h3--letter-spacing: -0.012em;
+  /*
+   * Échelle fluide 360 → 1440 px. La hiérarchie vient du contraste (taille, graisse, couleur),
+   * pas de titres géants : display 64 px (hero seul), h1 44, h2 34, h3 22. Titres extra-gras.
+   */
+  --text-display: clamp(2.5rem, 1.9rem + 2.67vw, 4rem);
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.125rem, 1.79rem + 1.48vw, 2.75rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(1.75rem, 1.62rem + 0.56vw, 2.125rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: clamp(1.125rem, 1.04rem + 0.37vw, 1.375rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.01em;
+  /* Moment éditorial (une fois par page : manifeste, appel final). */
+  --text-statement: clamp(1.75rem, 1.33rem + 1.85vw, 3rem);
+  --text-statement--line-height: 1.12;
+  --text-statement--letter-spacing: -0.03em;
   --text-lead: clamp(1.0625rem, 1.02rem + 0.19vw, 1.1875rem);
-  --text-lead--line-height: 1.6;
+  --text-lead--line-height: 1.55;
   --text-body: 1rem;
-  --text-body--line-height: 1.65;
+  --text-body--line-height: 1.6;
   --text-small: 0.875rem;
-  --text-small--line-height: 1.55;
+  --text-small--line-height: 1.5;
   --text-label: 0.75rem;
   --text-label--line-height: 1.3;
-  --text-label--letter-spacing: 0.1em;
+  --text-label--letter-spacing: 0.08em;
 
   /* ---------- Espacements (base 4 px : p-4 = 16 px) ---------- */
   --spacing: 0.25rem;
-  /* Espace vertical d'une section : 72 → 128 px. */
-  --spacing-section: clamp(4.5rem, 3.5rem + 4.44vw, 8rem);
-  /* En-tête de section → contenu : 40 → 64 px. */
-  --spacing-section-gap: clamp(2.5rem, 2.08rem + 1.85vw, 4rem);
+  /* Espace vertical d'une section : 80 → 144 px. */
+  --spacing-section: clamp(5rem, 3.67rem + 5.93vw, 9rem);
+  /* En-tête de section → contenu : 40 → 72 px. */
+  --spacing-section-gap: clamp(2.5rem, 1.83rem + 2.96vw, 4.5rem);
   /* Marges latérales : 20 → 48 px. */
-  --spacing-gutter: clamp(1.25rem, 0.83rem + 1.85vw, 3rem);
+  --spacing-gutter: clamp(1.25rem, 0.67rem + 2.59vw, 3rem);
+  /* Gouttière de la grille de 12 colonnes : 16 → 32 px. */
+  --spacing-column: clamp(1rem, 0.67rem + 1.48vw, 2rem);
 
   /* ---------- Breakpoints ---------- */
   --breakpoint-sm: 40rem;
@@ -91,24 +119,24 @@
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 90rem;
 
-  /* ---------- Conteneurs ---------- */
-  --container-content: 80rem;
-  --container-wide: 90rem;
+  /* ---------- Conteneurs : une seule largeur, tous les bords alignés ---------- */
+  --container-content: 88rem;
+  --container-wide: 88rem;
   --container-prose: 42rem;
 
   /* ---------- Rayons ---------- */
   --radius-xs: 4px;
   --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
   --radius-pill: 999px;
 
   /* ---------- Profondeur : légère, jamais décorative ---------- */
-  --shadow-xs: 0 1px 2px rgb(10 11 30 / 0.06);
-  --shadow-sm: 0 1px 2px rgb(10 11 30 / 0.04), 0 4px 12px -4px rgb(10 11 30 / 0.08);
-  --shadow-md: 0 2px 4px rgb(10 11 30 / 0.04), 0 16px 32px -16px rgb(10 11 30 / 0.18);
-  --shadow-lg: 0 30px 60px -24px rgb(10 11 30 / 0.35);
+  --shadow-xs: 0 1px 2px rgb(11 16 51 / 0.06);
+  --shadow-sm: 0 1px 2px rgb(11 16 51 / 0.04), 0 4px 12px -4px rgb(11 16 51 / 0.08);
+  --shadow-md: 0 2px 4px rgb(11 16 51 / 0.04), 0 16px 32px -16px rgb(11 16 51 / 0.2);
+  --shadow-lg: 0 30px 60px -24px rgb(11 16 51 / 0.4);
 
   /* ---------- Mouvement ---------- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -140,6 +168,14 @@
   --color-hot: var(--surface-hot);
 }
 
+/*
+ * Rôles par surface :
+ *   accent     fond du bouton d'action (accent-fg : son texte)
+ *   highlight  texte ou trait mis en valeur (« @ » du logo, chiffres, numéros, lien actif)
+ *   spark      puce des surtitres
+ *   mark       bande du surligneur, sous du texte de la couleur fg
+ *   hot        état « en charge » ou refus
+ */
 :root,
 [data-surface='base'] {
   --surface-bg: var(--color-paper);
@@ -152,14 +188,10 @@
   --surface-accent-fg: var(--color-white);
   --surface-accent-soft: var(--color-blue-soft);
   --surface-focus: var(--color-blue);
-  /* Signal : texte mis en valeur (« @ » du logo, chiffres), traits et nœuds actifs. */
   --surface-highlight: var(--color-blue);
-  /* Puce des surtitres. */
   --surface-spark: var(--color-blue);
-  /* Surligneur : fond citron sous du texte encre (14,8:1). */
   --surface-mark: var(--color-lime);
-  /* Accent chaud (charge, refus) : lisible en texte sur la surface. */
-  --surface-hot: var(--color-vermillion-deep);
+  --surface-hot: var(--color-coral-deep);
 }
 
 [data-surface='subtle'] {
@@ -167,24 +199,60 @@
   --surface-bg-raised: var(--color-white);
 }
 
-/* Nuit : sections sombres et hero entre le soir et l'aube à Antananarivo. L'en-tête la reprend
-   tant qu'il est au-dessus d'un hero de nuit (SiteHeader pose data-past-hero au-delà). */
+/* Navy : sections sombres et hero de la page IA. L'en-tête la reprend tant qu'il est au-dessus
+   d'un hero sombre (SiteHeader pose data-past-hero au-delà). Le citron y devient l'action. */
 [data-surface='night'],
 html[data-hero-surface='night'] [data-site-header]:not([data-past-hero]) {
-  --surface-bg: var(--color-night);
-  --surface-bg-raised: var(--color-ink-2);
-  --surface-fg: #f4f3ee;
+  --surface-bg: var(--color-navy);
+  --surface-bg-raised: var(--color-navy-raised);
+  --surface-fg: var(--color-paper);
   --surface-fg-muted: var(--color-mist);
-  --surface-border: var(--color-ink-line);
-  --surface-border-strong: #3d4166;
-  --surface-accent: var(--color-cyan);
+  --surface-border: var(--color-navy-line);
+  --surface-border-strong: var(--color-navy-line-strong);
+  --surface-accent: var(--color-lime);
   --surface-accent-fg: var(--color-ink);
-  --surface-accent-soft: rgb(0 194 255 / 0.12);
-  --surface-focus: var(--color-cyan);
-  --surface-highlight: var(--color-cyan);
+  --surface-accent-soft: rgb(200 240 49 / 0.12);
+  --surface-focus: var(--color-lime);
+  --surface-highlight: var(--color-lime);
   --surface-spark: var(--color-lime);
-  --surface-mark: var(--color-lime);
-  --surface-hot: var(--color-vermillion);
+  --surface-mark: rgb(200 240 49 / 0.32);
+  --surface-hot: var(--color-coral);
+}
+
+/* Aplat bleu électrique : un moment fort par page (manifeste, chiffres). */
+[data-surface='blue'] {
+  --surface-bg: var(--color-blue);
+  --surface-bg-raised: var(--color-blue-deep);
+  --surface-fg: var(--color-white);
+  --surface-fg-muted: var(--color-blue-mist);
+  --surface-border: rgb(255 255 255 / 0.22);
+  --surface-border-strong: rgb(255 255 255 / 0.4);
+  --surface-accent: var(--color-lime);
+  --surface-accent-fg: var(--color-ink);
+  --surface-accent-soft: rgb(255 255 255 / 0.12);
+  --surface-focus: var(--color-lime);
+  --surface-highlight: var(--color-lime);
+  --surface-spark: var(--color-lime);
+  --surface-mark: rgb(200 240 49 / 0.4);
+  --surface-hot: var(--color-lime);
+}
+
+/* Aplat citron : l'appel final. */
+[data-surface='lime'] {
+  --surface-bg: var(--color-lime);
+  --surface-bg-raised: var(--color-white);
+  --surface-fg: var(--color-ink);
+  --surface-fg-muted: var(--color-lime-ink);
+  --surface-border: rgb(10 11 30 / 0.16);
+  --surface-border-strong: rgb(10 11 30 / 0.32);
+  --surface-accent: var(--color-ink);
+  --surface-accent-fg: var(--color-lime);
+  --surface-accent-soft: rgb(10 11 30 / 0.08);
+  --surface-focus: var(--color-ink);
+  --surface-highlight: var(--color-blue);
+  --surface-spark: var(--color-ink);
+  --surface-mark: var(--color-white);
+  --surface-hot: var(--color-coral-deep);
 }
 
 /* ---------- Z-index ---------- */

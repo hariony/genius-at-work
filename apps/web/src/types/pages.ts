@@ -37,13 +37,17 @@ export interface PageTexts {
   home: {
     hero: PageHero & {
       titleHighlight: string;
+      /** Le premier figure dans le titre ; il y est remplacé à tour de rôle par les suivants. */
+      verbs: string[];
       scroll: string;
       visual: {
         caption: string;
         hint: string;
         clock: string;
         moments: Record<'dawn' | 'day' | 'dusk' | 'night', string>;
+        layers: { discipline: string; layer: string }[];
       };
+      strip: { services: string; featured: string };
     };
     sections: {
       hero: { badge: string };

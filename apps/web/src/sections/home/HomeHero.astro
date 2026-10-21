@@ -1,23 +1,39 @@
 ---
 import Button from '@/components/ui/Button.astro';
 import Container from '@/components/ui/Container.astro';
-import { HOME_HERO } from '@/content/home';
+import Icon from '@/components/ui/Icon.astro';
+import { HOME_HERO, HOME_SECTIONS } from '@/content/home';
 import { SITE } from '@/content/site';
 import { localizePath, toLocale, useTranslations } from '@/lib/i18n';
 import { CONTACT_PATH } from '@/lib/navigation';
+import { getFeaturedProjects, getProjects, getServices } from '@/services/content';
 import HeroLoadField from './HeroLoadField.astro';
 
 /**
- * Hero d'accueil « sous charge » : qui (surtitre) → ce que nous faisons (titre) → pourquoi
- * nous (chapeau), puis la stack sous un trafic simulé.
+ * Hero d'accueil, en composition asymétrique : à gauche, qui nous sommes et ce que nous faisons
+ * (le verbe du titre tourne : construire, déployer, maintenir, concevoir) ; à droite, quatre
+ * couches (Design, Technologie, IA, Ingénierie) sous un trafic simulé qui réagit au pointeur ;
+ * en bas, un bandeau de repères (heure d'Antananarivo, métiers, projets, projet à la une).
+ *
  * Toujours sur fond clair. Seul le halo suit l'heure d'Antananarivo (bleu le jour, braise à
  * l'aube et au soir, cyan la nuit) : le script en ligne pose le moment avant l'affichage
- * (aperçu : ?moment=dawn|day|dusk|night). Sans JS : version jour.
+ * (aperçu : ?moment=dawn|day|dusk|night). Sans JS : version jour, premier verbe.
  */
 const locale = toLocale(Astro.currentLocale);
 const t = useTranslations(locale);
 const copy = HOME_HERO[locale];
 const office = SITE.offices.find((o) => o.id === 'madagascar') ?? SITE.offices[0];
+
+// Le premier verbe doit figurer dans le titre : il y devient l'emplacement qui tourne.
+const verbs = copy.verbs ?? [];
+const [firstVerb = ''] = verbs;
+const verbAt = firstVerb ? copy.title.indexOf(firstVerb) : -1;
+const rotating = verbAt >= 0 && verbs.length > 1;
+const lead = rotating ? copy.title.slice(0, verbAt) : copy.title;
+const rest = rotating ? copy.title.slice(verbAt + firstVerb.length).trim() : '';
+
+const featured = getFeaturedProjects()[0];
+const strip = copy.strip;
 ---
 
 <section
@@ -54,51 +70,166 @@ const office = SITE.offices.find((o) => o.id === 'madagascar') ?? SITE.offices[0
       hero.dataset.moment = moment;
     })();
   </script>
-  <Container class="grid min-h-[100svh] content-center items-center gap-12 pt-28 pb-14 lg:grid-cols-12 lg:gap-x-12 lg:pt-32">
-    <div class="flex flex-col gap-7 lg:col-span-6">
-      <p class="eyebrow" data-anim="reveal-up" data-anim-trigger="load">
-        {copy.eyebrow}
-      </p>
-      <h1 class="type-display max-w-[17ch]" data-anim="reveal-lines" data-anim-trigger="load">
-        {copy.title} <span class="mark">{copy.titleHighlight}</span>
-      </h1>
-      <p
-        class="type-lead max-w-[48ch]"
-        data-anim="reveal-up"
-        data-anim-trigger="load"
-        data-anim-delay="0.25"
-      >
-        {copy.lead}
-      </p>
+  <Container class="grid min-h-[100svh] grid-rows-[1fr_auto] pt-24 lg:pt-28">
+    <div class="grid content-center items-center gap-12 py-10 lg:grid-cols-12 lg:gap-x-12">
+      <div class="flex flex-col gap-7 lg:col-span-7">
+        <p
+          class="eyebrow [--surface-spark:var(--color-fuchsia)]"
+          data-anim="reveal-up"
+          data-anim-trigger="load"
+        >
+          {copy.eyebrow}
+        </p>
+        <h1 class="type-display">
+          <span class="sr-only">
+            {copy.title} {copy.titleHighlight}
+          </span>
+          <span class="hero-title" aria-hidden="true" data-anim="stagger" data-anim-each="0.09">
+            <span>
+              {lead}
+              {rotating && (
+                <span class="hero-verb text-highlight" data-hero-verb>
+                  {verbs.map((verb, i) => (
+                    <span class:list={['hero-verb__word', i === 0 && 'is-active']}>{verb}</span>
+                  ))}
+                </span>
+              )}
+            </span>
+            {rest && <span>{rest}</span>}
+            <span>
+              <span class="mark">{copy.titleHighlight}</span>
+            </span>
+          </span>
+        </h1>
+        <p
+          class="type-lead max-w-[46ch]"
+          data-anim="reveal-up"
+          data-anim-trigger="load"
+          data-anim-delay="0.3"
+        >
+          {copy.lead}
+        </p>
+        <div
+          class="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1"
+          data-anim="reveal-up"
+          data-anim-trigger="load"
+          data-anim-delay="0.4"
+        >
+          <Button href={localizePath(CONTACT_PATH, locale)} variant="accent">
+            {t('cta.discussProject')}
+          </Button>
+          <Button href={localizePath('/projects/', locale)} variant="secondary" icon={false}>
+            {t('cta.seeProjects')}
+          </Button>
+        </div>
+      </div>
       <div
-        class="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1"
+        class="lg:col-span-5"
         data-anim="reveal-up"
         data-anim-trigger="load"
-        data-anim-delay="0.35"
+        data-anim-delay="0.5"
       >
-        <Button href={localizePath(CONTACT_PATH, locale)} variant="accent">
-          {t('cta.discussProject')}
-        </Button>
-        <Button href={localizePath('/projects/', locale)} variant="secondary" icon={false}>
-          {t('cta.seeProjects')}
-        </Button>
+        <HeroLoadField />
       </div>
     </div>
+
     <div
-      class="lg:col-span-6"
+      class="hero-strip type-mono grid gap-x-8 gap-y-2 border-t border-border py-5 text-fg-muted sm:grid-cols-2 lg:flex lg:items-center lg:justify-between"
       data-anim="reveal-up"
       data-anim-trigger="load"
-      data-anim-delay="0.45"
+      data-anim-delay="0.6"
     >
-      <HeroLoadField city={office?.city ?? ''} />
+      <p class="flex items-center gap-2">
+        <span class="hero-pulse" aria-hidden="true"></span>
+        <span data-hero-clock>{office?.city}</span>
+        <span data-hero-moment></span>
+      </p>
+      {strip && <p>{strip.services.replace('{n}', String(getServices().length))}</p>}
+      <p>{HOME_SECTIONS[locale].hero.badge.replace('{n}', String(getProjects().length))}</p>
+      {strip && featured && (
+        <a
+          href={localizePath(`/projects/${featured.slug}/`, locale)}
+          class="group inline-flex items-center gap-2 text-fg no-underline"
+        >
+          <span class="text-fg-muted">{strip.featured}</span>
+          <span class="hero-strip__link">{featured.title}</span>
+          <Icon
+            name="arrow-up-right"
+            size={14}
+            class="transition-transform duration-base ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          />
+        </a>
+      )}
     </div>
   </Container>
 </section>
 
 <style>
+  /* Titre : une ligne par bloc (verbe, suite, fin surlignée). */
+  .hero-title > span {
+    display: block;
+  }
+
+  /*
+   * Emplacement du verbe : tous les verbes sont empilés dans la même case (sa largeur est celle
+   * du plus long, rien ne bouge autour). Le sortant monte, l'entrant arrive par le bas.
+   */
+  .hero-verb {
+    display: inline-grid;
+    overflow: clip;
+    vertical-align: bottom;
+    padding-block: 0.08em 0.16em;
+    margin-block: -0.08em -0.16em;
+  }
+  .hero-verb__word {
+    grid-area: 1 / 1;
+    opacity: 0;
+    translate: 0 70%;
+    transition:
+      translate 0.7s var(--ease-out-expo),
+      opacity 0.4s var(--ease-standard);
+  }
+  .hero-verb__word.is-active {
+    opacity: 1;
+    translate: 0 0;
+  }
+  .hero-verb__word.is-leaving {
+    opacity: 0;
+    translate: 0 -70%;
+  }
+
+  .hero-pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--surface-highlight);
+    box-shadow: 0 0 0 0 var(--surface-highlight);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-pulse {
+      animation: hero-pulse 2.4s var(--ease-out) infinite;
+    }
+  }
+  @keyframes hero-pulse {
+    70% {
+      box-shadow: 0 0 0 6px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
+  .hero-strip__link {
+    background: linear-gradient(currentColor, currentColor) no-repeat left bottom / 0% 1px;
+    transition: background-size var(--duration-base) var(--ease-out);
+  }
+  a:hover > .hero-strip__link {
+    background-size: 100% 1px;
+  }
+
   /* Halo selon le moment de la journée : bleu léger le jour, braise à l'aube et au soir. */
   .hero-load {
-    --hero-glow: rgb(31 75 255 / 0.08);
+    --hero-glow: rgb(42 69 255 / 0.08);
   }
   .hero-load[data-moment='dawn'] {
     --hero-glow: rgb(255 140 90 / 0.16);
@@ -108,6 +239,19 @@ const office = SITE.offices.find((o) => o.id === 'madagascar') ?? SITE.offices[0
   }
   .hero-load[data-moment='night'] {
     --hero-glow: rgb(0 194 255 / 0.14);
+  }
+  /* Touche fuchsia : un second halo, discret, en bas à gauche. */
+  .hero-load::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    bottom: -35%;
+    left: -15%;
+    width: min(60rem, 90vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(255 61 168 / 0.09), transparent);
+    pointer-events: none;
   }
   .hero-load::before {
     content: '';
@@ -122,3 +266,55 @@ const office = SITE.offices.find((o) => o.id === 'madagascar') ?? SITE.offices[0
     pointer-events: none;
   }
 </style>
+
+<script>
+  import { MOTION_OK_QUERY } from '@/animations/core/motion';
+
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+
+  // Horloge d'Antananarivo et moment de la journée (posé par le script en ligne).
+  if (hero) {
+    const clock = hero.querySelector('[data-hero-clock]');
+    const moment = hero.querySelector('[data-hero-moment]');
+    const { tz, clockTemplate = '{time}', city = '' } = hero.dataset;
+    const moments = JSON.parse(hero.dataset.moments ?? '{}') as Record<string, string>;
+    const render = () => {
+      const time = new Intl.DateTimeFormat(document.documentElement.lang, {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: tz,
+      }).format(new Date());
+      if (clock) clock.textContent = clockTemplate.replace('{time}', time).replace('{city}', city);
+      if (moment) moment.textContent = `· ${moments[hero.dataset.moment ?? ''] ?? ''}`;
+    };
+    render();
+    setInterval(render, 30_000);
+  }
+
+  // Verbe du titre : il tourne toutes les 2,8 s, seulement à l'écran, onglet visible et si le
+  // mouvement est autorisé. Le titre complet reste lu tel quel par les lecteurs d'écran.
+  const slot = hero?.querySelector<HTMLElement>('[data-hero-verb]');
+  if (hero && slot && window.matchMedia(MOTION_OK_QUERY).matches) {
+    const words = Array.from(slot.children) as HTMLElement[];
+    let index = 0;
+    let visible = true;
+    const next = () => {
+      if (!visible || document.hidden) return;
+      const current = words[index];
+      index = (index + 1) % words.length;
+      const incoming = words[index];
+      if (!current || !incoming) return;
+      current.classList.replace('is-active', 'is-leaving');
+      // L'entrant repart d'en bas, sans transition, avant de monter.
+      incoming.style.transition = 'none';
+      incoming.classList.remove('is-leaving');
+      void incoming.offsetWidth;
+      incoming.style.transition = '';
+      incoming.classList.add('is-active');
+    };
+    new IntersectionObserver(([entry]) => {
+      visible = entry?.isIntersecting ?? true;
+    }).observe(hero);
+    setInterval(next, 2800);
+  }
+</script>

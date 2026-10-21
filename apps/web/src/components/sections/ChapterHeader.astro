@@ -2,8 +2,10 @@
 /**
  * En-tête de section : surtitre (puce + libellé), titre h2 et introduction facultative.
  * Le slot « aside » accueille un lien aligné avec l'introduction sur grand écran.
+ * `index` (« 01 ») numérote la section dans le parcours de la page.
  */
 interface Props {
+  index?: string | undefined;
   label: string;
   title: string;
   intro?: string | undefined;
@@ -11,13 +13,14 @@ interface Props {
   class?: string | undefined;
 }
 
-const { label, title, intro, id, class: className } = Astro.props;
+const { index, label, title, intro, id, class: className } = Astro.props;
 const hasAside = Boolean(intro) || Astro.slots.has('aside');
 ---
 
 <header class:list={['grid gap-5 lg:grid-cols-12 lg:items-end lg:gap-x-12', className]}>
   <div class="flex flex-col gap-4 lg:col-span-7">
     <p class="eyebrow" data-anim="reveal-up">
+      {index && <span class="text-fg">{index}</span>}
       {label}
     </p>
     <h2 id={id} class="type-h2 max-w-[24ch]" data-anim="reveal-lines">

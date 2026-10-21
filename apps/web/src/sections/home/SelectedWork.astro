@@ -1,43 +1,181 @@
 ---
+import { Picture } from 'astro:assets';
 import ChapterHeader from '@/components/sections/ChapterHeader.astro';
 import ProjectCard from '@/components/sections/ProjectCard.astro';
 import Button from '@/components/ui/Button.astro';
 import Container from '@/components/ui/Container.astro';
+import Tag from '@/components/ui/Tag.astro';
 import { HOME_SECTIONS } from '@/content/home';
+import { PROJECTS_PAGE } from '@/content/pages';
+import { projectTint } from '@/lib/brand';
 import { localizePath, toLocale } from '@/lib/i18n';
+import { imageSource } from '@/lib/images';
+import { CATEGORY_LABELS, projectPeriod } from '@/lib/portfolio';
 import { getFeaturedProjects } from '@/services/content';
 
 /**
- * Réalisations mises en avant, en mise en page éditoriale asymétrique : grands formats à
- * gauche, formats plus serrés et décalés à droite. Sur mobile, une colonne dans l'ordre.
+ * Réalisations : une étude de cas principale en grand (capture qui déborde de son aplat,
+ * fiche à côté), puis les autres projets mis en avant sur une piste horizontale (épinglée et
+ * pilotée par le défilement sur grand écran, au doigt ailleurs).
  */
 const locale = toLocale(Astro.currentLocale);
 const copy = HOME_SECTIONS[locale].work;
-const featured = getFeaturedProjects();
+const labels = PROJECTS_PAGE[locale].detail;
+const [lead, ...others] = getFeaturedProjects();
+const period = lead && projectPeriod(lead);
 ---
 
-<section data-surface="base" class="py-section" aria-labelledby="work-title">
-  <Container width="wide" class="flex flex-col gap-section-gap">
-    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="work-title">
+<section data-surface="base" class="overflow-x-clip py-section" aria-labelledby="work-title">
+  <Container class="flex flex-col gap-section-gap">
+    <ChapterHeader
+      index="01"
+      label={copy.label}
+      title={copy.title}
+      intro={copy.intro}
+      id="work-title"
+    >
       <Button slot="aside" href={localizePath('/projects/', locale)} variant="secondary">
         {copy.all}
       </Button>
     </ChapterHeader>
 
-    <ul class="grid gap-16 lg:grid-cols-12 lg:items-start lg:gap-x-10 lg:gap-y-24">
-      {featured.map((project, i) => {
-        const large = i % 2 === 0;
-        return (
-          <li class:list={[large ? 'lg:col-span-7' : 'lg:col-span-5 lg:mt-28']}>
-            <ProjectCard
-              project={project}
-              variant={large ? 'feature' : 'default'}
-              ratio={large ? 'wide' : 'landscape'}
-              sizes={large ? '(min-width: 64rem) 52vw, 100vw' : '(min-width: 64rem) 36vw, 100vw'}
+    {lead && (
+      <article class="lead-case group relative grid gap-8 lg:grid-cols-12 lg:gap-x-12">
+        <div
+          class:list={[
+            'lead-case__stage relative aspect-[4/3] overflow-hidden rounded-xl sm:aspect-[16/10] lg:col-span-8',
+            projectTint(lead),
+          ]}
+          data-anim="reveal-image"
+        >
+          <div class="lead-case__window browser-frame absolute inset-x-[6%] top-[8%] -bottom-[10%]">
+            <Picture
+              {...imageSource(lead.cover)}
+              formats={['avif', 'webp']}
+              widths={[640, 960, 1280, 1600]}
+              sizes="(min-width: 64rem) 60vw, 100vw"
+              alt={lead.coverAlt[locale]}
+              class="size-full object-cover object-top"
             />
-          </li>
-        );
-      })}
-    </ul>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-6 lg:col-span-4 lg:pt-4" data-anim="reveal-up">
+          <p class="type-mono text-fg-muted">
+            {lead.categories.map((category) => CATEGORY_LABELS[category][locale]).join(' · ')}
+          </p>
+          <h3 class="type-h2">
+            <a
+              href={localizePath(`/projects/${lead.slug}/`, locale)}
+              class="no-underline after:absolute after:inset-0 after:content-['']"
+            >
+              {lead.title}
+            </a>
+          </h3>
+          <p class="text-fg-muted">{lead.summary[locale]}</p>
+          <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-border pt-5">
+            {lead.client && (
+              <div class="flex flex-col gap-1">
+                <dt class="type-label text-fg-muted">{labels.client}</dt>
+                <dd>{lead.client}</dd>
+              </div>
+            )}
+            {period && (
+              <div class="flex flex-col gap-1">
+                <dt class="type-label text-fg-muted">{labels.period}</dt>
+                <dd class="tabular-nums">{period}</dd>
+              </div>
+            )}
+            {lead.technologies.length > 0 && (
+              <div class="col-span-2 flex flex-col gap-2">
+                <dt class="type-label text-fg-muted">{labels.technologies}</dt>
+                <dd class="flex flex-wrap gap-1.5">
+                  {lead.technologies.map((technology) => (
+                    <Tag>{technology}</Tag>
+                  ))}
+                </dd>
+              </div>
+            )}
+          </dl>
+          <span class="lead-case__link inline-flex items-center gap-2 text-small font-semibold">
+            {copy.visit}
+            <span aria-hidden="true">→</span>
+          </span>
+        </div>
+      </article>
+    )}
   </Container>
+
+  {others.length > 0 && (
+    <div class="work-rail mt-section-gap" data-anim="horizontal">
+      <ul class="work-rail__track flex gap-6 lg:gap-10" data-track>
+        {others.map((project, i) => (
+          <li class="work-rail__item flex shrink-0 flex-col gap-3">
+            <span class="type-mono text-fg-muted">
+              {String(i + 2).padStart(2, '0')} / {String(others.length + 1).padStart(2, '0')}
+            </span>
+            <ProjectCard project={project} sizes="(min-width: 64rem) 32rem, 80vw" />
+          </li>
+        ))}
+      </ul>
+      <Container class="mt-8">
+        <div class="work-rail__bar h-px bg-border" aria-hidden="true">
+          <div class="h-px origin-left bg-fg" data-progress />
+        </div>
+      </Container>
+    </div>
+  )}
 </section>
+
+<style>
+  .lead-case__window {
+    transition:
+      transform var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
+  }
+  .lead-case:hover .lead-case__window {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+  }
+  .lead-case__link {
+    color: var(--surface-highlight);
+  }
+
+  /*
+   * Piste : alignée sur le bord gauche du conteneur, elle déborde jusqu'au bord droit de
+   * l'écran. Défilement natif aimanté par défaut ; épinglée et pilotée par GSAP sur grand écran.
+   */
+  .work-rail__track {
+    padding-inline: max(
+      var(--spacing-gutter),
+      calc((100vw - var(--container-content)) / 2 + var(--spacing-gutter))
+    );
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: max(
+      var(--spacing-gutter),
+      calc((100vw - var(--container-content)) / 2 + var(--spacing-gutter))
+    );
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .work-rail__track::-webkit-scrollbar {
+    display: none;
+  }
+  .work-rail__item {
+    width: min(80vw, 32rem);
+    scroll-snap-align: start;
+  }
+  .is-pinned .work-rail__track {
+    overflow: visible;
+  }
+  /* Sans pilotage GSAP, la barre de progression n'a pas de sens. */
+  .work-rail:not(.is-pinned) .work-rail__bar {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lead-case:hover .lead-case__window {
+      transform: none;
+    }
+  }
+</style>

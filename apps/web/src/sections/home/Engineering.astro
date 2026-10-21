@@ -7,33 +7,70 @@ import { HOME_SECTIONS } from '@/content/home';
 import { STACK } from '@/content/technologies';
 import { localizePath, toLocale } from '@/lib/i18n';
 
-/** La stack en coupe : une couche par ligne, son rôle et ses technologies. */
+/**
+ * La stack en coupe : un bandeau des technologies réellement utilisées, qui glisse avec le
+ * défilement, puis une couche par ligne (rôle et technologies).
+ */
 interface Props {
   /** Textes d'en-tête ; par défaut ceux de l'accueil. */
   heading?: { label: string; title: string; intro?: string; cta: string } | undefined;
   /** Lien vers la page Technologie (masqué sur cette page). */
   cta?: boolean;
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
+  surface?: 'base' | 'subtle' | 'night' | undefined;
 }
 
 const locale = toLocale(Astro.currentLocale);
-const { heading, cta = true } = Astro.props;
+const { heading, cta = true, index, surface = 'base' } = Astro.props;
 const copy = heading ?? HOME_SECTIONS[locale].engineering;
+const technologies = [...new Set(STACK.flatMap((group) => group.technologies))];
 ---
 
-<section data-surface="night" class="py-section" aria-labelledby="engineering-title">
+<section
+  data-surface={surface}
+  class="overflow-x-clip py-section"
+  aria-labelledby="engineering-title"
+>
   <Container class="flex flex-col gap-section-gap">
-    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="engineering-title">
+    <ChapterHeader
+      index={index}
+      label={copy.label}
+      title={copy.title}
+      intro={copy.intro}
+      id="engineering-title"
+    >
       {cta && (
         <Button slot="aside" href={localizePath('/technology/', locale)} variant="secondary">
           {copy.cta}
         </Button>
       )}
     </ChapterHeader>
+  </Container>
 
+  <!-- Bandeau décoratif : les mêmes technologies figurent, lisibles, dans la liste ci-dessous. -->
+  <div class="my-section-gap border-y border-border py-6" aria-hidden="true">
+    <p
+      class="flex w-max items-center gap-x-8 pl-gutter text-[clamp(2rem,1.4rem+2.7vw,4rem)] leading-none font-extrabold tracking-[-0.035em] whitespace-nowrap"
+      data-anim="drift"
+      data-anim-distance="35"
+    >
+      {technologies.map((technology, i) => (
+        <>
+          {i > 0 && <span class="text-highlight">/</span>}
+          <span class:list={[i % 3 === 1 && 'text-fg-muted']}>{technology}</span>
+        </>
+      ))}
+    </p>
+  </div>
+
+  <Container>
     <ol class="border-t border-border" data-anim="stack">
       {STACK.map((group, i) => (
         <li class="grid gap-3 border-b border-border py-5 md:grid-cols-12 md:items-center md:gap-8">
-          <span class="type-meta md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
+          <span class="type-mono text-fg-muted md:col-span-1">
+            {String(i + 1).padStart(2, '0')}
+          </span>
           <span class="flex flex-col gap-0.5 md:col-span-4">
             <span class="font-semibold">{group.title[locale]}</span>
             <span class="text-small text-fg-muted">{group.role[locale]}</span>

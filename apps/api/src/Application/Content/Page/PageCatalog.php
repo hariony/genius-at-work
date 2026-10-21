@@ -39,11 +39,16 @@ final class PageCatalog
                     Field::line('eyebrow', 'Surtitre'),
                     Field::line('title', 'Titre'),
                     Field::line('titleHighlight', 'Fin du titre')->hint('Affichée en couleur, à la suite du titre.'),
+                    Field::lines('verbs', 'Verbes du titre', 4)->hint('Un par ligne. Le premier doit figurer dans le titre : il y est remplacé à tour de rôle par les suivants.'),
                     Field::text('lead', 'Chapeau'),
                     Field::line('scroll', 'Indication de défilement'),
                     Field::group('visual', 'Animation « sous charge »', [
                         Field::line('caption', 'Légende du compteur')->hint('Le compteur montre les requêtes de l’animation : jamais un chiffre réel.'),
                         Field::line('hint', 'Invitation à interagir'),
+                        Field::list('layers', 'Couches', [
+                            Field::line('discipline', 'Discipline'),
+                            Field::line('layer', 'Couche'),
+                        ], 4, 4)->hint('De l’entrée vers les données. La discipline s’affiche au-dessus de la couche.'),
                         Field::line('clock', 'Horloge')->hint('{time} et {city} sont remplacés par l’heure et la ville du premier bureau.'),
                         Field::group('moments', 'Moments de la journée', [
                             Field::line('dawn', 'Aube (5 h – 8 h)'),
@@ -52,10 +57,14 @@ final class PageCatalog
                             Field::line('night', 'Nuit (20 h – 5 h)'),
                         ]),
                     ]),
+                    Field::group('strip', 'Bandeau du bas', [
+                        Field::line('services', 'Métiers')->hint('{n} est remplacé par le nombre de services publiés.'),
+                        Field::line('featured', 'Projet à la une')->hint('Suivi du nom du premier projet mis en avant.'),
+                    ]),
                 ]),
                 Field::group('sections', 'Sections', [
                     Field::group('hero', 'Visuel de l’en-tête', [
-                        Field::line('badge', 'Pastille')->hint('{n} est remplacé par le nombre de projets publiés.'),
+                        Field::line('badge', 'Projets publiés')->hint('{n} est remplacé par le nombre de projets publiés.'),
                     ]),
                     Field::group('work', 'Section Réalisations', [
                         ...self::chapter(),

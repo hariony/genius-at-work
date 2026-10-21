@@ -3,13 +3,16 @@ import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Wordmark from '@/components/ui/Wordmark.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import LocalClock from './LocalClock.astro';
 import { SITE } from '@/content/site';
 import { localizePath, stripLocale, toLocale, useTranslations } from '@/lib/i18n';
 import { activeNavPath, CONTACT_PATH, MAIN_NAV } from '@/lib/navigation';
 
 /**
- * Menu mobile et tablette. <dialog> natif : focus piégé, Échap et retour du focus au
- * déclencheur sont fournis par le navigateur.
+ * Menu mobile et tablette : plein écran navy, grands liens numérotés qui arrivent en cascade,
+ * action en citron, puis contact, heure locale et langue en bas.
+ * <dialog> natif : focus piégé, Échap et retour du focus au déclencheur sont fournis par le
+ * navigateur.
  */
 const locale = toLocale(Astro.currentLocale);
 const t = useTranslations(locale);
@@ -18,13 +21,13 @@ const activePath = activeNavPath(stripLocale(Astro.url.pathname));
 
 <dialog
   id="site-menu"
-  data-surface="base"
+  data-surface="night"
   aria-label={t('a11y.mainNav')}
   class="menu-dialog m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto border-0 p-0 backdrop:bg-transparent"
 >
   <div class="flex min-h-full flex-col px-gutter pb-8">
-    <div class="flex h-[4.5rem] lg:h-20 items-center justify-between">
-      <Wordmark size={40} class="text-[1.375rem] lg:text-[1.5rem]" />
+    <div class="flex h-[4.5rem] items-center justify-between">
+      <Wordmark size={36} class="text-[1.3125rem]" />
       <button
         type="button"
         data-menu-close
@@ -35,27 +38,34 @@ const activePath = activeNavPath(stripLocale(Astro.url.pathname));
       </button>
     </div>
 
-    <nav class="mt-10 flex-1" aria-label={t('a11y.mainNav')}>
-      <ul class="flex flex-col border-t border-border">
-        {MAIN_NAV.map((item) => (
-          <li class="border-b border-border">
+    <nav class="mt-8 flex-1" aria-label={t('a11y.mainNav')}>
+      <ul class="flex flex-col">
+        {MAIN_NAV.map((item, i) => (
+          <li class="menu-item border-b border-border" style={`--i:${i}`}>
             <a
               href={localizePath(item.path, locale)}
               aria-current={item.path === activePath ? 'page' : undefined}
-              class="flex items-center justify-between py-4 text-[1.625rem] leading-tight font-semibold tracking-[-0.02em] no-underline aria-[current=page]:text-accent"
+              class="group flex items-baseline gap-4 py-4 no-underline"
             >
-              {t(item.key)}
-              <Icon name="arrow-right" size={20} class="text-fg-muted" />
+              <span class="type-mono w-6 text-fg-muted">{String(i + 1).padStart(2, '0')}</span>
+              <span class="text-[clamp(1.875rem,1.5rem+2vw,2.5rem)] leading-[1.05] font-extrabold tracking-[-0.03em] transition-colors duration-fast group-hover:text-highlight group-aria-[current=page]:text-highlight">
+                {t(item.key)}
+              </span>
             </a>
           </li>
         ))}
       </ul>
-      <Button href={localizePath(CONTACT_PATH, locale)} variant="accent" class="mt-8 w-full">
-        {t('cta.discussProject')}
-      </Button>
+      <div class="menu-item mt-8" style={`--i:${MAIN_NAV.length}`}>
+        <Button href={localizePath(CONTACT_PATH, locale)} variant="accent" class="w-full">
+          {t('cta.discussProject')}
+        </Button>
+      </div>
     </nav>
 
-    <div class="mt-12 flex flex-col gap-6 text-small">
+    <div
+      class="menu-item mt-12 flex flex-col gap-5 text-small"
+      style={`--i:${MAIN_NAV.length + 1}`}
+    >
       {SITE.offices.map((office) => (
         <div class="flex flex-col gap-1">
           <p class="type-label text-fg-muted">{office.name[locale]}</p>
@@ -64,9 +74,10 @@ const activePath = activeNavPath(stripLocale(Astro.url.pathname));
               {phone.display}
             </a>
           ))}
+          <LocalClock timeZone={office.timeZone} utcLabel={office.utcLabel} />
         </div>
       ))}
-      <div class="flex items-center justify-between gap-4 border-t border-border pt-6">
+      <div class="flex items-center justify-between gap-4 border-t border-border pt-5">
         <a href={`mailto:${SITE.email}`} class="no-underline">
           {SITE.email}
         </a>
@@ -78,12 +89,25 @@ const activePath = activeNavPath(stripLocale(Astro.url.pathname));
 
 <style>
   .menu-dialog[open] {
-    animation: menu-in var(--duration-base) var(--ease-out);
+    animation: menu-in var(--duration-slow) var(--ease-out-expo);
+  }
+  /* Les liens arrivent l'un après l'autre (désactivé si moins de mouvement est demandé). */
+  .menu-dialog[open] .menu-item {
+    animation: menu-item-in 0.6s var(--ease-out-expo) both;
+    animation-delay: calc(80ms + var(--i) * 45ms);
   }
   @keyframes menu-in {
     from {
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes menu-item-in {
+    from {
       opacity: 0;
-      transform: translateY(-8px);
+      transform: translateY(16px);
     }
   }
 </style>

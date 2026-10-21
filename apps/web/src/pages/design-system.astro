@@ -1,6 +1,6 @@
 ---
 /**
- * Design system vivant « Sous charge » (interne, noindex, hors sitemap).
+ * Design system vivant « Charge » (interne, noindex, hors sitemap).
  * Chaque exemple utilise les classes du site ; les contrastes sont calculés au build.
  * Règles écrites : docs/design-system.md.
  */
@@ -27,29 +27,58 @@ function contrast(a: string, b: string): string {
 }
 
 const HEX = {
-  paper: '#F6F5F1',
-  sand: '#EDECE6',
+  paper: '#F5F4EF',
+  sand: '#ECEAE2',
   white: '#FFFFFF',
   ink: '#0A0B1E',
-  night: '#07081A',
-  slate: '#5B5E70',
-  mist: '#A3A6BD',
-  blue: '#1F4BFF',
-  cyan: '#00C2FF',
-  lilac: '#A98BFF',
+  slate: '#575A6C',
+  navy: '#0B1033',
+  mist: '#A6ACCB',
+  blue: '#2A45FF',
+  blueLight: '#9AA9FF',
   lime: '#C8F031',
-  vermillion: '#FF5A36',
-  vermillionDeep: '#C93410',
+  coral: '#FF6A45',
+  coralDeep: '#B93A18',
 };
 
+/** Rôles de la palette, dans l'ordre d'importance. */
 const GROUPS = [
+  {
+    title: 'Primary · Signature · Secondary',
+    colors: [
+      {
+        token: 'blue',
+        hex: HEX.blue,
+        role: 'Primary : action, liens, aplat bleu',
+        check: `sur papier ${contrast(HEX.blue, HEX.paper)} · blanc dessus ${contrast(HEX.white, HEX.blue)}`,
+      },
+      {
+        token: 'lime',
+        hex: HEX.lime,
+        role: 'Signature : mot clé, chiffres, action sur sombre',
+        check: `encre dessus ${contrast(HEX.ink, HEX.lime)} · sur navy ${contrast(HEX.lime, HEX.navy)}`,
+      },
+      {
+        token: 'navy',
+        hex: HEX.navy,
+        role: 'Secondary : sections sombres',
+        check: `texte papier ${contrast(HEX.paper, HEX.navy)}`,
+      },
+      {
+        token: 'blue-light',
+        hex: HEX.blueLight,
+        role: 'Lien et trait actif sur navy',
+        check: `sur navy ${contrast(HEX.blueLight, HEX.navy)}`,
+      },
+    ],
+  },
   {
     title: 'Neutres',
     colors: [
       {
         token: 'paper',
         hex: HEX.paper,
-        role: 'Fond jour',
+        role: 'Background',
         check: `encre ${contrast(HEX.ink, HEX.paper)}`,
       },
       {
@@ -59,85 +88,45 @@ const GROUPS = [
         check: `ardoise ${contrast(HEX.slate, HEX.sand)}`,
       },
       {
-        token: 'ink',
-        hex: HEX.ink,
-        role: 'Texte jour',
-        check: `sur papier ${contrast(HEX.ink, HEX.paper)}`,
+        token: 'white',
+        hex: HEX.white,
+        role: 'Surface (cartes, champs)',
+        check: `ardoise ${contrast(HEX.slate, HEX.white)}`,
       },
       {
-        token: 'night',
-        hex: HEX.night,
-        role: 'Fond nuit',
-        check: `texte ${contrast('#F4F3EE', HEX.night)}`,
+        token: 'ink',
+        hex: HEX.ink,
+        role: 'Text',
+        check: `sur papier ${contrast(HEX.ink, HEX.paper)}`,
       },
       {
         token: 'slate',
         hex: HEX.slate,
-        role: 'Texte secondaire jour',
+        role: 'Muted, sur clair',
         check: `sur papier ${contrast(HEX.slate, HEX.paper)}`,
       },
       {
         token: 'mist',
         hex: HEX.mist,
-        role: 'Texte secondaire nuit',
-        check: `sur nuit ${contrast(HEX.mist, HEX.night)}`,
+        role: 'Muted, sur navy',
+        check: `sur navy ${contrast(HEX.mist, HEX.navy)}`,
       },
     ],
   },
   {
-    title: 'Signal',
+    title: 'Accent (rare)',
     colors: [
       {
-        token: 'blue',
-        hex: HEX.blue,
-        role: 'Action et mot clé, jour',
-        check: `sur papier ${contrast(HEX.blue, HEX.paper)} · blanc dessus ${contrast(HEX.white, HEX.blue)}`,
+        token: 'coral',
+        hex: HEX.coral,
+        role: 'Charge, refus · sur sombre',
+        check: `sur navy ${contrast(HEX.coral, HEX.navy)}`,
       },
       {
-        token: 'cyan',
-        hex: HEX.cyan,
-        role: 'Action et mot clé, nuit',
-        check: `sur nuit ${contrast(HEX.cyan, HEX.night)} · encre dessus ${contrast(HEX.ink, HEX.cyan)}`,
-      },
-    ],
-  },
-  {
-    title: 'Vives (aplats, avec de l’encre dessus)',
-    colors: [
-      {
-        token: 'cyan',
-        hex: HEX.cyan,
-        role: 'Aplat de projet, pastille',
-        check: `encre dessus ${contrast(HEX.ink, HEX.cyan)}`,
-      },
-      {
-        token: 'lilac',
-        hex: HEX.lilac,
-        role: 'Aplat de projet, pastille',
-        check: `encre dessus ${contrast(HEX.ink, HEX.lilac)}`,
-      },
-      {
-        token: 'lime',
-        hex: HEX.lime,
-        role: 'Surligneur, appel du pied de page',
-        check: `encre dessus ${contrast(HEX.ink, HEX.lime)}`,
-      },
-    ],
-  },
-  {
-    title: 'Vermillon (rare)',
-    colors: [
-      {
-        token: 'vermillion',
-        hex: HEX.vermillion,
-        role: 'Charge, refus · nuit',
-        check: `sur nuit ${contrast(HEX.vermillion, HEX.night)}`,
-      },
-      {
-        token: 'vermillion-deep',
-        hex: HEX.vermillionDeep,
-        role: 'Charge, refus · jour',
-        check: `sur papier ${contrast(HEX.vermillionDeep, HEX.paper)}`,
+        token: 'coral-deep',
+        hex: HEX.coralDeep,
+        role: 'Charge, refus · sur clair',
+        check: `sur papier ${contrast(HEX.coralDeep, HEX.paper)}`,
       },
     ],
   },
@@ -153,15 +142,20 @@ const TYPE_SCALE = [
   { cls: 'type-h2', name: 'h2 · Manrope 700', sample: 'Du besoin métier à la production' },
   { cls: 'type-h3', name: 'h3 · Manrope 700', sample: 'Application mobile' },
   {
+    cls: 'type-statement',
+    name: 'statement · Manrope 600',
+    sample: 'Nous écoutons, nous analysons, puis nous construisons.',
+  },
+  {
     cls: 'type-lead',
     name: 'lead',
     sample: 'Sites, applications web et mobiles, logiciels métier et e-commerce.',
   },
   {
     cls: 'text-body',
-    name: 'body',
+    name: 'body · Manrope 400',
     sample:
-      'Le texte courant reste en Manrope, graisse normale, 16 px, interligne 1,65 : la lecture prime.',
+      'Le texte courant reste en Manrope, graisse normale, 16 px, interligne 1,6 : la lecture prime.',
   },
   { cls: 'type-label', name: 'label · JetBrains Mono', sample: 'Navigation · Bureau · Cadrage' },
   {
@@ -190,7 +184,7 @@ const MOTION = [
   },
 ];
 
-const SURFACES = ['base', 'subtle', 'night'] as const;
+const SURFACES = ['base', 'subtle', 'night', 'blue', 'lime'] as const;
 const [project] = getFeaturedProjects();
 ---
 
@@ -203,12 +197,12 @@ const [project] = getFeaturedProjects();
     <header class="flex flex-col gap-5">
       <p class="eyebrow">Interne · Design system</p>
       <h1 class="type-h1 max-w-[20ch]" data-anim="reveal-lines" data-anim-trigger="load">
-        Sous <span class="mark">charge</span>
+        Direction <span class="mark">Charge</span>
       </h1>
       <p class="type-lead max-w-[60ch]">
-        Neutres, un signal, des aplats vifs avec de l’encre dessus, un vermillon rare. Manrope pour
-        lire, JetBrains Mono pour le système. Chaque exemple de cette page utilise les classes du
-        site.
+        Bleu électrique pour agir, citron pour signer, navy pour les moments sombres, corail rare.
+        Manrope pour lire, JetBrains Mono pour le système. Chaque exemple de cette page utilise les
+        classes du site.
       </p>
     </header>
 
@@ -286,7 +280,7 @@ const [project] = getFeaturedProjects();
               {['Cadrer', 'Construire', 'Superviser'].map((step, i) => (
                 <li class="flex flex-col gap-2 border-t border-border-strong pt-4">
                   <span class="type-mono text-highlight">{String(i + 1).padStart(2, '0')}</span>
-                  <span class="font-bold">{step}</span>
+                  <span class="font-semibold">{step}</span>
                 </li>
               ))}
             </ol>
@@ -297,6 +291,13 @@ const [project] = getFeaturedProjects();
           </div>
           {surface === 'night' ? (
             <AiTrace />
+          ) : surface === 'blue' || surface === 'lime' ? (
+            <div class="flex flex-col gap-6 self-center">
+              <p class="type-statement">
+                Une seule couleur vive par écran, <span class="mark">en plus du bleu</span>.
+              </p>
+              <p class="type-mono text-highlight">07 · métiers</p>
+            </div>
           ) : (
             project && <ProjectCard project={project} variant="feature" />
           )}

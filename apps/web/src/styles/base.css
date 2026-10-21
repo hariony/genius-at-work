@@ -48,8 +48,8 @@
   }
 
   ::selection {
-    background: var(--color-blue);
-    color: var(--color-white);
+    background: var(--color-lime);
+    color: var(--color-ink);
   }
 
   img,

@@ -1,5 +1,8 @@
 import { loadMotionKit, loadSplitText } from './core/gsap';
 import { DESKTOP_QUERY, FINE_POINTER_QUERY, MOTION_OK_QUERY, revealAll } from './core/motion';
+import drawLine from './presets/draw-line';
+import drift from './presets/drift';
+import horizontal from './presets/horizontal';
 import parallax from './presets/parallax';
 import revealImage from './presets/reveal-image';
 import revealLines from './presets/reveal-lines';
@@ -22,6 +25,9 @@ const PRESETS: Record<string, Preset> = {
   stagger,
   stack,
   parallax,
+  horizontal,
+  drift,
+  'draw-line': drawLine,
 };
 
 /**

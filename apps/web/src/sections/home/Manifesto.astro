@@ -4,6 +4,12 @@ import { HOME_SECTIONS } from '@/content/home';
 import { toLocale } from '@/lib/i18n';
 
 /** Le studio en quelques lignes, puis les chiffres réels (audit §3). */
+interface Props {
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
+}
+
+const { index } = Astro.props;
 const locale = toLocale(Astro.currentLocale);
 const copy = HOME_SECTIONS[locale].manifesto;
 ---
@@ -11,6 +17,7 @@ const copy = HOME_SECTIONS[locale].manifesto;
 <section data-surface="base" class="py-section" aria-labelledby="manifesto-title">
   <Container class="grid gap-y-12 lg:grid-cols-12 lg:gap-x-12">
     <h2 id="manifesto-title" class="eyebrow self-start lg:col-span-4 lg:pt-2">
+      {index && <span class="text-fg">{index}</span>}
       {copy.label}
     </h2>
     <div class="flex flex-col gap-14 lg:col-span-8">

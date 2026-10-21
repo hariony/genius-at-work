@@ -102,6 +102,15 @@
   view-transition-name: site-header;
 }
 
+/*
+ * Masques de reveal-lines (SplitText) : ils coupent ce qui dépasse de la ligne. On leur donne
+ * de l'air en haut et en bas (accents, jambages des g, p, q) sans changer l'interligne.
+ */
+.split-line-mask {
+  padding-block: 0.08em 0.16em;
+  margin-block: -0.08em -0.16em;
+}
+
 @keyframes mark-draw {
   from {
     background-size: 0% 0.46em;

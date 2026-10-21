@@ -1,69 +1,203 @@
 ---
+import { Picture } from 'astro:assets';
 import ChapterHeader from '@/components/sections/ChapterHeader.astro';
 import Container from '@/components/ui/Container.astro';
 import Icon from '@/components/ui/Icon.astro';
 import { HOME_SECTIONS } from '@/content/home';
+import { projectTint } from '@/lib/brand';
 import { localizePath, toLocale } from '@/lib/i18n';
-import { getServices } from '@/services/content';
+import { imageSource } from '@/lib/images';
+import { getServices, projectsForService } from '@/services/content';
 
-/** Index des services : une ligne par métier, lisible d'un coup d'œil, toute la ligne cliquable. */
+/**
+ * Index des services, interactif : une ligne par métier (numéro, titre, flèche, résumé), toute
+ * la ligne cliquable. Sur grand écran avec souris, la ligne survolée (ou atteinte au clavier)
+ * s'ouvre et l'aperçu à droite montre un vrai projet de ce métier ; les autres résumés se
+ * replient. Sur mobile et sans JS : tous les résumés sont visibles, sans aperçu.
+ */
 interface Props {
   /** Textes d'en-tête ; par défaut ceux de l'accueil. */
   heading?: { label: string; title: string; intro?: string } | undefined;
-  surface?: 'base' | 'subtle' | undefined;
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
+  surface?: 'base' | 'subtle' | 'night' | undefined;
+  /** Survol en fuchsia (touche discrète de l'accueil) plutôt que dans la couleur de mise en valeur. */
+  fuchsia?: boolean | undefined;
 }
 
 const locale = toLocale(Astro.currentLocale);
-const { heading, surface = 'subtle' } = Astro.props;
+const { heading, index, surface = 'subtle', fuchsia = false } = Astro.props;
 const copy = heading ?? HOME_SECTIONS[locale].services;
-const services = getServices();
+const services = getServices().map((service) => ({
+  service,
+  project: projectsForService(service)[0],
+}));
+const tone = fuchsia
+  ? surface === 'night'
+    ? 'var(--color-fuchsia)'
+    : 'var(--color-fuchsia-deep)'
+  : 'var(--surface-highlight)';
 ---
 
-<section data-surface={surface} class="py-section" aria-labelledby="services-title">
+<section
+  data-surface={surface}
+  class="py-section"
+  aria-labelledby="services-title"
+  style={`--row-tone:${tone}`}
+  data-services
+>
   <Container class="flex flex-col gap-section-gap">
-    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="services-title" />
+    <ChapterHeader
+      index={index}
+      label={copy.label}
+      title={copy.title}
+      intro={copy.intro}
+      id="services-title"
+    />
 
-    <ol class="border-t border-border" data-anim="stack">
-      {services.map((service, i) => (
-        <li class="border-b border-border">
-          <a
-            href={localizePath(`/services/${service.slug}/`, locale)}
-            class="service-row group grid gap-2 py-6 no-underline md:grid-cols-12 md:items-center md:gap-8 md:py-7"
-          >
-            <span class="type-meta md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
-            <span class="text-[1.375rem] leading-tight font-semibold tracking-[-0.018em] md:col-span-4">
-              {service.title[locale]}
-            </span>
-            <span class="max-w-[56ch] text-fg-muted md:col-span-6">{service.summary[locale]}</span>
-            <span
-              class="service-arrow hidden size-9 place-items-center justify-self-end rounded-pill border border-border md:col-span-1 md:grid"
-              aria-hidden="true"
+    <div class="grid gap-12 lg:grid-cols-12 lg:gap-x-12">
+      <ol class="border-t border-border lg:col-span-7" data-anim="stack">
+        {services.map(({ service }, i) => (
+          <li class="border-b border-border">
+            <a
+              href={localizePath(`/services/${service.slug}/`, locale)}
+              class="service-row group grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-baseline gap-x-4 py-5 no-underline md:grid-cols-[3.5rem_minmax(0,1fr)_auto] md:py-6"
+              data-service-row={i}
+              data-active={i === 0 ? '' : undefined}
             >
-              <Icon name="arrow-right" size={16} />
-            </span>
-          </a>
-        </li>
-      ))}
-    </ol>
+              <span class="service-row__index type-mono text-fg-muted">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="service-row__title text-[clamp(1.375rem,1.15rem+1vw,2rem)] leading-tight font-bold tracking-[-0.025em]">
+                {service.title[locale]}
+              </span>
+              <span
+                class="service-arrow grid size-9 place-items-center self-center rounded-pill border border-border"
+                aria-hidden="true"
+              >
+                <Icon name="arrow-right" size={16} />
+              </span>
+              <span class="service-row__summary col-start-2 col-end-4 grid">
+                <span class="overflow-hidden">
+                  <span class="block max-w-[52ch] pt-2 text-fg-muted">
+                    {service.summary[locale]}
+                  </span>
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+
+      <div class="hidden lg:col-span-5 lg:block" aria-hidden="true">
+        <div class="services-preview sticky top-28 aspect-[4/3] overflow-hidden rounded-xl">
+          {services.map(({ service, project }, i) => (
+            <div
+              class:list={[
+                'services-preview__item absolute inset-0',
+                project ? projectTint(project) : 'bg-bg-raised',
+              ]}
+              data-service-preview={i}
+              data-active={i === 0 ? '' : undefined}
+            >
+              {project ? (
+                <>
+                  <div class="browser-frame absolute inset-x-[8%] top-[10%] -bottom-[8%]">
+                    <Picture
+                      {...imageSource(project.cover)}
+                      formats={['avif', 'webp']}
+                      widths={[480, 800]}
+                      sizes="36vw"
+                      alt=""
+                      loading="lazy"
+                      class="size-full object-cover object-top"
+                    />
+                  </div>
+                  <span class="type-mono absolute bottom-4 left-4 rounded-pill bg-ink px-3 py-1.5 text-paper">
+                    {project.title}
+                  </span>
+                </>
+              ) : (
+                <div class="flex size-full flex-col justify-between p-8">
+                  <span class="type-mono text-fg-muted">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="type-h2 max-w-[12ch]">{service.title[locale]}</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   </Container>
 </section>
 
 <style>
-  .service-row {
-    transition: color var(--duration-fast) var(--ease-standard);
+  .service-row__index,
+  .service-row__title {
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      translate var(--duration-base) var(--ease-out);
   }
   .service-arrow {
     transition:
       background-color var(--duration-fast) var(--ease-standard),
       border-color var(--duration-fast) var(--ease-standard),
       color var(--duration-fast) var(--ease-standard),
-      transform var(--duration-base) var(--ease-out);
+      translate var(--duration-base) var(--ease-out);
+  }
+  .service-row:hover .service-row__index,
+  .service-row:focus-visible .service-row__index {
+    color: var(--row-tone);
   }
   .service-row:hover .service-arrow,
   .service-row:focus-visible .service-arrow {
-    border-color: var(--surface-accent);
-    background: var(--surface-accent);
-    color: var(--surface-accent-fg);
-    transform: translateX(2px);
+    border-color: var(--row-tone);
+    background: var(--row-tone);
+    color: var(--color-ink);
+    translate: 2px 0;
+  }
+
+  .services-preview__item {
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 0.7s var(--ease-out-expo);
+  }
+  .services-preview__item[data-active] {
+    z-index: 1;
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* Souris, grand écran : seule la ligne active montre son résumé. */
+  @media (hover: hover) and (pointer: fine) and (min-width: 64rem) {
+    .service-row__summary {
+      grid-template-rows: 0fr;
+      transition: grid-template-rows var(--duration-slow) var(--ease-out-expo);
+    }
+    .service-row[data-active] .service-row__summary {
+      grid-template-rows: 1fr;
+    }
+    .service-row[data-active] .service-row__title {
+      translate: 0.375rem 0;
+    }
+    .service-row[data-active] .service-row__index {
+      color: var(--row-tone);
+    }
   }
 </style>
+
+<script>
+  // La ligne survolée ou atteinte au clavier devient active et choisit l'aperçu.
+  document.querySelectorAll<HTMLElement>('[data-services]').forEach((section) => {
+    const rows = Array.from(section.querySelectorAll<HTMLElement>('[data-service-row]'));
+    const previews = Array.from(section.querySelectorAll<HTMLElement>('[data-service-preview]'));
+    const activate = (index: string | undefined) => {
+      for (const el of [...rows, ...previews]) {
+        const key = el.dataset.serviceRow ?? el.dataset.servicePreview;
+        el.toggleAttribute('data-active', key === index);
+      }
+    };
+    for (const row of rows) {
+      row.addEventListener('pointerenter', () => activate(row.dataset.serviceRow));
+      row.addEventListener('focus', () => activate(row.dataset.serviceRow));
+    }
+  });
+</script>

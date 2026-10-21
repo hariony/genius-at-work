@@ -1,42 +1,71 @@
 ---
-import { markerTint } from '@/lib/brand';
 import ChapterHeader from '@/components/sections/ChapterHeader.astro';
 import Container from '@/components/ui/Container.astro';
 import { HOME_SECTIONS } from '@/content/home';
 import { PROCESS } from '@/content/process';
 import { toLocale } from '@/lib/i18n';
 
-/** Méthode en quatre temps, lue de gauche à droite (de haut en bas sur mobile). */
+/**
+ * Méthode en quatre temps, lue de gauche à droite (de haut en bas sur mobile) : grands
+ * numéros en contour, reliés par un filet que le défilement trace d'une étape à l'autre.
+ */
 interface Props {
   /** Textes d'en-tête ; par défaut ceux de l'accueil. */
   heading?: { label: string; title: string; intro?: string } | undefined;
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
   surface?: 'base' | 'subtle' | undefined;
 }
 
 const locale = toLocale(Astro.currentLocale);
-const { heading, surface = 'subtle' } = Astro.props;
+const { heading, index, surface = 'subtle' } = Astro.props;
 const copy = heading ?? HOME_SECTIONS[locale].method;
 ---
 
 <section data-surface={surface} class="py-section" aria-labelledby="method-title">
   <Container class="flex flex-col gap-section-gap">
-    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="method-title" />
+    <ChapterHeader
+      index={index}
+      label={copy.label}
+      title={copy.title}
+      intro={copy.intro}
+      id="method-title"
+    />
 
-    <ol class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4" data-anim="stagger">
-      {PROCESS.map((step, i) => (
-        <li class="flex flex-col gap-3 border-t border-border-strong pt-6">
-          <span
-            class:list={[
-              'grid size-9 place-items-center rounded-pill text-small font-extrabold text-ink tabular-nums',
-              markerTint(i),
-            ]}
-          >
-            {i + 1}
-          </span>
-          <h3 class="type-h3 mt-2">{step.title[locale]}</h3>
-          <p class="max-w-[34ch] text-fg-muted">{step.description[locale]}</p>
-        </li>
-      ))}
-    </ol>
+    <div class="relative">
+      <div class="method-line absolute inset-x-0 top-0 h-px bg-border-strong" aria-hidden="true">
+        <div class="h-full origin-left bg-highlight" data-anim="draw-line"></div>
+      </div>
+      <ol class="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4" data-anim="stagger">
+        {PROCESS.map((step, i) => (
+          <li class="flex flex-col gap-3 pt-8">
+            <span class="method-number" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="type-h3 mt-3">{step.title[locale]}</h3>
+            <p class="max-w-[34ch] text-fg-muted">{step.description[locale]}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
   </Container>
 </section>
+
+<style>
+  /* Grand numéro en contour : présent sans peser. */
+  .method-number {
+    font-size: clamp(3.5rem, 2.6rem + 3.8vw, 6rem);
+    line-height: 0.9;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--surface-fg);
+    font-variant-numeric: tabular-nums;
+  }
+  li:hover .method-number {
+    color: var(--surface-mark);
+  }
+  .method-number {
+    transition: color var(--duration-base) var(--ease-standard);
+  }
+</style>
