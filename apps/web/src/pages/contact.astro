@@ -12,7 +12,8 @@ import { PRIVACY_PATH } from '@/lib/navigation';
 const locale = toLocale(Astro.currentLocale);
 const copy = CONTACT_PAGE[locale];
 
-// Valeurs publiques uniquement. Par défaut : API locale et clé de test Turnstile.
+// Valeurs publiques uniquement. Par défaut : API locale et clé de test Turnstile ; une clé vide
+// désactive Turnstile.
 const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8088';
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA';
 ---

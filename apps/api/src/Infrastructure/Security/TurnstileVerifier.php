@@ -10,7 +10,11 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-/** Vérifie le jeton Turnstile auprès de Cloudflare (https://developers.cloudflare.com/turnstile/). */
+/**
+ * Vérifie le jeton Turnstile auprès de Cloudflare (https://developers.cloudflare.com/turnstile/).
+ * Sans clé secrète (TURNSTILE_SECRET_KEY vide), Turnstile est désactivé : le site n'affiche pas
+ * le widget, et le piège, le délai minimal et la limite d'envois protègent seuls le formulaire.
+ */
 final readonly class TurnstileVerifier implements BotVerifier
 {
     private const string ENDPOINT = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
@@ -25,6 +29,10 @@ final readonly class TurnstileVerifier implements BotVerifier
 
     public function verify(string $token, ?string $clientIp): bool
     {
+        if ('' === $this->secretKey) {
+            return true;
+        }
+
         try {
             $response = $this->httpClient->request('POST', self::ENDPOINT, [
                 'body' => array_filter([

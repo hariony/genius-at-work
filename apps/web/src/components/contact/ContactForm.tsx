@@ -421,15 +421,17 @@ export default function ContactForm({
             {copy.consent.after}
           </Checkbox>
 
-          <div className="flex flex-col gap-2">
-            <span className="sr-only">{copy.turnstile.label}</span>
-            <div ref={turnstile.containerRef} className="min-h-[65px]" />
-            {turnstile.failed && (
-              <p className="text-danger" role="alert">
-                {copy.turnstile.failed} <a href={`mailto:${fallbackEmail}`}>{fallbackEmail}</a>
-              </p>
-            )}
-          </div>
+          {turnstile.enabled && (
+            <div className="flex flex-col gap-2">
+              <span className="sr-only">{copy.turnstile.label}</span>
+              <div ref={turnstile.containerRef} className="min-h-[65px]" />
+              {turnstile.failed && (
+                <p className="text-danger" role="alert">
+                  {copy.turnstile.failed} <a href={`mailto:${fallbackEmail}`}>{fallbackEmail}</a>
+                </p>
+              )}
+            </div>
+          )}
         </>
       )}
 
@@ -688,15 +690,20 @@ function loadTurnstile(): Promise<void> {
   return turnstileScript;
 }
 
-/** Widget Cloudflare Turnstile, chargé seulement quand l'étape finale s'affiche. */
+/**
+ * Widget Cloudflare Turnstile, chargé seulement quand l'étape finale s'affiche. Sans clé de site
+ * (PUBLIC_TURNSTILE_SITE_KEY vide), il est désactivé : l'API, sans clé secrète, ne vérifie pas
+ * le jeton, et le piège, le délai minimal et la limite d'envois restent actifs.
+ */
 function useTurnstile(siteKey: string, locale: string, active: boolean) {
+  const enabled = siteKey !== '';
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | undefined>(undefined);
   const [token, setToken] = useState<string | undefined>(undefined);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    if (!active) return;
+    if (!active || !enabled) return;
     let cancelled = false;
     loadTurnstile()
       .then(() => {
@@ -720,11 +727,12 @@ function useTurnstile(siteKey: string, locale: string, active: boolean) {
       widgetId.current = undefined;
       setToken(undefined);
     };
-  }, [active, siteKey, locale]);
+  }, [active, enabled, siteKey, locale]);
 
   return {
+    enabled,
     containerRef,
-    token,
+    token: enabled ? token : 'disabled',
     failed,
     reset: () => {
       setToken(undefined);

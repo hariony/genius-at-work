@@ -11,7 +11,7 @@ code métier n'est dupliqué.
 | Domaine           | `Lead::changeStatus()` (le suivi commercial ne compte pas comme un contact du prospect)                             |
 | Cas d'usage       | `Application/Crm` : `ChangeLeadStatus`, `AnonymizeLead`, port de lecture `LeadFinder`                               |
 | Infrastructure    | `DoctrineLeadFinder` (recherche, filtres, compteurs), `Security/AdminUser` (comptes, table `admin_user`)            |
-| Interface         | `UserInterface/Admin` (contrôleurs, libellés, en-têtes), `templates/admin`, `public/admin/assets` (CSS, police, JS) |
+| Interface         | `UserInterface/Admin` (contrôleurs, libellés, en-têtes), `templates/admin`, `public/admin-assets` (CSS, police, JS) |
 | Ligne de commande | `app:admin:create`, `app:admin:password`, `app:admin:2fa-reset`                                                     |
 
 ## Fonctions

@@ -40,7 +40,9 @@ case "$TARGET" in api | site | all) ;; *) fail 'Usage : deploy.sh api|site|all [
 [ -f infra/apache/deploy.env ] || fail 'infra/apache/deploy.env absent (modèle : deploy.env.example).'
 # shellcheck source=/dev/null
 source infra/apache/deploy.env
-: "${SSH_HOST:?}" "${API_DIR:?}" "${SITE_DIR:?}" "${API_URL:?}" "${SITE_URL:?}" "${TURNSTILE_SITE_KEY:?}"
+: "${SSH_HOST:?}" "${API_DIR:?}" "${SITE_DIR:?}" "${API_URL:?}" "${SITE_URL:?}"
+# Vide : Turnstile désactivé (la clé secrète de .env.local doit alors être vide aussi).
+TURNSTILE_SITE_KEY="${TURNSTILE_SITE_KEY-}"
 BACKUP_DIR="${BACKUP_DIR:-$ROOT/backups}"
 # Options ssh supplémentaires (ex. « -F ~/.ssh/autre_config »), aussi utilisées par rsync.
 read -r -a SSH_ARGS <<<"${SSH_OPTS:-}"
@@ -108,9 +110,9 @@ deploy_api() {
     grep -qE '^APP_SECRET=.+' .env.local && ! grep -qE '^TURNSTILE_SECRET_KEY=[123]x0000' .env.local &&
     ! grep -qE '^MAILER_DSN=(null://|\$)' .env.local" ||
     fail '.env.local : APP_ENV=prod, APP_DEBUG=0, APP_SECRET, pas de clé Turnstile de test et un MAILER_DSN actif sont obligatoires.'
-  # Sans clé Turnstile, le formulaire refuse tout envoi (aucun risque de spam) : on prévient seulement.
+  # Sans clé Turnstile, le formulaire reste protégé par le piège, le délai et la limite d'envois.
   remote "grep -qE '^TURNSTILE_SECRET_KEY=.+' $API_DIR/.env.local" ||
-    log 'Attention : TURNSTILE_SECRET_KEY vide, le formulaire de contact refusera tout envoi.'
+    log 'Attention : TURNSTILE_SECRET_KEY vide, Turnstile désactivé (TURNSTILE_SITE_KEY doit être vide aussi).'
 
   # 1. Sauvegarde de la base sur le serveur (~/backups, trois gardées, format de l'hébergeur),
   #    puis copie vérifiée sur ce poste.
@@ -140,6 +142,7 @@ deploy_api() {
   #    cache, arrêt du worker (relancé seul sur le nouveau code).
   log 'Dépendances, migrations, cache…'
   remote "set -e
+    umask 022
     cd $API_DIR
     mkdir -p public/media
     composer install --no-dev --optimize-autoloader --classmap-authoritative --no-scripts --no-progress --no-interaction -q
@@ -163,6 +166,13 @@ deploy_api() {
 }
 
 deploy_site() {
+  # Clé de site et clé secrète vont ensemble : l'une sans l'autre bloquerait tout envoi.
+  local secret_set=false
+  remote "grep -qE '^TURNSTILE_SECRET_KEY=.+' $API_DIR/.env.local" && secret_set=true
+  if { [ -n "$TURNSTILE_SITE_KEY" ] && ! $secret_set; } || { [ -z "$TURNSTILE_SITE_KEY" ] && $secret_set; }; then
+    fail 'Turnstile : renseigner la clé de site (deploy.env) et la clé secrète (.env.local) ensemble, ou aucune des deux.'
+  fi
+
   log "Site : compilation avec le contenu de ${API_URL}…"
   (cd apps/web && PUBLIC_API_URL="$API_URL" PUBLIC_SITE_URL="$SITE_URL" PUBLIC_TURNSTILE_SITE_KEY="$TURNSTILE_SITE_KEY" pnpm build)
   [ -f apps/web/dist/index.html ] && [ -f apps/web/dist/.htaccess ] || fail 'Compilation incomplète.'

@@ -71,6 +71,8 @@ final readonly class MediaLibrary
 
         $fileName = ($baseName ?? strtolower($id)).'.'.$extension;
         $this->filesystem->copy($path, $this->directory.'/'.$fileName, true);
+        // Droits demandés par l'hébergeur, quel que soit le umask de PHP.
+        $this->filesystem->chmod($this->directory.'/'.$fileName, 0o644);
 
         $media = new Media($id, $fileName, (string) $mime, $width, $height, $size, mb_substr($originalName, 0, 255), $this->clock->now());
         $this->media->save($media);

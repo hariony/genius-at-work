@@ -13,6 +13,13 @@ framework:
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
     trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-port']
 
+    # Adresses inexistantes (robots qui sondent le serveur) et formulaires refusés : pas des
+    # erreurs de l'application, donc absents du journal de production (niveau warning et plus).
+    exceptions:
+        Symfony\Component\HttpKernel\Exception\NotFoundHttpException: { log_level: info }
+        Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException: { log_level: info }
+        ApiPlatform\Validator\Exception\ValidationException: { log_level: info }
+
     rate_limiter:
         contact_hourly:
             policy: sliding_window
