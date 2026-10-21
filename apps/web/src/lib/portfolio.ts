@@ -1,16 +1,11 @@
+import { PAGES } from '@/content/texts';
+import type { Locale } from '@/lib/i18n';
 import type { Project, ProjectCategory } from '@/types/content';
 
-/** Libellés des catégories de projets (mêmes libellés dans le back-office : AdminTwigExtension). */
-export const CATEGORY_LABELS: Record<ProjectCategory, { fr: string; en: string }> = {
-  'web-app': { fr: 'App web', en: 'Web app' },
-  mobile: { fr: 'Mobile', en: 'Mobile' },
-  'ux-ui': { fr: 'Design UX/UI', en: 'UX/UI design' },
-  'e-commerce': { fr: 'E-commerce', en: 'E-commerce' },
-  innovation: { fr: 'Innovation', en: 'Innovation' },
-  showcase: { fr: 'Site vitrine', en: 'Showcase site' },
-  travel: { fr: 'Voyage', en: 'Travel' },
-  ai: { fr: 'IA', en: 'AI' },
-};
+/** Nom d'une catégorie de projet (back-office : Pages et textes › Réalisations). */
+export function categoryLabel(category: ProjectCategory, locale: Locale): string {
+  return PAGES['projects-page'][locale].categoryLabels[category];
+}
 
 /** « 2019 » ou « 2019–2022 » ; undefined si la période n'est pas renseignée. */
 export function projectPeriod(project: Project): string | undefined {

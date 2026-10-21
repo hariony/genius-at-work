@@ -1,7 +1,7 @@
 import { AI_PAGE, AI_PATH, AI_SERVICE } from '@/content/ai';
 import { CONTACT_PAGE } from '@/content/contact';
 import { HOME_HERO } from '@/content/home';
-import { CATEGORY_LABELS } from '@/lib/portfolio';
+import { categoryLabel } from '@/lib/portfolio';
 import { ABOUT_PAGE, PROJECTS_PAGE, SERVICES_PAGE, TECHNOLOGY_PAGE } from '@/content/pages';
 import { LOCALES, localizePath, useTranslations, type Locale } from '@/lib/i18n';
 import { getProjects, getServices } from '@/services/content';
@@ -48,7 +48,7 @@ function cardsFor(locale: Locale): OgCard[] {
         `/projects/${project.slug}/`,
         t('nav.projects'),
         project.title,
-        project.categories.map((category) => CATEGORY_LABELS[category][locale]).join(' · '),
+        project.categories.map((category) => categoryLabel(category, locale)).join(' · '),
       ),
     ),
   ];

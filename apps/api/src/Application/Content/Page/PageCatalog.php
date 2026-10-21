@@ -81,10 +81,6 @@ final class PageCatalog
                         ], 1, 4)->hint('Uniquement des chiffres vérifiables.'),
                     ]),
                     Field::group('services', 'Section Services', self::chapter()),
-                    Field::group('engineering', 'Section Ingénierie', [
-                        ...self::chapter(),
-                        Field::line('cta', 'Lien vers la page Technologie'),
-                    ]),
                     Field::group('method', 'Section Méthode', self::chapter()),
                     Field::group('reasons', 'Section Pourquoi nous', [
                         Field::line('label', 'Étiquette'),
@@ -169,6 +165,16 @@ final class PageCatalog
                     Field::line('countOne', 'Compteur (1 projet)')->hint('{n} est remplacé par le nombre.'),
                     Field::line('countMany', 'Compteur (plusieurs projets)'),
                 ]),
+                Field::group('categoryLabels', 'Catégories de projet', [
+                    Field::line('web-app', 'App web'),
+                    Field::line('mobile', 'Mobile'),
+                    Field::line('ux-ui', 'Design UX/UI'),
+                    Field::line('e-commerce', 'E-commerce'),
+                    Field::line('innovation', 'Innovation'),
+                    Field::line('showcase', 'Site vitrine'),
+                    Field::line('travel', 'Voyage'),
+                    Field::line('ai', 'IA'),
+                ])->hint('Noms affichés dans les filtres, les fiches et les cartes de projet, et dans ce back-office.'),
                 Field::group('detail', 'Pages projet', [
                     Field::line('client', 'Libellé « Client »'),
                     Field::group('clientTypes', 'Types de client', [
@@ -196,6 +202,7 @@ final class PageCatalog
                     Field::line('projectsOne', 'Compteur (1 projet)')->hint('{n} est remplacé par le nombre.'),
                     Field::line('projectsMany', 'Compteur (plusieurs projets)'),
                 ]),
+                Field::group('engineering', 'Stack technique', self::chapter())->hint('Les couches et leurs technologies viennent du bloc commun « Stack technique ».'),
                 Field::group('principles', 'Principes', [
                     Field::line('label', 'Étiquette'),
                     Field::line('title', 'Titre'),
@@ -250,7 +257,7 @@ final class PageCatalog
                 Field::section('Méthode', [self::items('Étapes', 'steps')]),
                 Field::section('Pourquoi nous', [self::items('Atouts', 'reasons')->hint('Uniquement des faits vérifiables.')]),
             ]),
-            new PageDefinition('technologies', 'Stack technique', self::SHARED, 'Couches de la stack (accueil, page Technologie).', '/technology/', [
+            new PageDefinition('technologies', 'Stack technique', self::SHARED, 'Couches de la stack (page Technologie).', '/technology/', [
                 Field::section('Stack, couche par couche', [
                     Field::list('stack', 'Couches', [
                         Field::choice('layer', 'Couche', [
@@ -388,6 +395,7 @@ final class PageCatalog
                     Field::line('languageSwitcher', 'Changer de langue'),
                     Field::line('breadcrumb', 'Fil d’Ariane'),
                     Field::line('newTab', 'Nouvel onglet'),
+                    Field::line('backToTop', 'Bouton « Retour en haut »')->hint('Nom du bouton flottant, lu par les lecteurs d’écran et affiché au survol.'),
                 ]),
             ]),
 

@@ -99,12 +99,13 @@ titre : `<span class="mark">`, souligné d'une bande citron qui se déroule à l
 | 02  | Services      | navy    | liste interactive : la ligne active s'ouvre, aperçu d'un vrai projet |
 | 03  | Manifeste     | clair   | texte du studio, puis les chiffres réels                             |
 | 04  | IA            | navy    | schéma de la chaîne IA                                               |
-| 05  | Ingénierie    | clair   | bandeau des technologies qui glisse, puis une couche par ligne       |
-| 06  | Méthode       | sable   | quatre grands numéros en contour, reliés par un filet tracé          |
-| 07  | Pourquoi nous | clair   | titre fixe à gauche, six points numérotés sur deux colonnes          |
+| 05  | Méthode       | sable   | quatre grands numéros en contour, reliés par un filet tracé          |
+| 06  | Pourquoi nous | clair   | titre fixe à gauche, six points numérotés sur deux colonnes          |
 | —   | Appel final   | citron  | bloc arrondi, disque bleu                                            |
 
-Les sections sont numérotées (`index` de `ChapterHeader`) dans l'ordre du parcours.
+Les sections sont numérotées (`index` de `ChapterHeader`) dans l'ordre du parcours. La stack
+technique (bandeau qui glisse, une couche par ligne) n'est pas sur l'accueil, trop technique pour
+un client : elle est sur la page Technologie.
 
 ## Repères
 
@@ -125,6 +126,8 @@ Les sections sont numérotées (`index` de `ChapterHeader`) dans l'ordre du parc
   Filtres en pastilles avec le nombre de projets de chaque catégorie.
 - Teinte d'un projet : calculée au build depuis sa capture (`src/lib/brand.ts`) : la couleur vive
   dominante, ramenée à un aplat dont le texte (encre ou papier) atteint 7:1. Repli : bleu profond.
+  Une teinte imposée dans le back-office (fiche du projet) passe avant ; elle n'est éclaircie ou
+  foncée que si le texte n'y atteint pas 7:1.
   Utilisée par les aplats des cartes (`project-tint`) et par la surface `tint` de la fiche projet.
 - Fiche projet : en-tête à la couleur du projet (titre, résumé, fiche client, période, métiers,
   technologies), capture en grand à cheval sur l'aplat, puis le projet suivant en pleine largeur,
@@ -133,6 +136,9 @@ Les sections sont numérotées (`index` de `ChapterHeader`) dans l'ordre du parc
 - Page d'un service : position du métier dans l'en-tête (« 01 / 07 »), périmètre en lignes
   numérotées avec titre fixe à gauche, réalisations du métier (la première en large si leur
   nombre est impair), méthode, puis les autres métiers en liste navy. Sections numérotées.
+- Retour en haut (`BackToTop`, toutes les pages) : disque encre à liseré papier, flèche seule,
+  nom et info-bulle « Retour en haut » ; citron au survol et au focus. Apparaît après 400 px de
+  défilement et se pose au-dessus de la dernière ligne du pied de page.
 - Bloc d'appel du pied de page : surface citron et disque bleu ; masqué sur une page qui se
   termine déjà par son propre appel ou formulaire (`footerCta={false}` : page IA, contact).
 

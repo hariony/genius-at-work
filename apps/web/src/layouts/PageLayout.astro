@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import BackToTop from '@/components/navigation/BackToTop.astro';
 import SiteFooter from '@/components/navigation/SiteFooter.astro';
 import SiteHeader from '@/components/navigation/SiteHeader.astro';
 import type { SeoProps } from '@/components/seo/SeoHead.astro';
@@ -29,4 +30,5 @@ const t = useTranslations(toLocale(Astro.currentLocale));
   </main>
 
   <SiteFooter cta={footerCta} />
+  <BackToTop />
 </BaseLayout>

@@ -6,7 +6,7 @@ import { PROJECTS_PAGE } from '@/content/pages';
 import { tintStyle } from '@/lib/brand';
 import { localizePath, toLocale } from '@/lib/i18n';
 import { imageSource } from '@/lib/images';
-import { CATEGORY_LABELS, projectPeriod } from '@/lib/portfolio';
+import { categoryLabel, projectPeriod } from '@/lib/portfolio';
 import { filterCategories, getProjects } from '@/services/content';
 
 /**
@@ -42,7 +42,7 @@ const categories = filterCategories().map((category) => ({
         </button>
         {categories.map(({ category, count }) => (
           <button type="button" class="chip" data-filter={category} aria-pressed="false">
-            {CATEGORY_LABELS[category][locale]}
+            {categoryLabel(category, locale)}
             <sup class="chip-count" aria-hidden="true">
               {count}
             </sup>
@@ -81,9 +81,7 @@ const categories = filterCategories().map((category) => ({
                 )}
               </span>
               <span class="type-mono text-fg-muted">
-                {project.categories
-                  .map((category) => CATEGORY_LABELS[category][locale])
-                  .join(' · ')}
+                {project.categories.map((category) => categoryLabel(category, locale)).join(' · ')}
               </span>
               <span class="type-mono text-fg-muted md:text-right">{period}</span>
               <span class="hidden justify-self-end md:block" aria-hidden="true">

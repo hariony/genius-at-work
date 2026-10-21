@@ -7,6 +7,8 @@ import type { ContentImage, Project } from '@/types/content';
  * (les gris, blancs et noirs sont ignorés), ramenée à une luminosité et une saturation qui
  * tiennent un aplat. Texte posé dessus : encre ou papier, selon le meilleur contraste.
  * Sans couleur vive (capture en noir et blanc) ou si l'image est illisible : bleu de marque.
+ * Une teinte imposée dans le back-office passe avant la capture ; elle n'est retouchée (plus
+ * claire ou plus foncée, même couleur) que si le texte n'y atteint pas 7:1.
  */
 export interface Tint {
   bg: string;
@@ -90,9 +92,14 @@ async function readTint(image: ContentImage): Promise<Tint> {
 
   const h = best.h / best.weight;
   const s = Math.max(0.5, Math.min(0.9, best.s / best.weight));
-  let l = Math.max(0.32, Math.min(0.58, best.l / best.weight));
-  // Texte lisible dessus (y compris en atténué) : on fonce ou on éclaircit jusqu'à 6:1.
-  const pick = (bg: string) => (contrast(bg, INK) >= contrast(bg, PAPER) ? INK : PAPER);
+  const l = Math.max(0.32, Math.min(0.58, best.l / best.weight));
+  return readable(h, s, l);
+}
+
+const pick = (bg: string) => (contrast(bg, INK) >= contrast(bg, PAPER) ? INK : PAPER);
+
+/** Texte lisible dessus (y compris en atténué) : on fonce ou on éclaircit jusqu'à 7:1. */
+function readable(h: number, s: number, l: number): Tint {
   let bg = toHex(h, s, l);
   const lighten = pick(bg) === INK;
   while (contrast(bg, pick(bg)) < MIN_CONTRAST && l > 0.15 && l < 0.85) {
@@ -102,11 +109,23 @@ async function readTint(image: ContentImage): Promise<Tint> {
   return { bg, fg: pick(bg) };
 }
 
+/** Teinte imposée : gardée telle quelle si elle est déjà assez contrastée. */
+function fixedTint(hex: string): Tint {
+  if (contrast(hex, pick(hex)) >= MIN_CONTRAST) return { bg: hex, fg: pick(hex) };
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)) as Rgb;
+  return readable(...toHsl([r, g, b]));
+}
+
 const TINTS = new Map<string, Tint>(
   await Promise.all(
     getProjects().map(
       async (project) =>
-        [project.slug, await readTint(project.cover).catch(() => FALLBACK)] as const,
+        [
+          project.slug,
+          project.tint
+            ? fixedTint(project.tint)
+            : await readTint(project.cover).catch(() => FALLBACK),
+        ] as const,
     ),
   ),
 );

@@ -3,7 +3,7 @@ import { Picture } from 'astro:assets';
 import { tintStyle } from '@/lib/brand';
 import { imageSource } from '@/lib/images';
 import Icon from '@/components/ui/Icon.astro';
-import { CATEGORY_LABELS, projectPeriod } from '@/lib/portfolio';
+import { categoryLabel, projectPeriod } from '@/lib/portfolio';
 import { localizePath, toLocale } from '@/lib/i18n';
 import type { Project } from '@/types/content';
 
@@ -78,7 +78,7 @@ const feature = variant === 'feature';
       {project.categories.slice(0, 3).map((category, i) => (
         <>
           {i > 0 && <span aria-hidden="true">·</span>}
-          <span>{CATEGORY_LABELS[category][locale]}</span>
+          <span>{categoryLabel(category, locale)}</span>
         </>
       ))}
       {period && <span class="ml-auto">{period}</span>}

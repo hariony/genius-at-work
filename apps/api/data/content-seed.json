@@ -896,12 +896,6 @@
             "title": "Ce que nous construisons.",
             "intro": "Sept métiers, une même exigence : du site vitrine à l’IA, de la conception à l’hébergement."
           },
-          "engineering": {
-            "label": "Ingénierie",
-            "title": "Une stack moderne, couche par couche.",
-            "intro": "Chaque couche a un rôle précis et se remplace sans tout réécrire. C’est ce qui rend un produit rapide aujourd’hui et maintenable demain.",
-            "cta": "Notre approche technique"
-          },
           "method": {
             "label": "Méthode",
             "title": "Quatre temps, un cycle Scrum.",
@@ -999,12 +993,6 @@
             "title": "What we build.",
             "intro": "Seven disciplines, one standard: from showcase sites to AI, from design to hosting."
           },
-          "engineering": {
-            "label": "Engineering",
-            "title": "A modern stack, layer by layer.",
-            "intro": "Each layer has a precise role and can be replaced without rewriting everything. That is what keeps a product fast today and maintainable tomorrow.",
-            "cta": "Our technical approach"
-          },
           "method": {
             "label": "Method",
             "title": "Four stages, one Scrum cycle.",
@@ -1080,6 +1068,16 @@
         },
         "filterLabel": "Filtrer par catégorie",
         "all": "Tous",
+        "categoryLabels": {
+          "web-app": "App web",
+          "mobile": "Mobile",
+          "ux-ui": "Design UX/UI",
+          "e-commerce": "E-commerce",
+          "innovation": "Innovation",
+          "showcase": "Site vitrine",
+          "travel": "Voyage",
+          "ai": "IA"
+        },
         "detail": {
           "client": "Client",
           "clientTypes": {
@@ -1112,6 +1110,16 @@
         },
         "filterLabel": "Filter by category",
         "all": "All",
+        "categoryLabels": {
+          "web-app": "Web app",
+          "mobile": "Mobile",
+          "ux-ui": "UX/UI design",
+          "e-commerce": "E-commerce",
+          "innovation": "Innovation",
+          "showcase": "Showcase site",
+          "travel": "Travel",
+          "ai": "AI"
+        },
         "detail": {
           "client": "Client",
           "clientTypes": {
@@ -1180,6 +1188,11 @@
           "intro": "Les technologies réellement utilisées dans nos quinze projets publiés, de la plus fréquente à la plus rare.",
           "projectsOne": "{n} projet",
           "projectsMany": "{n} projets"
+        },
+        "engineering": {
+          "label": "Ingénierie",
+          "title": "Une stack moderne, couche par couche.",
+          "intro": "Chaque couche a un rôle précis et se remplace sans tout réécrire. C’est ce qui rend un produit rapide aujourd’hui et maintenable demain."
         }
       },
       "en": {
@@ -1226,6 +1239,11 @@
           "intro": "The technologies actually used across our fifteen published projects, from most to least frequent.",
           "projectsOne": "{n} project",
           "projectsMany": "{n} projects"
+        },
+        "engineering": {
+          "label": "Engineering",
+          "title": "A modern stack, layer by layer.",
+          "intro": "Each layer has a precise role and can be replaced without rewriting everything. That is what keeps a product fast today and maintainable tomorrow."
         }
       }
     },
@@ -2614,7 +2632,8 @@
           "mainNav": "Navigation principale",
           "languageSwitcher": "Changer de langue",
           "breadcrumb": "Fil d’Ariane",
-          "newTab": "s’ouvre dans un nouvel onglet"
+          "newTab": "s’ouvre dans un nouvel onglet",
+          "backToTop": "Retour en haut"
         },
         "nav": {
           "home": "Accueil",
@@ -2655,7 +2674,8 @@
           "mainNav": "Main navigation",
           "languageSwitcher": "Change language",
           "breadcrumb": "Breadcrumb",
-          "newTab": "opens in a new tab"
+          "newTab": "opens in a new tab",
+          "backToTop": "Back to top"
         },
         "nav": {
           "home": "Home",

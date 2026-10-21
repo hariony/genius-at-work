@@ -39,12 +39,13 @@ final class ProjectForm
         public string $coverAltEn,
         public bool $featured,
         public bool $published,
+        public string $tint,
     ) {
     }
 
     public static function empty(): self
     {
-        return new self('', '', '', '', '', '', [], '', '', '', '', '', '', '', false, false);
+        return new self('', '', '', '', '', '', [], '', '', '', '', '', '', '', false, false, '');
     }
 
     public static function fromProject(Project $project): self
@@ -68,6 +69,7 @@ final class ProjectForm
             $d->coverAlt->en,
             $d->featured,
             $d->published,
+            $d->tint ?? '',
         );
     }
 
@@ -93,6 +95,7 @@ final class ProjectForm
             self::string($input, 'coverAlt_en'),
             '1' === ($input['featured'] ?? null),
             '1' === ($input['published'] ?? null),
+            self::tint(self::string($input, 'tint')),
         );
     }
 
@@ -134,6 +137,9 @@ final class ProjectForm
                 $this->errors[$field] = $message;
             }
         }
+        if ('' !== $this->tint && !preg_match(ProjectDetails::TINT_PATTERN, $this->tint)) {
+            $this->errors['tint'] = 'Couleur au format #rrggbb, par exemple #1d34d6 (ou laissez vide).';
+        }
         if (null === $cover) {
             $this->errors['cover'] ??= 'Ajoutez une capture du projet.';
         }
@@ -158,6 +164,7 @@ final class ProjectForm
             coverAlt: new LocalizedText($this->coverAltFr, $this->coverAltEn),
             featured: $this->featured,
             published: $this->published,
+            tint: '' === $this->tint ? null : $this->tint,
         );
     }
 
@@ -182,6 +189,14 @@ final class ProjectForm
         if (!isset($this->errors['periodStart']) && !isset($this->errors['periodEnd']) && (int) $this->periodStart > (int) $this->periodEnd) {
             $this->errors['periodEnd'] = 'L’année de fin précède celle de début.';
         }
+    }
+
+    /** « 1D34D6 » ou « #1D34D6 » → « #1d34d6 » ; le reste est gardé tel quel pour être signalé. */
+    private static function tint(string $value): string
+    {
+        $value = strtolower($value);
+
+        return preg_match('/^[0-9a-f]{6}$/', $value) ? '#'.$value : $value;
     }
 
     /** @param array<mixed> $input */

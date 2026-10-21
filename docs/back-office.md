@@ -68,14 +68,14 @@ remplacement d'une modification) ; les projets ne sont importés qu'une fois, si
 supprimé dans le back-office ne revient pas. Le script de déploiement la lance après les
 migrations.
 
-| Écran           | Contenu                                                                                                | Étape    |
-| --------------- | ------------------------------------------------------------------------------------------------------ | -------- |
-| Réglages        | nom, e-mail affiché, réseaux sociaux, bureaux (adresse, téléphones, fuseau)                            | en place |
-| Projets         | réalisations FR/EN, captures, ordre, brouillon, mise en avant, suppression                             | en place |
-| Services        | titres, accroches, introductions, périmètre, technologies, projets liés                                | en place |
-| Pages et textes | accueil, À propos, Services, IA & automatisation, Réalisations, Technologie, Contact, page 404         | en place |
-| Blocs communs   | bloc IA de l'accueil, méthode et atouts, stack technique, formulaire de contact, menus et pied de page | en place |
-| Juridique       | mentions légales (éditeur, hébergeur), politique de confidentialité                                    | en place |
+| Écran           | Contenu                                                                                                                 | Étape    |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------- | -------- |
+| Réglages        | nom, e-mail affiché, réseaux sociaux, bureaux (adresse, téléphones, fuseau)                                             | en place |
+| Projets         | réalisations FR/EN, captures, teinte imposée, ordre, brouillon, mise en avant, suppression                              | en place |
+| Services        | titres, accroches, introductions, périmètre, technologies, projets liés                                                 | en place |
+| Pages et textes | accueil, À propos, Services, IA & automatisation, Réalisations (et noms des catégories), Technologie, Contact, page 404 | en place |
+| Blocs communs   | bloc IA de l'accueil, méthode et atouts, stack technique, formulaire de contact, menus et pied de page                  | en place |
+| Juridique       | mentions légales (éditeur, hébergeur), politique de confidentialité                                                     | en place |
 
 Une modification enregistrée est visible en local immédiatement, et en production après la
 publication du site (bouton « Publier », étape à venir ; d'ici là, relancer le workflow

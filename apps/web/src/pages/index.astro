@@ -3,7 +3,6 @@ import PageLayout from '@/layouts/PageLayout.astro';
 import { HOME_HERO } from '@/content/home';
 import { toLocale } from '@/lib/i18n';
 import AiSystem from '@/sections/home/AiSystem.astro';
-import Engineering from '@/sections/home/Engineering.astro';
 import HomeHero from '@/sections/home/HomeHero.astro';
 import Manifesto from '@/sections/home/Manifesto.astro';
 import Method from '@/sections/home/Method.astro';
@@ -16,8 +15,8 @@ const copy = HOME_HERO[toLocale(Astro.currentLocale)];
 
 <!--
   Parcours : qui nous sommes et ce que nous faisons (hero, clair) → la preuve (réalisations,
-  clair) → l'offre (services, navy) → l'équipe et ses chiffres (aplat bleu) → l'IA (navy)
-  → la technique (clair) → la méthode (sable) → les raisons (clair) → l'appel final (citron).
+  clair) → l'offre (services, navy) → l'équipe et ses chiffres (clair) → l'IA (navy)
+  → la méthode (sable) → les raisons (clair) → l'appel final (citron). La technique a sa page.
 -->
 <PageLayout title={copy.seoTitle} description={copy.seoDescription}>
   <HomeHero />
@@ -25,7 +24,6 @@ const copy = HOME_HERO[toLocale(Astro.currentLocale)];
   <ServicesIndex index="02" surface="night" fuchsia />
   <Manifesto index="03" />
   <AiSystem index="04" />
-  <Engineering index="05" />
-  <Method index="06" surface="subtle" />
-  <Reasons index="07" />
+  <Method index="05" surface="subtle" />
+  <Reasons index="06" />
 </PageLayout>

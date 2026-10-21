@@ -1373,6 +1373,27 @@ a.ref:hover {
   width: 7.5em;
 }
 
+.tint-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tint-field .input {
+  width: 9em;
+  font-family: ui-monospace, monospace;
+}
+
+.tint-field input[type='color'] {
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 2px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  cursor: pointer;
+}
+
 .fieldset {
   margin: 0;
   padding: 0;

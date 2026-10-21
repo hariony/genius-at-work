@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Content;
 
-/** Taxonomie du portfolio (libellés : apps/web/src/lib/portfolio.ts et back-office). */
+/** Taxonomie du portfolio (libellés : Pages et textes › Réalisations › Catégories de projet). */
 enum ProjectCategory: string
 {
     case WebApp = 'web-app';

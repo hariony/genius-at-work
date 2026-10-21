@@ -10,7 +10,7 @@ import { PROJECTS_PAGE } from '@/content/pages';
 import { tintStyle } from '@/lib/brand';
 import { localizePath, toLocale } from '@/lib/i18n';
 import { imageSource } from '@/lib/images';
-import { CATEGORY_LABELS, projectPeriod } from '@/lib/portfolio';
+import { categoryLabel, projectPeriod } from '@/lib/portfolio';
 import { getFeaturedProjects } from '@/services/content';
 
 /**
@@ -62,7 +62,7 @@ const period = lead && projectPeriod(lead);
 
         <div class="flex flex-col gap-6 lg:col-span-4 lg:pt-4" data-anim="reveal-up">
           <p class="type-mono text-fg-muted">
-            {lead.categories.map((category) => CATEGORY_LABELS[category][locale]).join(' · ')}
+            {lead.categories.map((category) => categoryLabel(category, locale)).join(' · ')}
           </p>
           <h3 class="type-h2">
             <a

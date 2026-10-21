@@ -1,5 +1,5 @@
 import type { ContactFormCopy } from '@/types/contact-form';
-import type { StackLayer } from '@/types/content';
+import type { ProjectCategory, StackLayer } from '@/types/content';
 
 /**
  * Textes des pages, gérés dans le back-office (/admin/content/pages), une version par langue.
@@ -58,7 +58,6 @@ export interface PageTexts {
         stats: { value: number; suffix: string; label: string }[];
       };
       services: Chapter;
-      engineering: Chapter & { cta: string };
       method: Chapter;
       reasons: { label: string; title: string };
     };
@@ -88,6 +87,7 @@ export interface PageTexts {
     hero: PageHero;
     filterLabel: string;
     all: string;
+    categoryLabels: Record<ProjectCategory, string>;
     countOne: string;
     countMany: string;
     detail: {
@@ -125,6 +125,7 @@ export interface PageTexts {
   'technology-page': {
     hero: PageHero;
     usage: Chapter & { projectsOne: string; projectsMany: string };
+    engineering: Chapter;
     principles: { label: string; title: string; items: Item[] };
   };
   contact: PageHero & {
@@ -168,7 +169,7 @@ export interface PageTexts {
     >;
     office: Record<'coordinates', string>;
     a11y: Record<
-      'skipToContent' | 'mainNav' | 'languageSwitcher' | 'breadcrumb' | 'newTab',
+      'skipToContent' | 'mainNav' | 'languageSwitcher' | 'breadcrumb' | 'newTab' | 'backToTop',
       string
     >;
   };

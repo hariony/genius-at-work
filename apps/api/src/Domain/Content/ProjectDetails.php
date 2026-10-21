@@ -8,10 +8,12 @@ namespace App\Domain\Content;
 final readonly class ProjectDetails
 {
     public const string SLUG_PATTERN = '/^[a-z0-9]+(?:-[a-z0-9]+)*$/';
+    public const string TINT_PATTERN = '/^#[0-9a-f]{6}$/';
 
     /**
      * @param list<ProjectCategory> $categories
      * @param list<string>          $technologies
+     * @param string|null           $tint         couleur imposée (#rrggbb) ; null : tirée de la capture au build
      */
     public function __construct(
         public string $slug,
@@ -28,6 +30,7 @@ final readonly class ProjectDetails
         public LocalizedText $coverAlt,
         public bool $featured,
         public bool $published,
+        public ?string $tint = null,
     ) {
         if (!preg_match(self::SLUG_PATTERN, $slug) || \strlen($slug) > 80) {
             throw new \InvalidArgumentException('Adresse (slug) invalide.');
@@ -46,6 +49,9 @@ final readonly class ProjectDetails
         }
         if (null !== $url && !preg_match('#^https?://#', $url)) {
             throw new \InvalidArgumentException('Adresse du site invalide.');
+        }
+        if (null !== $tint && !preg_match(self::TINT_PATTERN, $tint)) {
+            throw new \InvalidArgumentException('Teinte invalide (#rrggbb attendu).');
         }
     }
 }

@@ -119,6 +119,55 @@ final class ProjectAdminTest extends WebTestCase
         self::assertSelectorTextContains('#error-cover', 'Ajoutez une capture');
     }
 
+    public function testATintCanBeImposedThenRemoved(): void
+    {
+        $this->import();
+        $this->login();
+        $project = $this->project('taxibrousse-mg');
+        $crawler = $this->client->request('GET', '/admin/content/projects/'.$project->id());
+        $form = $crawler->selectButton('Enregistrer')->last()->form();
+        $form['project[tint]'] = 'C8102E';
+        $this->client->submit($form);
+
+        self::assertResponseRedirects('/admin/content/projects/'.$project->id());
+        self::assertSame('#c8102e', $this->project('taxibrousse-mg')->details()->tint, 'Mise en forme #rrggbb, minuscules.');
+        $this->client->request('GET', '/api/v1/site-content');
+        /** @var array{projects: list<array{slug: string, tint: string|null}>} $content */
+        $content = $this->json();
+        self::assertContains(['slug' => 'taxibrousse-mg', 'tint' => '#c8102e'], array_map(static fn (array $p): array => ['slug' => $p['slug'], 'tint' => $p['tint']], $content['projects']));
+
+        $crawler = $this->client->request('GET', '/admin/content/projects/'.$project->id());
+        $form = $crawler->selectButton('Enregistrer')->last()->form();
+        $form['project[tint]'] = '';
+        $this->client->submit($form);
+        self::assertNull($this->project('taxibrousse-mg')->details()->tint, 'Vide : tirée de la capture.');
+    }
+
+    public function testAnInvalidTintIsRefused(): void
+    {
+        $this->import();
+        $this->login();
+        $this->client->request('POST', '/admin/content/projects/new', [
+            '_token' => $this->token('/admin/content/projects/new'),
+            'project' => ['tint' => 'rouge'] + $this->validInput(),
+        ], ['cover' => $this->upload('wellcoloc.jpg')]);
+
+        self::assertResponseStatusCodeSame(422);
+        self::assertSelectorTextContains('#error-tint', '#rrggbb');
+        self::assertInputValueSame('project[tint]', 'rouge');
+    }
+
+    public function testCategoryNamesComeFromTheProjectsPageTexts(): void
+    {
+        $this->import();
+        $this->login();
+        $this->em()->getConnection()->executeStatement("UPDATE content_document SET data = JSON_SET(data, '$.fr.categoryLabels.\"ux-ui\"', 'Design produit') WHERE id = 'page:projects-page'");
+        $this->em()->clear();
+        $this->client->request('GET', '/admin/content/projects');
+
+        self::assertSelectorTextContains('.project-card:first-child .project-tags', 'Design produit');
+    }
+
     public function testASlugCannotBeUsedTwice(): void
     {
         $this->import();

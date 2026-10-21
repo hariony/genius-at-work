@@ -8,7 +8,7 @@ import Tag from '@/components/ui/Tag.astro';
 import { PROJECTS_PAGE } from '@/content/pages';
 import { tintStyle } from '@/lib/brand';
 import { imageSource } from '@/lib/images';
-import { CATEGORY_LABELS, projectPeriod } from '@/lib/portfolio';
+import { categoryLabel, projectPeriod } from '@/lib/portfolio';
 import { localizePath, toLocale, useTranslations } from '@/lib/i18n';
 import { breadcrumbs as breadcrumbList } from '@/lib/seo/schema';
 import { adjacentProjects, servicesForProject } from '@/services/content';
@@ -65,7 +65,7 @@ const site = Astro.site ?? new URL('https://genius-at-work.com');
 
     <div class="flex flex-col gap-6 lg:col-span-7">
       <p class="eyebrow" data-anim="reveal-up" data-anim-trigger="load">
-        {project.categories.map((category) => CATEGORY_LABELS[category][locale]).join(' · ')}
+        {project.categories.map((category) => categoryLabel(category, locale)).join(' · ')}
       </p>
       <h1
         class="type-display max-w-[16ch] [overflow-wrap:anywhere]"

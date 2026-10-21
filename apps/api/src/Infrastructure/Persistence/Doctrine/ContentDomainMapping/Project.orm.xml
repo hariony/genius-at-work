@@ -24,6 +24,7 @@
         <field name="technologies" type="json"/>
         <field name="url" type="string" length="500" nullable="true"/>
         <field name="summary" type="json"/>
+        <field name="tint" type="string" length="7" nullable="true"/>
         <field name="coverAlt" type="json"/>
         <field name="featured" type="boolean"/>
         <field name="published" type="boolean"/>

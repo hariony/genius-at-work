@@ -75,7 +75,8 @@
                 "fr": "Page d’accueil du site MagicStay",
                 "en": "MagicStay website home page"
             },
-            "featured": true
+            "featured": true,
+            "tint": null
         },
         {
             "slug": "transparency-international",
@@ -109,7 +110,8 @@
                 "fr": "Page d’accueil du site Transparency International Initiative Madagascar",
                 "en": "Transparency International Initiative Madagascar website home page"
             },
-            "featured": true
+            "featured": true,
+            "tint": null
         },
         {
             "slug": "sqvf-direction-generale-des-impots",
@@ -143,7 +145,8 @@
                 "fr": "Interface de l’outil SQVF de la Direction Générale des Impôts",
                 "en": "Interface of the SQVF tool of the Directorate General of Taxes"
             },
-            "featured": true
+            "featured": true,
+            "tint": null
         },
         {
             "slug": "taxibrousse-mg",
@@ -183,7 +186,8 @@
                 "fr": "Page d’accueil de Taxibrousse.mg : recherche de trajet par ville de départ, d’arrivée et date",
                 "en": "Taxibrousse.mg home page: trip search by departure city, arrival city and date"
             },
-            "featured": true
+            "featured": true,
+            "tint": null
         },
         {
             "slug": "wellcoloc",
@@ -218,7 +222,8 @@
                 "fr": "Page d’accueil du site Wellcoloc",
                 "en": "Wellcoloc website home page"
             },
-            "featured": true
+            "featured": true,
+            "tint": null
         },
         {
             "slug": "e-rdv",
@@ -254,7 +259,8 @@
                 "fr": "Page d’accueil du site E-rdv",
                 "en": "E-rdv website home page"
             },
-            "featured": true
+            "featured": true,
+            "tint": null
         },
         {
             "slug": "dfc-com",
@@ -287,7 +293,8 @@
                 "fr": "Page d’accueil du site DFC Com",
                 "en": "DFC Com website home page"
             },
-            "featured": false
+            "featured": false,
+            "tint": null
         },
         {
             "slug": "fashionshopgroup",
@@ -321,7 +328,8 @@
                 "fr": "Page d’accueil du site Fashionshopgroup",
                 "en": "Fashionshopgroup website home page"
             },
-            "featured": false
+            "featured": false,
+            "tint": null
         },
         {
             "slug": "alter-smoke",
@@ -352,7 +360,8 @@
                 "fr": "Page d’accueil du site Alter Smoke",
                 "en": "Alter Smoke website home page"
             },
-            "featured": false
+            "featured": false,
+            "tint": null
         },
         {
             "slug": "chronolivraison",
@@ -392,7 +401,8 @@
                 "fr": "Page d’accueil du site Chronolivraison",
                 "en": "Chronolivraison website home page"
             },
-            "featured": false
+            "featured": false,
+            "tint": null
         },
         {
             "slug": "eurocomputer",
@@ -428,7 +438,8 @@
                 "fr": "Page d’accueil du site Eurocomputer",
                 "en": "Eurocomputer website home page"
             },
-            "featured": false
+            "featured": false,
+            "tint": null
         },
         {
             "slug": "emarket-mg",
@@ -463,7 +474,8 @@
                 "fr": "Page d’accueil du site Emarket.mg",
                 "en": "Emarket.mg website home page"
             },
-            "featured": false
+            "featured": false,
+            "tint": null
         },
         {
             "slug": "dialopro",
@@ -498,7 +510,8 @@
                 "fr": "Page d’accueil du site Dialopro",
                 "en": "Dialopro website home page"
             },
-            "featured": false
+            "featured": false,
+            "tint": null
         },
         {
             "slug": "miarakap",
@@ -531,7 +544,8 @@
                 "fr": "Page d’accueil du site Miarakap",
                 "en": "Miarakap website home page"
             },
-            "featured": false
+            "featured": false,
+            "tint": null
         },
         {
             "slug": "evasommeil",
@@ -566,7 +580,8 @@
                 "fr": "Page d’accueil du site Evasommeil",
                 "en": "Evasommeil website home page"
             },
-            "featured": false
+            "featured": false,
+            "tint": null
         }
     ],
     "services": [
@@ -947,12 +962,6 @@
                         "title": "Ce que nous construisons.",
                         "intro": "Sept métiers, une même exigence : du site vitrine à l’IA, de la conception à l’hébergement."
                     },
-                    "engineering": {
-                        "label": "Ingénierie",
-                        "title": "Une stack moderne, couche par couche.",
-                        "intro": "Chaque couche a un rôle précis et se remplace sans tout réécrire. C’est ce qui rend un produit rapide aujourd’hui et maintenable demain.",
-                        "cta": "Notre approche technique"
-                    },
                     "method": {
                         "label": "Méthode",
                         "title": "Quatre temps, un cycle Scrum.",
@@ -1049,12 +1058,6 @@
                         "label": "Services",
                         "title": "What we build.",
                         "intro": "Seven disciplines, one standard: from showcase sites to AI, from design to hosting."
-                    },
-                    "engineering": {
-                        "label": "Engineering",
-                        "title": "A modern stack, layer by layer.",
-                        "intro": "Each layer has a precise role and can be replaced without rewriting everything. That is what keeps a product fast today and maintainable tomorrow.",
-                        "cta": "Our technical approach"
                     },
                     "method": {
                         "label": "Method",
@@ -1647,6 +1650,16 @@
                 "all": "Tous",
                 "countOne": "{n} projet",
                 "countMany": "{n} projets",
+                "categoryLabels": {
+                    "web-app": "App web",
+                    "mobile": "Mobile",
+                    "ux-ui": "Design UX/UI",
+                    "e-commerce": "E-commerce",
+                    "innovation": "Innovation",
+                    "showcase": "Site vitrine",
+                    "travel": "Voyage",
+                    "ai": "IA"
+                },
                 "detail": {
                     "client": "Client",
                     "clientTypes": {
@@ -1679,6 +1692,16 @@
                 "all": "All",
                 "countOne": "{n} project",
                 "countMany": "{n} projects",
+                "categoryLabels": {
+                    "web-app": "Web app",
+                    "mobile": "Mobile",
+                    "ux-ui": "UX/UI design",
+                    "e-commerce": "E-commerce",
+                    "innovation": "Innovation",
+                    "showcase": "Showcase site",
+                    "travel": "Travel",
+                    "ai": "AI"
+                },
                 "detail": {
                     "client": "Client",
                     "clientTypes": {
@@ -1715,6 +1738,11 @@
                     "intro": "Les technologies réellement utilisées dans nos quinze projets publiés, de la plus fréquente à la plus rare.",
                     "projectsOne": "{n} projet",
                     "projectsMany": "{n} projets"
+                },
+                "engineering": {
+                    "label": "Ingénierie",
+                    "title": "Une stack moderne, couche par couche.",
+                    "intro": "Chaque couche a un rôle précis et se remplace sans tout réécrire. C’est ce qui rend un produit rapide aujourd’hui et maintenable demain."
                 },
                 "principles": {
                     "label": "Principes",
@@ -1761,6 +1789,11 @@
                     "intro": "The technologies actually used across our fifteen published projects, from most to least frequent.",
                     "projectsOne": "{n} project",
                     "projectsMany": "{n} projects"
+                },
+                "engineering": {
+                    "label": "Engineering",
+                    "title": "A modern stack, layer by layer.",
+                    "intro": "Each layer has a precise role and can be replaced without rewriting everything. That is what keeps a product fast today and maintainable tomorrow."
                 },
                 "principles": {
                     "label": "Principles",
@@ -2425,7 +2458,8 @@
                     "mainNav": "Navigation principale",
                     "languageSwitcher": "Changer de langue",
                     "breadcrumb": "Fil d’Ariane",
-                    "newTab": "s’ouvre dans un nouvel onglet"
+                    "newTab": "s’ouvre dans un nouvel onglet",
+                    "backToTop": "Retour en haut"
                 }
             },
             "en": {
@@ -2466,7 +2500,8 @@
                     "mainNav": "Main navigation",
                     "languageSwitcher": "Change language",
                     "breadcrumb": "Breadcrumb",
-                    "newTab": "opens in a new tab"
+                    "newTab": "opens in a new tab",
+                    "backToTop": "Back to top"
                 }
             }
         },

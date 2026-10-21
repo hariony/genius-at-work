@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UserInterface\Admin;
 
 use App\Domain\Content\ClientType;
+use App\Domain\Content\ContentRepository;
 use App\Domain\Content\ProjectCategory;
 use App\Domain\Lead\BudgetRange;
 use App\Domain\Lead\LeadStatus;
@@ -15,9 +16,12 @@ use Psr\Clock\ClockInterface;
 use Twig\Attribute\AsTwigFilter;
 
 /** Libellés français du back-office, alignés sur le formulaire du site (apps/web/src/content/contact.ts). */
-final readonly class AdminTwigExtension
+final class AdminTwigExtension
 {
-    public function __construct(private ClockInterface $clock)
+    /** @var array<mixed>|null lus une fois par requête */
+    private ?array $categoryLabels = null;
+
+    public function __construct(private readonly ClockInterface $clock, private readonly ContentRepository $content)
     {
     }
 
@@ -49,20 +53,17 @@ final readonly class AdminTwigExtension
         };
     }
 
-    /** Mêmes libellés que le site (apps/web/src/lib/portfolio.ts). */
+    /** Noms saisis dans Pages et textes › Réalisations ; à défaut, l'identifiant de la catégorie. */
     #[AsTwigFilter('category_label')]
     public function categoryLabel(ProjectCategory $category): string
     {
-        return match ($category) {
-            ProjectCategory::WebApp => 'App web',
-            ProjectCategory::Mobile => 'Mobile',
-            ProjectCategory::UxUi => 'Design UX/UI',
-            ProjectCategory::ECommerce => 'E-commerce',
-            ProjectCategory::Innovation => 'Innovation',
-            ProjectCategory::Showcase => 'Site vitrine',
-            ProjectCategory::Travel => 'Voyage',
-            ProjectCategory::Ai => 'IA',
-        };
+        if (null === $this->categoryLabels) {
+            $labels = $this->content->page('projects-page')?->fr['categoryLabels'] ?? null;
+            $this->categoryLabels = \is_array($labels) ? $labels : [];
+        }
+        $label = $this->categoryLabels[$category->value] ?? null;
+
+        return \is_string($label) && '' !== $label ? $label : $category->value;
     }
 
     #[AsTwigFilter('client_type_label')]

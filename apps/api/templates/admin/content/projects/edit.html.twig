@@ -94,6 +94,15 @@
                 <input class="input" name="project[technologies]" value="{{ form.technologies }}" placeholder="Symfony, React, MySQL">
                 <span class="field-hint">Séparées par des virgules. Uniquement celles réellement utilisées sur ce projet.</span>
             </label>
+            <div class="field">
+                <label class="field-label" for="project-tint">Teinte imposée</label>
+                <div class="tint-field">
+                    <input class="input" id="project-tint" name="project[tint]" value="{{ form.tint }}" placeholder="#1d34d6" maxlength="7" spellcheck="false" autocomplete="off" aria-describedby="project-tint-hint"{{ f.invalid(form, 'tint') }}>
+                    <input type="color" value="{{ form.tint matches '/^#[0-9a-f]{6}$/' ? form.tint : '#1d34d6' }}" aria-label="Choisir la teinte" data-tint-picker>
+                </div>
+                <span class="field-hint" id="project-tint-hint">Facultative. Vide : la couleur est tirée de la capture. Couleur de l’en-tête de la page projet et de sa carte ; ajustée à la publication si le texte posé dessus n’est pas assez lisible.</span>
+                {{ f.error(form, 'tint') }}
+            </div>
         </section>
 
         <section class="card" aria-labelledby="text-title">

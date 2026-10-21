@@ -1,10 +1,9 @@
 ---
 import PageHero from '@/components/sections/PageHero.astro';
 import PageLayout from '@/layouts/PageLayout.astro';
-import { HOME_SECTIONS } from '@/content/home';
 import { TECHNOLOGY_PAGE } from '@/content/pages';
 import { toLocale } from '@/lib/i18n';
-import Engineering from '@/sections/home/Engineering.astro';
+import Engineering from '@/sections/technology/Engineering.astro';
 import Principles from '@/sections/technology/Principles.astro';
 import TechnologyUsage from '@/sections/technology/TechnologyUsage.astro';
 
@@ -20,11 +19,6 @@ const copy = TECHNOLOGY_PAGE[locale];
     size="large"
   />
   <TechnologyUsage index="01" />
-  <Engineering
-    heading={HOME_SECTIONS[locale].engineering}
-    cta={false}
-    index="02"
-    surface="subtle"
-  />
+  <Engineering index="02" surface="subtle" />
   <Principles index="03" />
 </PageLayout>

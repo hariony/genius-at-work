@@ -15,7 +15,7 @@ use App\Domain\Content\ProjectDetails;
  * Projet ⇄ tableau : format d'import (apps/api/data/content-seed.json, image = nom de fichier
  * dans data/media) et format lu par le site.
  *
- * @phpstan-type ProjectData array{slug: string, title: string, client: string|null, clientType: string|null, period: array{start: int, end: int}|null, categories: list<string>, technologies: list<string>, url: string|null, summary: array{fr: string, en: string}, cover: string, coverAlt: array{fr: string, en: string}, featured: bool, published: bool}
+ * @phpstan-type ProjectData array{slug: string, title: string, client: string|null, clientType: string|null, period: array{start: int, end: int}|null, categories: list<string>, technologies: list<string>, url: string|null, summary: array{fr: string, en: string}, cover: string, coverAlt: array{fr: string, en: string}, featured: bool, published: bool, tint?: string|null}
  */
 final class ProjectMapper
 {
@@ -37,6 +37,7 @@ final class ProjectMapper
             coverAlt: LocalizedText::fromArray($data['coverAlt']),
             featured: $data['featured'],
             published: $data['published'],
+            tint: $data['tint'] ?? null,
         );
     }
 
@@ -58,6 +59,7 @@ final class ProjectMapper
             'cover' => self::image($details->cover),
             'coverAlt' => $details->coverAlt->toArray(),
             'featured' => $details->featured,
+            'tint' => $details->tint,
         ];
     }
 

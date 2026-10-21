@@ -30,6 +30,8 @@ export interface Project {
   cover: ContentImage;
   coverAlt: Localized;
   featured: boolean;
+  /** Teinte imposée dans le back-office (#rrggbb) ; sinon tirée de la capture (lib/brand.ts). */
+  tint: string | undefined;
 }
 
 export type ServiceSlug =

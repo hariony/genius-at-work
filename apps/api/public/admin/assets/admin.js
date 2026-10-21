@@ -20,6 +20,19 @@ for (const form of document.querySelectorAll('form[data-autosubmit]')) {
 }
 
 // Aperçu de l'image choisie avant l'envoi (data: : seule source d'image autorisée en plus de 'self').
+// Teinte d'un projet : le sélecteur de couleur remplit le champ texte, et inversement.
+for (const picker of document.querySelectorAll('[data-tint-picker]')) {
+  const input = picker.parentElement?.querySelector('input:not([type="color"])');
+  if (!input) continue;
+  picker.addEventListener('input', () => {
+    input.value = picker.value;
+  });
+  input.addEventListener('input', () => {
+    const value = input.value.trim().toLowerCase();
+    if (/^#?[0-9a-f]{6}$/.test(value)) picker.value = value.startsWith('#') ? value : `#${value}`;
+  });
+}
+
 for (const input of document.querySelectorAll('[data-cover-input]')) {
   const preview = input.closest('form')?.querySelector('[data-cover-preview]');
   input.addEventListener('change', () => {

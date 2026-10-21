@@ -77,6 +77,11 @@ const project = z.object({
   cover: image,
   coverAlt: localized,
   featured: z.boolean(),
+  tint: z
+    .string()
+    .regex(/^#[0-9a-f]{6}$/)
+    .nullish()
+    .transform((value) => value ?? undefined),
 });
 
 const service = z.object({

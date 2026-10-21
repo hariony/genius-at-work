@@ -25,6 +25,7 @@ class Project
     private array $coverAlt = ['fr' => '', 'en' => ''];
     private bool $featured = false;
     private bool $published = false;
+    private ?string $tint = null;
     private \DateTimeImmutable $updatedAt;
     private string $updatedBy;
 
@@ -54,6 +55,7 @@ class Project
         $this->coverAlt = $details->coverAlt->toArray();
         $this->featured = $details->featured;
         $this->published = $details->published;
+        $this->tint = $details->tint;
         $this->touch($now, $actor);
     }
 
@@ -80,6 +82,7 @@ class Project
             coverAlt: LocalizedText::fromArray($this->coverAlt),
             featured: $this->featured,
             published: $this->published,
+            tint: $this->tint,
         );
     }
 
