@@ -133,6 +133,10 @@ qu'ailleurs.
 
 ## Opérations courantes
 
+**Toute mise en production** (site, API ou back-office) est annoncée à l'hébergeur **la veille**,
+avec la date et l'heure : il fait sa propre sauvegarde et reste disponible. Sans réponse de sa
+part, on attend. Le script le rappelle et demande confirmation, même avec `--yes`.
+
 | Situation                                   | Commande                      |
 | ------------------------------------------- | ----------------------------- |
 | Texte ou projet modifié dans le back-office | `infra/apache/deploy.sh site` |
@@ -159,5 +163,10 @@ Réponse de l'administrateur du serveur du 21/10/2026 (document transmis hors d�
 sous-domaines, PHP, worker et expéditeur en place ; règles reprises dans
 [Règles de l'hébergeur](#règles-de-lhébergeur). Toute exception se demande avant d'être codée.
 Avant la mise en ligne de `office.`, la double authentification est obligatoire pour tous les
-comptes du back-office. Prévenir l'hébergeur la veille de la bascule du site principal (date et
-heure) et lui envoyer le résultat des tests qui suivent.
+comptes du back-office. Toute mise en production est annoncée la veille (voir
+[Opérations courantes](#opérations-courantes)).
+
+La boîte contact@genius-at-work.com est personnelle (relevée en IMAP par son titulaire) : pas de
+webmail (`/roundcube/` retiré), ni d'accès partagé, ni de redirection. Pour vérifier qu'un envoi
+du formulaire est parti, demander à l'hébergeur de contrôler ses journaux. Pour tester avec sa
+propre adresse, changer `CONTACT_TEAM_EMAIL` en local uniquement, jamais en production.

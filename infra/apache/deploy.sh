@@ -202,6 +202,13 @@ deploy_site() {
   log "Site publié : $SITE_URL/"
 }
 
+# Règle de l'hébergeur : toute mise en production lui est annoncée la veille (date et heure).
+# Demandé même avec --yes ; pas en simulation.
+if ! $DRY_RUN; then
+  read -r -p 'L’hébergeur a-t-il été prévenu la veille de cette mise en production ? [o/N] ' answer
+  [[ "$answer" =~ ^[oOyY]$ ]] || fail 'Prévenir l’hébergeur la veille (date et heure), puis relancer.'
+fi
+
 check_clean_tree
 case "$TARGET" in
   api) deploy_api ;;
