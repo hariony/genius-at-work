@@ -540,7 +540,8 @@
           "Intégration responsive et accessible",
           "Gestion de contenu autonome",
           "SEO technique et performances",
-          "Version multilingue"
+          "Version multilingue",
+          "Sites WordPress sur mesure"
         ],
         "en": [
           "Content architecture and user journeys",
@@ -548,7 +549,8 @@
           "Responsive, accessible build",
           "Self-serve content management",
           "Technical SEO and performance",
-          "Multilingual version"
+          "Multilingual version",
+          "Custom WordPress websites"
         ]
       },
       "technologies": [
@@ -2469,7 +2471,8 @@
             "role": "Édition autonome, SEO structuré",
             "technologies": [
               "Sanity",
-              "Schema.org"
+              "Schema.org",
+              "WordPress"
             ]
           },
           {
@@ -2546,7 +2549,8 @@
             "role": "Self-serve editing, structured SEO",
             "technologies": [
               "Sanity",
-              "Schema.org"
+              "Schema.org",
+              "WordPress"
             ]
           },
           {

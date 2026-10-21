@@ -1,6 +1,8 @@
 # Back-office
 
-Interface web de l'API Symfony (`apps/api`), sous `/admin` : suivi des demandes de contact et
+Interface web de l'API Symfony (`apps/api`), sous `/admin`, sur son propre domaine (`ADMIN_HOST` :
+`office.genius-at-work.com` en production, `office.localhost:8088` en local ; la racine y mène
+au back-office, et `/admin` répond 404 sur tout autre domaine) : suivi des demandes de contact et
 gestion du contenu du site. Elle réutilise les domaines, dépôts et la base MySQL de l'API : aucun
 code métier n'est dupliqué.
 
@@ -97,7 +99,11 @@ docker compose exec api php bin/console doctrine:migrations:migrate -n
 docker compose exec api php bin/console app:admin:create vous@genius-at-work.com
 ```
 
-Puis http://localhost:8088/admin.
+Puis http://office.localhost:8088. Mot de passe oublié ou à changer (saisie masquée) :
+
+```sh
+docker compose exec api php bin/console app:admin:password vous@genius-at-work.com
+```
 
 ## Production
 

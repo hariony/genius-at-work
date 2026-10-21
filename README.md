@@ -26,17 +26,17 @@ docker compose exec api php bin/console app:content:import    # contenu initial 
 pnpm --filter @gaw/web dev      # http://localhost:4321
 ```
 
-Le contenu du site est géré dans le back-office (http://localhost:8088/admin) et lu sur l'API :
+Le contenu du site est géré dans le back-office (http://office.localhost:8088) et lu sur l'API :
 en développement, une modification enregistrée recharge la page ouverte. Sans API, le site ne
 démarre pas (message explicite) ; `CONTENT_SNAPSHOT` permet de construire sans elle (CI).
 
-| Adresse                             | Service                                     |
-| ----------------------------------- | ------------------------------------------- |
-| http://localhost:4321               | Site                                        |
-| http://localhost:8088/api/v1/health | API (documentation : `/api/docs`)           |
-| http://localhost:8088/admin         | Back-office des demandes de contact         |
-| http://localhost:8025               | Mailpit : tous les e-mails envoyés en local |
-| `127.0.0.1:3307` (`gaw` / `gaw`)    | MySQL                                       |
+| Adresse                             | Service                                      |
+| ----------------------------------- | -------------------------------------------- |
+| http://localhost:4321               | Site                                         |
+| http://localhost:8088/api/v1/health | API (documentation : `/api/docs`)            |
+| http://office.localhost:8088        | Back-office (contenu et demandes de contact) |
+| http://localhost:8025               | Mailpit : tous les e-mails envoyés en local  |
+| `127.0.0.1:3307` (`gaw` / `gaw`)    | MySQL                                        |
 
 Les ports se changent avec `API_PORT`, `MYSQL_PORT` et `MAILPIT_PORT`.
 

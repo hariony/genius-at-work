@@ -46,9 +46,12 @@ production (approbation manuelle dans l'environnement GitHub `production`).
 1. **Tunnel** (Zero Trust › Networks › Tunnels) : créer un tunnel, copier son jeton dans
    `CLOUDFLARE_TUNNEL_TOKEN` du `.env` serveur. Routes publiques :
    - `api.genius-at-work.com` → `http://api:8080`
+   - `office.genius-at-work.com` → `http://api:8080` (back-office : `ADMIN_HOST` dans le `.env`)
    - `ssh.genius-at-work.com` → `ssh://host.docker.internal:22` (ou l'IP de la passerelle Docker)
 2. **Access** : une application sur `ssh.genius-at-work.com` avec un _service token_ pour la
-   CI ; une application sur le domaine de préproduction pour l'équipe.
+   CI ; une application sur le domaine de préproduction pour l'équipe ; une application sur
+   `office.genius-at-work.com` (e-mails de l'équipe) : le back-office n'est joignable qu'après
+   une connexion Cloudflare, avant même son propre écran de connexion.
 3. **Turnstile** : un widget pour `genius-at-work.com` (clé de site publique côté site, clé
    secrète dans le `.env` serveur).
 4. **Jeton d'API** pour la CI : modèle « Edit Cloudflare Workers ».

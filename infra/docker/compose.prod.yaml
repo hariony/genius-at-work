@@ -23,6 +23,7 @@ x-api: &api
     REDIS_URL: redis://redis:6379
     MAILER_DSN: ${MAILER_DSN:?}
     MAILER_FROM: ${MAILER_FROM:-noreply@genius-at-work.com}
+    ADMIN_HOST: ${ADMIN_HOST:-office.genius-at-work.com}
     CONTACT_TEAM_EMAIL: ${CONTACT_TEAM_EMAIL:-contact@genius-at-work.com}
     TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:?}
     CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN:-^https://(www\.)?genius-at-work\.com$}
