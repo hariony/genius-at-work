@@ -6,6 +6,12 @@ import { localizePath, toLocale } from '@/lib/i18n';
 import { technologyUsage } from '@/services/content';
 
 /** Technologies réellement livrées, calculées à partir du portfolio. */
+interface Props {
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
+}
+
+const { index } = Astro.props;
 const locale = toLocale(Astro.currentLocale);
 const copy = TECHNOLOGY_PAGE[locale].usage;
 const usage = technologyUsage();
@@ -14,7 +20,13 @@ const max = Math.max(...usage.map((entry) => entry.projects.length));
 
 <section data-surface="base" class="py-section" aria-labelledby="usage-title">
   <Container class="flex flex-col gap-section-gap">
-    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="usage-title" />
+    <ChapterHeader
+      index={index}
+      label={copy.label}
+      title={copy.title}
+      intro={copy.intro}
+      id="usage-title"
+    />
     <ol class="border-t border-border" data-anim="stagger" data-anim-each="0.03">
       {usage.map(({ name, projects }) => (
         <li class="grid gap-2 border-b border-border py-4 md:grid-cols-12 md:items-center md:gap-8">

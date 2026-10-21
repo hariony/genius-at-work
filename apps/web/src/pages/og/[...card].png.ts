@@ -5,18 +5,17 @@ import satori from 'satori';
 import sharp from 'sharp';
 import { OG_CARDS, ogCardKey, type OgCard } from '@/lib/seo/og';
 
-/** Image Open Graph 1200 × 630 d'une page : direction « Signal », texte converti en tracés. */
+/** Image Open Graph 1200 × 630 d'une page : direction « Charge », texte converti en tracés. */
 
 const WIDTH = 1200;
 const HEIGHT = 630;
 const COLORS = {
-  paper: '#f6f5f1',
-  ink: '#0a0b1e',
-  slate: '#5b5e70',
-  line: '#e2e0d9',
-  blue: '#1f4bff',
+  paper: '#f5f4ef',
+  ink: '#0b1033',
+  slate: '#575a6c',
+  blue: '#2a45ff',
+  /** Réservé au monogramme du logo. */
   cyan: '#00c2ff',
-  lilac: '#a98bff',
   lime: '#c8f031',
 };
 
@@ -79,17 +78,16 @@ function render({ eyebrow, title, meta }: OgCard): Node {
         width: 420,
         height: 420,
         borderRadius: 420,
-        background: COLORS.cyan,
+        background: COLORS.blue,
       }),
       h('div', {
         position: 'absolute',
-        bottom: -70,
-        right: 150,
-        width: 200,
-        height: 200,
-        borderRadius: 36,
-        background: COLORS.lilac,
-        transform: 'rotate(-10deg)',
+        bottom: -90,
+        right: 170,
+        width: 220,
+        height: 220,
+        borderRadius: 220,
+        background: COLORS.lime,
       }),
       h('div', { display: 'flex', alignItems: 'center', gap: 14 }, [
         { type: 'img', props: { src: LOGO_MARK, width: 44, height: 44 } },

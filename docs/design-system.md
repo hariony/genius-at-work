@@ -109,12 +109,30 @@ Les sections sont numérotées (`index` de `ChapterHeader`) dans l'ordre du parc
 ## Repères
 
 - Listes numérotées (méthode, atouts, principes, cas d'usage, capacités, chaîne IA) : filet en
-  haut, numéro `01` en chasse fixe et couleur de mise en valeur, titre, texte. Traits et pastilles
-  en citron (`markerTint`).
+  haut, numéro `01` en chasse fixe et couleur de mise en valeur, titre, texte. Plus de pastilles
+  ni de traits de couleur : le numéro suffit.
+- Sections numérotées (`index` : « 01 », « 02 »…) dans l'ordre de chaque page, sur toutes les
+  pages (accueil, services, IA, technologie, à propos).
+- Valeurs (à propos) : chaque mot en taille display, en citron sur la nuit. Bureau : ville en
+  grand, sans carte.
+- Contact : formulaire dans un panneau clair sur fond sable, coordonnées fixes à côté.
+- Page IA : se termine sur un appel citron (celui du pied de page y est masqué).
+- Images de partage (`pages/og`) : papier, disque bleu et disque citron, monogramme du logo.
 - Boutons : `accent` (une seule action de conversion par écran), `primary`, `outline`,
   `secondary` (lien avec flèche).
 - Liste des réalisations : une ligne par projet (numéro, titre, client, catégories, période) ;
   à la souris, la capture du projet survolé suit le curseur ; sans souris, elle est dans la ligne.
+  Filtres en pastilles avec le nombre de projets de chaque catégorie.
+- Teinte d'un projet : calculée au build depuis sa capture (`src/lib/brand.ts`) : la couleur vive
+  dominante, ramenée à un aplat dont le texte (encre ou papier) atteint 7:1. Repli : bleu profond.
+  Utilisée par les aplats des cartes (`project-tint`) et par la surface `tint` de la fiche projet.
+- Fiche projet : en-tête à la couleur du projet (titre, résumé, fiche client, période, métiers,
+  technologies), capture en grand à cheval sur l'aplat, puis le projet suivant en pleine largeur,
+  à sa propre couleur. L'en-tête du site prend la surface d'un hero coloré tant qu'il le recouvre.
+- En-tête des pages d'index (`PageHero size="large"`) : titre en taille display, chapô à droite.
+- Page d'un service : position du métier dans l'en-tête (« 01 / 07 »), périmètre en lignes
+  numérotées avec titre fixe à gauche, réalisations du métier (la première en large si leur
+  nombre est impair), méthode, puis les autres métiers en liste navy. Sections numérotées.
 - Bloc d'appel du pied de page : surface citron et disque bleu ; masqué sur une page qui se
   termine déjà par son propre appel ou formulaire (`footerCta={false}` : page IA, contact).
 

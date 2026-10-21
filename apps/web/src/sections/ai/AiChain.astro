@@ -8,12 +8,24 @@ import { toLocale } from '@/lib/i18n';
  * La chaîne complète, de la stratégie à la supervision : en ligne sur grand écran, en colonne
  * sur mobile. La scène ai-chain fait avancer le trait au défilement.
  */
+interface Props {
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
+}
+
+const { index } = Astro.props;
 const copy = AI_PAGE[toLocale(Astro.currentLocale)].chain;
 ---
 
 <section data-surface="night" class="py-section" aria-labelledby="ai-chain-title">
   <Container class="flex flex-col gap-section-gap">
-    <ChapterHeader label={copy.label} title={copy.title} intro={copy.intro} id="ai-chain-title" />
+    <ChapterHeader
+      index={index}
+      label={copy.label}
+      title={copy.title}
+      intro={copy.intro}
+      id="ai-chain-title"
+    />
     <div class="chain relative" data-scene="ai-chain">
       <span class="chain__track" aria-hidden="true">
         <span class="chain__fill"></span>

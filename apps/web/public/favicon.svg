@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <style>
-    path.arc { stroke: #0a0b1e; }
+    path.arc { stroke: #0b1033; }
     @media (prefers-color-scheme: dark) { path.arc { stroke: #f4f3ee; } }
   </style>
   <path class="arc" d="M47.56 16.44A22 22 0 1 0 54 32" fill="none" stroke-width="11"/>

@@ -7,7 +7,7 @@ import Container from '@/components/ui/Container.astro';
 import Tag from '@/components/ui/Tag.astro';
 import { HOME_SECTIONS } from '@/content/home';
 import { PROJECTS_PAGE } from '@/content/pages';
-import { projectTint } from '@/lib/brand';
+import { tintStyle } from '@/lib/brand';
 import { localizePath, toLocale } from '@/lib/i18n';
 import { imageSource } from '@/lib/images';
 import { CATEGORY_LABELS, projectPeriod } from '@/lib/portfolio';
@@ -43,9 +43,9 @@ const period = lead && projectPeriod(lead);
       <article class="lead-case group relative grid gap-8 lg:grid-cols-12 lg:gap-x-12">
         <div
           class:list={[
-            'lead-case__stage relative aspect-[4/3] overflow-hidden rounded-xl sm:aspect-[16/10] lg:col-span-8',
-            projectTint(lead),
+            'lead-case__stage project-tint relative aspect-[4/3] overflow-hidden rounded-xl sm:aspect-[16/10] lg:col-span-8',
           ]}
+          style={tintStyle(lead)}
           data-anim="reveal-image"
         >
           <div class="lead-case__window browser-frame absolute inset-x-[6%] top-[8%] -bottom-[10%]">

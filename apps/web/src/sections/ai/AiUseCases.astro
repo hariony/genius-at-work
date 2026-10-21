@@ -5,6 +5,12 @@ import { AI_PAGE } from '@/content/ai';
 import { toLocale } from '@/lib/i18n';
 
 /** Cas d'usage : des problèmes métier concrets (cible du lien « Voir les cas d'usage »). */
+interface Props {
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
+}
+
+const { index } = Astro.props;
 const copy = AI_PAGE[toLocale(Astro.currentLocale)].useCases;
 ---
 
@@ -16,6 +22,7 @@ const copy = AI_PAGE[toLocale(Astro.currentLocale)].useCases;
 >
   <Container class="flex flex-col gap-section-gap">
     <ChapterHeader
+      index={index}
       label={copy.label}
       title={copy.title}
       intro={copy.intro}

@@ -5,6 +5,12 @@ import { AI_PAGE } from '@/content/ai';
 import { toLocale } from '@/lib/i18n';
 
 /** Positionnement : ce que nous ne vendons pas, puis ce que nous faisons. */
+interface Props {
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
+}
+
+const { index } = Astro.props;
 const copy = AI_PAGE[toLocale(Astro.currentLocale)].approach;
 ---
 
@@ -13,6 +19,7 @@ const copy = AI_PAGE[toLocale(Astro.currentLocale)].approach;
     <div class="flex flex-col gap-8 lg:col-span-5">
       <div class="flex flex-col gap-4">
         <p class="eyebrow" data-anim="reveal-up">
+          {index && <span class="text-fg">{index}</span>}
           {copy.label}
         </p>
         <h2 id="ai-approach-title" class="type-h2 max-w-[20ch]" data-anim="reveal-lines">
@@ -31,7 +38,7 @@ const copy = AI_PAGE[toLocale(Astro.currentLocale)].approach;
       </ul>
     </div>
     <p
-      class="type-h3 max-w-[30ch] self-end font-semibold text-balance lg:col-span-6 lg:col-start-7"
+      class="type-statement max-w-[22ch] self-end text-balance lg:col-span-6 lg:col-start-7"
       data-anim="reveal-up"
     >
       {copy.answer}

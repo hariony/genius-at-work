@@ -3,7 +3,7 @@ import { Picture } from 'astro:assets';
 import Icon from '@/components/ui/Icon.astro';
 import Container from '@/components/ui/Container.astro';
 import { PROJECTS_PAGE } from '@/content/pages';
-import { projectTint } from '@/lib/brand';
+import { tintStyle } from '@/lib/brand';
 import { localizePath, toLocale } from '@/lib/i18n';
 import { imageSource } from '@/lib/images';
 import { CATEGORY_LABELS, projectPeriod } from '@/lib/portfolio';
@@ -19,19 +19,33 @@ import { filterCategories, getProjects } from '@/services/content';
 const locale = toLocale(Astro.currentLocale);
 const copy = PROJECTS_PAGE[locale];
 const projects = getProjects();
-const categories = filterCategories();
+const categories = filterCategories().map((category) => ({
+  category,
+  count: projects.filter((project) => project.categories.includes(category)).length,
+}));
 ---
 
-<section data-surface="base" class="py-section" aria-label={copy.hero.eyebrow} data-project-filter>
+<section
+  data-surface="base"
+  class="pt-12 pb-section lg:pt-16"
+  aria-label={copy.hero.eyebrow}
+  data-project-filter
+>
   <Container width="wide" class="flex flex-col gap-section-gap">
     <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <div class="flex flex-wrap gap-2" role="group" aria-label={copy.filterLabel}>
         <button type="button" class="chip" data-filter="all" aria-pressed="true">
           {copy.all}
+          <sup class="chip-count" aria-hidden="true">
+            {projects.length}
+          </sup>
         </button>
-        {categories.map((category) => (
+        {categories.map(({ category, count }) => (
           <button type="button" class="chip" data-filter={category} aria-pressed="false">
             {CATEGORY_LABELS[category][locale]}
+            <sup class="chip-count" aria-hidden="true">
+              {count}
+            </sup>
           </button>
         ))}
       </div>
@@ -76,10 +90,8 @@ const categories = filterCategories();
                 <Icon name="arrow-up-right" size={20} />
               </span>
               <span
-                class:list={[
-                  'project-row__preview order-first overflow-hidden rounded-md md:order-none',
-                  projectTint(project),
-                ]}
+                class="project-row__preview project-tint order-first overflow-hidden rounded-md md:order-none"
+                style={tintStyle(project)}
                 aria-hidden="true"
               >
                 <span class="browser-frame absolute inset-x-[8%] top-[10%] -bottom-[8%]">
@@ -103,6 +115,14 @@ const categories = filterCategories();
 </section>
 
 <style>
+  /* Nombre de projets de la catégorie, en exposant (le compte filtré est annoncé à part). */
+  .chip-count {
+    margin-left: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    opacity: 0.7;
+  }
+
   /* Aperçu : dans la ligne par défaut (mobile, tablette, clavier). */
   .project-row__preview {
     position: relative;

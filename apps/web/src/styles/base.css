@@ -67,6 +67,32 @@
 
 @layer components {
   /*
+   * Surface à la couleur d'un projet (fiche projet) : --tint et --tint-fg sont posés en ligne
+   * (src/lib/brand.ts garantit leur contraste), le reste en découle.
+   */
+  [data-surface='tint'] {
+    --surface-bg: var(--tint);
+    --surface-bg-raised: var(--color-white);
+    --surface-fg: var(--tint-fg);
+    --surface-fg-muted: color-mix(in srgb, var(--tint-fg) 88%, var(--tint));
+    --surface-border: color-mix(in srgb, var(--tint-fg) 24%, transparent);
+    --surface-border-strong: color-mix(in srgb, var(--tint-fg) 48%, transparent);
+    --surface-accent: var(--tint-fg);
+    --surface-accent-fg: var(--tint);
+    --surface-accent-soft: color-mix(in srgb, var(--tint-fg) 10%, transparent);
+    --surface-focus: var(--tint-fg);
+    --surface-highlight: var(--tint-fg);
+    --surface-spark: var(--tint-fg);
+    --surface-mark: var(--color-lime);
+    --surface-hot: var(--tint-fg);
+  }
+
+  /* Aplat d'un projet : couleur tirée de sa capture (src/lib/brand.ts, variables posées en ligne). */
+  .project-tint {
+    background-color: var(--tint, var(--color-blue));
+    color: var(--tint-fg, var(--color-paper));
+  }
+  /*
    * Fenêtre de navigateur sobre autour des captures d'écran du portfolio : barre fine,
    * trois points. Donne un cadre « maquette » sans inventer de contenu.
    */

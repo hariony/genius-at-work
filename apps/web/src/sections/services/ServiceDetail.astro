@@ -15,7 +15,11 @@ import Method from '@/sections/home/Method.astro';
 import { getServices, projectsForService } from '@/services/content';
 import type { Service } from '@/types/content';
 
-/** Page d'un service : périmètre, technologies, réalisations liées, méthode, autres services. */
+/**
+ * Page d'un service : en-tête (numéro du métier parmi les sept), ce que couvre le service en
+ * lignes numérotées et ses technologies, les vraies réalisations du métier, la méthode, puis
+ * les autres métiers en liste. Les sections sont numérotées dans l'ordre de la page.
+ */
 interface Props {
   service: Service;
 }
@@ -28,6 +32,9 @@ const services = getServices();
 const projects = projectsForService(service).slice(0, 4);
 const others = services.filter((other) => other !== service);
 const hasProjects = projects.length > 0;
+const pad = (n: number) => String(n).padStart(2, '0');
+const position = `${pad(services.indexOf(service) + 1)} / ${pad(services.length)}`;
+const chapter = (n: number) => pad(n);
 const site = Astro.site ?? new URL('https://genius-at-work.com');
 ---
 
@@ -42,9 +49,10 @@ const site = Astro.site ?? new URL('https://genius-at-work.com');
 />
 
 <PageHero
-  eyebrow={t('nav.services')}
+  eyebrow={`${t('nav.services')} · ${position}`}
   title={service.title[locale]}
   lead={service.intro[locale]}
+  size="large"
   breadcrumbs={[
     { label: t('nav.home'), href: localizePath('/', locale) },
     { label: t('nav.services'), href: localizePath('/services/', locale) },
@@ -60,23 +68,26 @@ const site = Astro.site ?? new URL('https://genius-at-work.com');
 
 <section data-surface="base" class="py-section" aria-labelledby="scope-title">
   <Container class="grid gap-y-12 lg:grid-cols-12 lg:gap-x-12">
-    <div class="flex flex-col gap-4 lg:col-span-4">
-      <p class="eyebrow">{copy.scopeLabel}</p>
-      <h2 id="scope-title" class="type-h2" data-anim="reveal-lines">
+    <header class="flex flex-col gap-4 self-start lg:sticky lg:top-28 lg:col-span-4">
+      <p class="eyebrow" data-anim="reveal-up">
+        <span class="text-fg">{chapter(1)}</span>
+        {copy.scopeLabel}
+      </p>
+      <h2 id="scope-title" class="type-h2 max-w-[16ch]" data-anim="reveal-lines">
         {copy.scopeTitle}
       </h2>
-    </div>
-    <div class="flex flex-col gap-10 lg:col-span-8">
-      <ul class="grid border-t border-border sm:grid-cols-2 sm:gap-x-10" data-anim="stagger">
-        {service.scope[locale].map((item) => (
-          <li class="flex items-start gap-3 border-b border-border py-4">
-            <span class="mt-1 grid size-5 shrink-0 place-items-center rounded-pill bg-accent-soft text-accent">
-              <Icon name="check" size={12} />
+    </header>
+    <div class="flex flex-col gap-12 lg:col-span-8">
+      <ol class="border-t border-border-strong" data-anim="stack">
+        {service.scope[locale].map((item, i) => (
+          <li class="grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 border-b border-border py-5 md:grid-cols-[3.5rem_minmax(0,1fr)] md:py-6">
+            <span class="type-mono text-highlight">{pad(i + 1)}</span>
+            <span class="text-[clamp(1.125rem,1rem+0.5vw,1.375rem)] leading-snug font-semibold tracking-[-0.015em]">
+              {item}
             </span>
-            <span class="font-medium">{item}</span>
           </li>
         ))}
-      </ul>
+      </ol>
       <div class="flex flex-col gap-3" data-anim="reveal-up">
         <h3 class="type-label text-fg-muted">{copy.techLabel}</h3>
         <ul class="flex flex-wrap gap-1.5">
@@ -95,6 +106,7 @@ const site = Astro.site ?? new URL('https://genius-at-work.com');
   <section data-surface="subtle" class="py-section" aria-labelledby="service-projects-title">
     <Container class="flex flex-col gap-section-gap">
       <ChapterHeader
+        index={chapter(2)}
         label={copy.projectsLabel}
         title={copy.projectsTitle}
         id="service-projects-title"
@@ -104,9 +116,17 @@ const site = Astro.site ?? new URL('https://genius-at-work.com');
         </Button>
       </ChapterHeader>
       <ul class="grid gap-x-10 gap-y-14 md:grid-cols-2">
-        {projects.map((project) => (
-          <li>
-            <ProjectCard project={project} sizes="(min-width: 48rem) 45vw, 100vw" />
+        {projects.map((project, i) => (
+          <li class:list={[projects.length % 2 === 1 && i === 0 && 'md:col-span-2']}>
+            <ProjectCard
+              project={project}
+              ratio={projects.length % 2 === 1 && i === 0 ? 'wide' : 'landscape'}
+              sizes={
+                projects.length % 2 === 1 && i === 0
+                  ? '(min-width: 90rem) 1280px, 92vw'
+                  : '(min-width: 48rem) 45vw, 100vw'
+              }
+            />
           </li>
         ))}
       </ul>
@@ -114,25 +134,49 @@ const site = Astro.site ?? new URL('https://genius-at-work.com');
   </section>
 )}
 
-<Method surface={hasProjects ? 'base' : 'subtle'} />
+<Method index={chapter(hasProjects ? 3 : 2)} surface={hasProjects ? 'base' : 'subtle'} />
 
-<nav
-  data-surface="base"
-  class="border-t border-border py-16"
-  aria-labelledby="other-services-title"
->
-  <Container class="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-12">
-    <h2 id="other-services-title" class="type-label shrink-0 text-fg-muted">
+<nav data-surface="night" class="py-section" aria-labelledby="other-services-title">
+  <Container class="flex flex-col gap-10">
+    <h2 id="other-services-title" class="eyebrow">
       {copy.otherServices}
     </h2>
-    <ul class="flex flex-wrap gap-2">
+    <ul class="border-t border-border">
       {others.map((other) => (
-        <li>
-          <a href={localizePath(`/services/${other.slug}/`, locale)} class="chip no-underline">
-            {other.title[locale]}
+        <li class="border-b border-border">
+          <a
+            href={localizePath(`/services/${other.slug}/`, locale)}
+            class="other-service group grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-x-4 py-4 no-underline md:grid-cols-[3.5rem_minmax(0,1fr)_auto] md:py-5"
+          >
+            <span class="type-mono text-fg-muted">{pad(services.indexOf(other) + 1)}</span>
+            <span class="text-[clamp(1.25rem,1.05rem+0.9vw,1.75rem)] leading-tight font-bold tracking-[-0.025em] transition-colors duration-fast group-hover:text-highlight">
+              {other.title[locale]}
+            </span>
+            <span
+              class="other-service__arrow grid size-9 place-items-center rounded-pill border border-border"
+              aria-hidden="true"
+            >
+              <Icon name="arrow-right" size={16} />
+            </span>
           </a>
         </li>
       ))}
     </ul>
   </Container>
 </nav>
+
+<style>
+  .other-service__arrow {
+    transition:
+      background-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard),
+      translate var(--duration-base) var(--ease-out);
+  }
+  .other-service:hover .other-service__arrow,
+  .other-service:focus-visible .other-service__arrow {
+    background: var(--surface-highlight);
+    border-color: var(--surface-highlight);
+    color: var(--color-ink);
+    translate: 2px 0;
+  }
+</style>

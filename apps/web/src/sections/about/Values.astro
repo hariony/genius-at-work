@@ -4,19 +4,29 @@ import Container from '@/components/ui/Container.astro';
 import { ABOUT_PAGE } from '@/content/pages';
 import { toLocale } from '@/lib/i18n';
 
-/** « Les maîtres-mots sont la performance et la confiance » (audit §3). */
+/**
+ * « Les maîtres-mots sont la performance et la confiance » (audit §3) : chaque valeur en très
+ * grand, en citron sur la nuit, avec sa description.
+ */
+interface Props {
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
+}
+
+const { index } = Astro.props;
 const locale = toLocale(Astro.currentLocale);
 const copy = ABOUT_PAGE[locale].values;
 ---
 
 <section data-surface="night" class="py-section" aria-labelledby="values-title">
   <Container class="flex flex-col gap-section-gap">
-    <ChapterHeader label={copy.label} title={copy.title} id="values-title" />
-    <ul class="grid gap-6 md:grid-cols-2" data-anim="stagger">
-      {copy.items.map((item) => (
-        <li class="flex min-w-0 flex-col gap-4 rounded-md border border-border bg-bg-raised p-8 lg:p-10">
-          <h3 class="type-h2 text-highlight">{item.title}</h3>
-          <p class="max-w-[42ch] text-fg-muted">{item.description}</p>
+    <ChapterHeader index={index} label={copy.label} title={copy.title} id="values-title" />
+    <ul class="grid gap-x-12 gap-y-12 md:grid-cols-2" data-anim="stagger">
+      {copy.items.map((item, i) => (
+        <li class="flex min-w-0 flex-col gap-5 border-t border-border-strong pt-6">
+          <span class="type-mono text-fg-muted">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="type-display break-words text-highlight">{item.title}</h3>
+          <p class="max-w-[42ch] type-lead text-fg-muted">{item.description}</p>
         </li>
       ))}
     </ul>

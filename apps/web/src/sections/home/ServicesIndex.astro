@@ -4,7 +4,7 @@ import ChapterHeader from '@/components/sections/ChapterHeader.astro';
 import Container from '@/components/ui/Container.astro';
 import Icon from '@/components/ui/Icon.astro';
 import { HOME_SECTIONS } from '@/content/home';
-import { projectTint } from '@/lib/brand';
+import { tintStyle } from '@/lib/brand';
 import { localizePath, toLocale } from '@/lib/i18n';
 import { imageSource } from '@/lib/images';
 import { getServices, projectsForService } from '@/services/content';
@@ -95,8 +95,9 @@ const tone = fuchsia
             <div
               class:list={[
                 'services-preview__item absolute inset-0',
-                project ? projectTint(project) : 'bg-bg-raised',
+                project ? 'project-tint' : 'bg-bg-raised',
               ]}
+              style={project ? tintStyle(project) : undefined}
               data-service-preview={i}
               data-active={i === 0 ? '' : undefined}
             >

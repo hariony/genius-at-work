@@ -155,9 +155,19 @@ const activePath = activeNavPath(stripLocale(Astro.url.pathname));
   const header = document.querySelector<HTMLElement>('[data-site-header]');
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (header) {
+    // Hero coloré (navy, teinte d'un projet) : en haut de page, l'en-tête prend sa surface.
+    const heroSurface = hero?.dataset.surface;
+    const colored = Boolean(heroSurface && heroSurface !== 'base');
+
     const update = () => {
       const y = window.scrollY;
       header.toggleAttribute('data-scrolled', y > SCROLLED_AT);
+      if (colored && hero) {
+        const onHero = y <= SCROLLED_AT;
+        if (onHero) header.dataset.surface = heroSurface;
+        else delete header.dataset.surface;
+        header.style.cssText = onHero ? hero.style.cssText : '';
+      }
       // Hero sombre : l'en-tête garde sa surface tant qu'il le recouvre.
       header.toggleAttribute(
         'data-past-hero',

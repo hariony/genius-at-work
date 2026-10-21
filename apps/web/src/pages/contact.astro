@@ -18,11 +18,14 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x0000000
 ---
 
 <PageLayout title={copy.seoTitle} description={copy.seoDescription} footerCta={false}>
-  <PageHero eyebrow={copy.eyebrow} title={copy.title} lead={copy.lead} />
+  <PageHero eyebrow={copy.eyebrow} title={copy.title} lead={copy.lead} size="large" />
 
-  <section data-surface="base" class="py-section">
-    <Container class="grid gap-section-gap lg:grid-cols-12">
-      <div class="lg:col-span-8">
+  <section data-surface="subtle" class="py-section">
+    <Container class="grid gap-section-gap lg:grid-cols-12 lg:gap-x-12">
+      <div
+        data-surface="base"
+        class="rounded-xl border border-border p-6 shadow-sm sm:p-10 lg:col-span-8 lg:p-12"
+      >
         <ContactForm
           client:visible
           copy={CONTACT_FORM[locale]}
@@ -35,7 +38,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x0000000
         />
       </div>
 
-      <aside class="flex flex-col gap-10 lg:col-span-4" aria-label={copy.direct.label}>
+      <aside
+        class="flex flex-col gap-10 self-start lg:sticky lg:top-28 lg:col-span-4"
+        aria-label={copy.direct.label}
+      >
         <div class="flex flex-col gap-2 border-t border-border pt-4">
           <h2 class="type-label text-fg-muted">{copy.direct.email}</h2>
           <a href={`mailto:${SITE.email}`} class="type-lead font-semibold break-all">

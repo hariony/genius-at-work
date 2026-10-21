@@ -1,21 +1,26 @@
 ---
-import { markerTint } from '@/lib/brand';
 import ChapterHeader from '@/components/sections/ChapterHeader.astro';
 import Container from '@/components/ui/Container.astro';
 import { TECHNOLOGY_PAGE } from '@/content/pages';
 import { toLocale } from '@/lib/i18n';
 
+interface Props {
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
+}
+
+const { index } = Astro.props;
 const locale = toLocale(Astro.currentLocale);
 const copy = TECHNOLOGY_PAGE[locale].principles;
 ---
 
-<section data-surface="subtle" class="py-section" aria-labelledby="principles-title">
+<section data-surface="base" class="py-section" aria-labelledby="principles-title">
   <Container class="flex flex-col gap-section-gap">
-    <ChapterHeader label={copy.label} title={copy.title} id="principles-title" />
+    <ChapterHeader index={index} label={copy.label} title={copy.title} id="principles-title" />
     <ul class="grid gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3" data-anim="stagger">
       {copy.items.map((item, i) => (
-        <li class="flex flex-col gap-2.5">
-          <span class:list={['mb-2 h-1.5 w-10 rounded-pill', markerTint(i)]} aria-hidden="true" />
+        <li class="flex flex-col gap-2.5 border-t border-border pt-6">
+          <span class="type-mono text-highlight">{String(i + 1).padStart(2, '0')}</span>
           <h3 class="type-h3">{item.title}</h3>
           <p class="text-fg-muted">{item.description}</p>
         </li>

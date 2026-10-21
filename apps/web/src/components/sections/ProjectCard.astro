@@ -1,6 +1,6 @@
 ---
 import { Picture } from 'astro:assets';
-import { projectTint } from '@/lib/brand';
+import { tintStyle } from '@/lib/brand';
 import { imageSource } from '@/lib/images';
 import Icon from '@/components/ui/Icon.astro';
 import { CATEGORY_LABELS, projectPeriod } from '@/lib/portfolio';
@@ -9,7 +9,7 @@ import type { Project } from '@/types/content';
 
 /**
  * Carte projet éditoriale : la capture est présentée dans une fenêtre de navigateur sur un
- * aplat de marque (cyan, lilas, citron ou bleu clair), suivie du titre, des catégories et de la période.
+ * aplat à la couleur du projet (tirée de sa capture), suivie du titre, des catégories et de la période.
  * Toute la carte est un lien. Variantes :
  *   feature : grand format, résumé et technologies affichés (accueil)
  *   default : format courant (listes)
@@ -38,10 +38,10 @@ const feature = variant === 'feature';
 <article class:list={['group relative flex flex-col gap-5', className]}>
   <div
     class:list={[
-      'project-stage relative overflow-hidden rounded-lg',
-      projectTint(project),
+      'project-stage project-tint relative overflow-hidden rounded-lg',
       ratio === 'wide' ? 'aspect-[16/10]' : 'aspect-[4/3]',
     ]}
+    style={tintStyle(project)}
     data-anim="reveal-image"
   >
     <div class="project-window browser-frame absolute inset-x-[7%] top-[9%] -bottom-[6%]">

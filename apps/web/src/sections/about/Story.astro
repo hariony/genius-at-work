@@ -5,6 +5,12 @@ import { ABOUT_PAGE } from '@/content/pages';
 import { toLocale } from '@/lib/i18n';
 
 /** L'équipe : récit et chiffres réels (audit §3). */
+interface Props {
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
+}
+
+const { index } = Astro.props;
 const locale = toLocale(Astro.currentLocale);
 const copy = ABOUT_PAGE[locale].story;
 const stats = HOME_SECTIONS[locale].manifesto.stats;
@@ -14,7 +20,10 @@ const stats = HOME_SECTIONS[locale].manifesto.stats;
   <Container class="flex flex-col gap-section-gap">
     <div class="grid gap-y-8 lg:grid-cols-12 lg:gap-x-12">
       <div class="flex flex-col gap-4 lg:col-span-5">
-        <p class="eyebrow">{copy.label}</p>
+        <p class="eyebrow" data-anim="reveal-up">
+          {index && <span class="text-fg">{index}</span>}
+          {copy.label}
+        </p>
         <h2 id="story-title" class="type-h2 max-w-[18ch]" data-anim="reveal-lines">
           {copy.title}
         </h2>

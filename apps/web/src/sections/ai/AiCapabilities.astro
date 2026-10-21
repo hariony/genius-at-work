@@ -5,12 +5,19 @@ import { AI_PAGE } from '@/content/ai';
 import { toLocale } from '@/lib/i18n';
 
 /** Capacités IA : une ligne par domaine (numéro, titre, description, exemples). */
+interface Props {
+  /** Numéro de la section dans le parcours de la page. */
+  index?: string | undefined;
+}
+
+const { index } = Astro.props;
 const copy = AI_PAGE[toLocale(Astro.currentLocale)].capabilities;
 ---
 
 <section data-surface="base" class="py-section" aria-labelledby="ai-capabilities-title">
   <Container class="flex flex-col gap-section-gap">
     <ChapterHeader
+      index={index}
       label={copy.label}
       title={copy.title}
       intro={copy.intro}

@@ -13,10 +13,15 @@ const copy = ABOUT_PAGE[toLocale(Astro.currentLocale)];
 ---
 
 <PageLayout title={copy.hero.seoTitle} description={copy.hero.seoDescription}>
-  <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} />
-  <Story />
-  <Values />
-  <Offices />
-  <Method surface="base" />
-  <Reasons surface="subtle" />
+  <PageHero
+    eyebrow={copy.hero.eyebrow}
+    title={copy.hero.title}
+    lead={copy.hero.lead}
+    size="large"
+  />
+  <Story index="01" />
+  <Values index="02" />
+  <Offices index="03" />
+  <Method index="04" surface="base" />
+  <Reasons index="05" surface="subtle" />
 </PageLayout>

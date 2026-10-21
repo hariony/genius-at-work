@@ -9,6 +9,11 @@ const copy = PROJECTS_PAGE[toLocale(Astro.currentLocale)];
 ---
 
 <PageLayout title={copy.hero.seoTitle} description={copy.hero.seoDescription}>
-  <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} />
+  <PageHero
+    eyebrow={copy.hero.eyebrow}
+    title={copy.hero.title}
+    lead={copy.hero.lead}
+    size="large"
+  />
   <ProjectsIndex />
 </PageLayout>

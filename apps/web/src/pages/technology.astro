@@ -13,8 +13,18 @@ const copy = TECHNOLOGY_PAGE[locale];
 ---
 
 <PageLayout title={copy.hero.seoTitle} description={copy.hero.seoDescription}>
-  <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} />
-  <TechnologyUsage />
-  <Engineering heading={HOME_SECTIONS[locale].engineering} cta={false} />
-  <Principles />
+  <PageHero
+    eyebrow={copy.hero.eyebrow}
+    title={copy.hero.title}
+    lead={copy.hero.lead}
+    size="large"
+  />
+  <TechnologyUsage index="01" />
+  <Engineering
+    heading={HOME_SECTIONS[locale].engineering}
+    cta={false}
+    index="02"
+    surface="subtle"
+  />
+  <Principles index="03" />
 </PageLayout>

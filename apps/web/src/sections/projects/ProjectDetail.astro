@@ -1,23 +1,26 @@
 ---
 import { Picture } from 'astro:assets';
-import { projectTint } from '@/lib/brand';
-import { imageSource } from '@/lib/images';
-import PageHero from '@/components/sections/PageHero.astro';
-import ProjectCard from '@/components/sections/ProjectCard.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
 import Button from '@/components/ui/Button.astro';
 import Container from '@/components/ui/Container.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Tag from '@/components/ui/Tag.astro';
 import { PROJECTS_PAGE } from '@/content/pages';
-import { CATEGORY_LABELS } from '@/lib/portfolio';
+import { tintStyle } from '@/lib/brand';
+import { imageSource } from '@/lib/images';
+import { CATEGORY_LABELS, projectPeriod } from '@/lib/portfolio';
 import { localizePath, toLocale, useTranslations } from '@/lib/i18n';
+import { breadcrumbs as breadcrumbList } from '@/lib/seo/schema';
 import { adjacentProjects, servicesForProject } from '@/services/content';
 import type { Project } from '@/types/content';
 
 /**
- * Fiche projet. Seules les informations réelles du portfolio sont affichées :
- * les rubriques d'étude de cas (contexte, challenge, solution, résultats) apparaîtront
- * lorsque l'agence les aura fournies (docs/content-audit.md §12).
+ * Fiche projet, à la couleur du projet (tirée de sa capture) : en-tête teinté avec le titre,
+ * le résumé et la fiche (client, période, métiers, technologies), puis la capture en grand qui
+ * déborde de l'en-tête, et le projet suivant en pleine largeur.
+ * Seules les informations réelles du portfolio sont affichées : les rubriques d'étude de cas
+ * (contexte, challenge, solution, résultats) apparaîtront lorsque l'agence les aura fournies
+ * (docs/content-audit.md §12).
  */
 interface Props {
   project: Project;
@@ -29,66 +32,77 @@ const t = useTranslations(locale);
 const copy = PROJECTS_PAGE[locale].detail;
 const services = servicesForProject(project);
 const { previous, next } = adjacentProjects(project);
-const period = project.period
-  ? project.period.start === project.period.end
-    ? `${project.period.start}`
-    : `${project.period.start}–${project.period.end}`
-  : undefined;
+const period = projectPeriod(project);
 const host = project.url ? new URL(project.url).host.replace(/^www\./, '') : undefined;
+const crumbs = [
+  { label: t('nav.home'), href: localizePath('/', locale) },
+  { label: t('nav.projects'), href: localizePath('/projects/', locale) },
+];
+const site = Astro.site ?? new URL('https://genius-at-work.com');
 ---
 
-<PageHero
-  eyebrow={project.categories.map((category) => CATEGORY_LABELS[category][locale]).join(' · ')}
-  title={project.title}
-  lead={project.summary[locale]}
-  breadcrumbs={[
-    { label: t('nav.home'), href: localizePath('/', locale) },
-    { label: t('nav.projects'), href: localizePath('/projects/', locale) },
-  ]}
-  breadcrumbLabel={t('a11y.breadcrumb')}
->
-  {project.url && (
-    <div data-anim="reveal-up" data-anim-trigger="load" data-anim-delay="0.4">
-      <Button href={project.url} target="_blank" rel="noopener" icon="arrow-up-right">
-        {copy.visit}
-        <span class="sr-only">
-          {' '}
-          ({host}, {t('a11y.newTab')})
-        </span>
-      </Button>
+<JsonLd
+  data={breadcrumbList(site, [...crumbs, { label: project.title, href: Astro.url.pathname }])}
+/>
+
+<section data-surface="tint" data-hero style={tintStyle(project)} class="project-hero">
+  <Container class="grid gap-12 pt-32 pb-16 lg:grid-cols-12 lg:gap-x-12 lg:pt-40 lg:pb-20">
+    <nav aria-label={t('a11y.breadcrumb')} class="text-small text-fg-muted lg:col-span-12">
+      <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+        {crumbs.map((crumb) => (
+          <li class="flex items-center gap-2">
+            <a href={crumb.href} class="no-underline hover:text-fg">
+              {crumb.label}
+            </a>
+            <span aria-hidden="true">/</span>
+          </li>
+        ))}
+        <li aria-current="page" class="text-fg">
+          {project.title}
+        </li>
+      </ol>
+    </nav>
+
+    <div class="flex flex-col gap-6 lg:col-span-7">
+      <p class="eyebrow" data-anim="reveal-up" data-anim-trigger="load">
+        {project.categories.map((category) => CATEGORY_LABELS[category][locale]).join(' · ')}
+      </p>
+      <h1
+        class="type-display max-w-[16ch] [overflow-wrap:anywhere]"
+        data-anim="reveal-lines"
+        data-anim-trigger="load"
+      >
+        {project.title}
+      </h1>
+      <p
+        class="type-lead max-w-[48ch] text-fg"
+        data-anim="reveal-up"
+        data-anim-trigger="load"
+        data-anim-delay="0.2"
+      >
+        {project.summary[locale]}
+      </p>
+      {project.url && (
+        <div data-anim="reveal-up" data-anim-trigger="load" data-anim-delay="0.3">
+          <Button href={project.url} target="_blank" rel="noopener" icon="arrow-up-right">
+            {copy.visit}
+            <span class="sr-only">
+              {' '}
+              ({host}, {t('a11y.newTab')})
+            </span>
+          </Button>
+        </div>
+      )}
     </div>
-  )}
-</PageHero>
 
-<section data-surface="base" class="pb-section" aria-labelledby="project-overview">
-  <h2 id="project-overview" class="sr-only">
-    {copy.overview}
-  </h2>
-  <Container width="wide" class="pt-12 lg:pt-16">
-    <figure
-      class:list={['project-showcase overflow-hidden rounded-xl', projectTint(project)]}
-      data-anim="reveal-image"
+    <dl
+      class="grid content-end gap-x-8 gap-y-6 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1"
+      data-anim="stagger"
     >
-      <div class="browser-frame mx-auto w-[88%] translate-y-[8%] shadow-md">
-        <Picture
-          {...imageSource(project.cover)}
-          formats={['avif', 'webp']}
-          widths={[640, 960, 1280, 1600, 2000]}
-          sizes="(min-width: 90rem) 1200px, 88vw"
-          alt={project.coverAlt[locale]}
-          loading="eager"
-          class="w-full"
-        />
-      </div>
-    </figure>
-  </Container>
-
-  <Container class="pt-section-gap">
-    <dl class="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4" data-anim="stagger">
       {project.client && (
-        <div class="flex flex-col gap-2 border-t border-border pt-5">
+        <div class="flex flex-col gap-1.5 border-t border-border pt-4">
           <dt class="type-label text-fg-muted">{copy.client}</dt>
-          <dd class="font-medium">
+          <dd class="font-semibold">
             {project.client}
             {project.clientType && (
               <span class="block text-small font-normal text-fg-muted">
@@ -99,12 +113,31 @@ const host = project.url ? new URL(project.url).host.replace(/^www\./, '') : und
         </div>
       )}
       {period && (
-        <div class="flex flex-col gap-2 border-t border-border pt-5">
+        <div class="flex flex-col gap-1.5 border-t border-border pt-4">
           <dt class="type-label text-fg-muted">{copy.period}</dt>
-          <dd class="font-medium tabular-nums">{period}</dd>
+          <dd class="font-semibold tabular-nums">{period}</dd>
         </div>
       )}
-      <div class="flex flex-col gap-2 border-t border-border pt-5">
+      {services.length > 0 && (
+        <div class="flex flex-col gap-1.5 border-t border-border pt-4">
+          <dt class="type-label text-fg-muted">{copy.services}</dt>
+          <dd>
+            <ul class="flex flex-wrap gap-x-4 gap-y-1">
+              {services.map((service) => (
+                <li>
+                  <a
+                    href={localizePath(`/services/${service.slug}/`, locale)}
+                    class="font-semibold"
+                  >
+                    {service.title[locale]}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      )}
+      <div class="flex flex-col gap-2 border-t border-border pt-4">
         <dt class="type-label text-fg-muted">{copy.technologies}</dt>
         <dd>
           <ul class="flex flex-wrap gap-1.5">
@@ -116,54 +149,94 @@ const host = project.url ? new URL(project.url).host.replace(/^www\./, '') : und
           </ul>
         </dd>
       </div>
-      {services.length > 0 && (
-        <div class="flex flex-col gap-2 border-t border-border pt-5">
-          <dt class="type-label text-fg-muted">{copy.services}</dt>
-          <dd>
-            <ul class="flex flex-col gap-1">
-              {services.map((service) => (
-                <li>
-                  <a href={localizePath(`/services/${service.slug}/`, locale)} class="font-medium">
-                    {service.title[locale]}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </dd>
-        </div>
-      )}
     </dl>
+  </Container>
+  <!-- Bas de l'aplat : la capture vient s'y poser à cheval. -->
+  <div class="project-hero__runway" aria-hidden="true"></div>
+</section>
+
+<section data-surface="base" class="pb-section" aria-labelledby="project-overview">
+  <h2 id="project-overview" class="sr-only">
+    {copy.overview}
+  </h2>
+  <Container width="wide">
+    <figure class="project-shot" data-anim="reveal-image">
+      <div class="browser-frame shadow-lg">
+        <Picture
+          {...imageSource(project.cover)}
+          formats={['avif', 'webp']}
+          widths={[640, 960, 1280, 1600, 2000]}
+          sizes="(min-width: 90rem) 1280px, 92vw"
+          alt={project.coverAlt[locale]}
+          loading="eager"
+          class="w-full"
+        />
+      </div>
+    </figure>
   </Container>
 </section>
 
-<nav data-surface="subtle" class="py-section" aria-label={copy.back}>
-  <Container class="flex flex-col gap-section-gap">
-    <div class="flex items-center justify-between gap-6">
-      <p class="eyebrow">{copy.more}</p>
+<nav aria-label={copy.more} class="project-next">
+  <a
+    href={localizePath(`/projects/${next.slug}/`, locale)}
+    data-surface="tint"
+    style={tintStyle(next)}
+    class="group block no-underline"
+  >
+    <Container class="flex flex-col gap-6 py-section">
+      <span class="type-label text-fg-muted">{copy.next}</span>
+      <span class="flex items-end justify-between gap-8">
+        <span class="type-display max-w-[18ch] min-w-0 [overflow-wrap:anywhere]">{next.title}</span>
+        <span
+          class="project-next__arrow grid size-14 shrink-0 place-items-center rounded-pill border border-border-strong lg:size-20"
+          aria-hidden="true"
+        >
+          <Icon name="arrow-right" size={24} />
+        </span>
+      </span>
+      <span class="max-w-[56ch] text-fg-muted">{next.summary[locale]}</span>
+    </Container>
+  </a>
+  <div data-surface="base" class="border-b border-border">
+    <Container class="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 py-6 text-small">
       <a
-        href={localizePath('/projects/', locale)}
-        class="inline-flex items-center gap-2 text-small font-semibold no-underline hover:text-accent"
+        href={localizePath(`/projects/${previous.slug}/`, locale)}
+        class="inline-flex items-center gap-2 font-semibold no-underline hover:text-accent"
       >
         <Icon name="arrow-right" size={14} class="rotate-180" />
+        <span class="text-fg-muted">{copy.previous}</span>
+        {previous.title}
+      </a>
+      <a
+        href={localizePath('/projects/', locale)}
+        class="font-semibold no-underline hover:text-accent"
+      >
         {copy.back}
       </a>
-    </div>
-    <ul class="grid gap-x-10 gap-y-14 md:grid-cols-2">
-      {[
-        { label: copy.previous, item: previous },
-        { label: copy.next, item: next },
-      ].map(({ label, item }) => (
-        <li class="flex flex-col gap-4">
-          <p class="type-label text-fg-muted">{label}</p>
-          <ProjectCard project={item} sizes="(min-width: 48rem) 45vw, 100vw" />
-        </li>
-      ))}
-    </ul>
-  </Container>
+    </Container>
+  </div>
 </nav>
 
 <style>
-  .project-showcase {
-    padding-top: clamp(1.5rem, 4vw, 4rem);
+  /* La capture chevauche l'aplat : l'aplat se prolonge d'une bande que la capture recouvre. */
+  .project-hero__runway {
+    height: clamp(6rem, 14vw, 14rem);
+  }
+  .project-shot {
+    margin-top: calc(-1 * clamp(5rem, 13vw, 13rem));
+    position: relative;
+  }
+
+  .project-next__arrow {
+    transition:
+      background-color var(--duration-base) var(--ease-standard),
+      color var(--duration-base) var(--ease-standard),
+      translate var(--duration-base) var(--ease-out);
+  }
+  .project-next a:hover .project-next__arrow,
+  .project-next a:focus-visible .project-next__arrow {
+    background: var(--surface-fg);
+    color: var(--surface-bg);
+    translate: 0.25rem 0;
   }
 </style>
