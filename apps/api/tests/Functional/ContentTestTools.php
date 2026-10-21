@@ -45,6 +45,7 @@ trait ContentTestTools
     private function login(): void
     {
         $admin = new AdminUser('01JABCDEFGHJKMNPQRSTVWXYZA', 'admin@example.com', new \DateTimeImmutable());
+        $admin->enableTotp('JBSWY3DPEHPK3PXP');
         $this->em()->persist($admin);
         $this->em()->flush();
         $this->client->loginUser($admin, 'admin');

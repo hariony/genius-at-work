@@ -70,12 +70,24 @@ jobs:
         options: >-
           --health-cmd="mysqladmin ping -h 127.0.0.1 -ugaw -pgaw"
           --health-interval=5s --health-timeout=5s --health-retries=30
+      # Hébergement mutualisé visé (docs/deploiement.md) : MariaDB 11.8.
+      mariadb:
+        image: mariadb:11.8
+        env:
+          MARIADB_DATABASE: gaw
+          MARIADB_USER: gaw
+          MARIADB_PASSWORD: gaw
+          MARIADB_ROOT_PASSWORD: ci-root
+        ports: ['3307:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=30
     steps:
       - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: apcu, intl, pdo_mysql, pdo_sqlite, redis
+          extensions: apcu, intl, pdo_mysql, pdo_sqlite
           coverage: none
           tools: composer:v2
       - name: Cache Composer
@@ -103,6 +115,15 @@ jobs:
         run: |
           bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
           bin/console doctrine:schema:validate
+      - name: Migrations, import du contenu et tests sur MariaDB 11.8
+        env:
+          DATABASE_URL: mysql://gaw:gaw@127.0.0.1:3307/gaw?serverVersion=11.8.6-MariaDB&charset=utf8mb4
+        run: |
+          bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+          bin/console doctrine:schema:validate
+          bin/console app:content:import
+          mysql -h 127.0.0.1 -P 3307 -uroot -pci-root -e "CREATE DATABASE gaw_test; GRANT ALL ON gaw_test.* TO gaw"
+          TEST_DATABASE_URL="mysql://gaw:gaw@127.0.0.1:3307/gaw_test?serverVersion=11.8.6-MariaDB&charset=utf8mb4" bin/phpunit
       - name: Audit des dépendances
         run: composer audit
 

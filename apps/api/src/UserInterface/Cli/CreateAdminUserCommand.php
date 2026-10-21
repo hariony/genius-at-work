@@ -68,7 +68,7 @@ final readonly class CreateAdminUserCommand
         $this->em->persist($user);
         $this->em->flush();
 
-        $io->success(\sprintf('Compte créé : %s.', $user->email()));
+        $io->success(\sprintf('Compte créé : %s. La double authentification sera activée à la première connexion.', $user->email()));
 
         return Command::SUCCESS;
     }

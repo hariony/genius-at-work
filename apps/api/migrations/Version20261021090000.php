@@ -31,9 +31,11 @@ final class Version20261021090000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        // JSON_EXTRACT(…, '$') : la valeur est lue comme du JSON par MySQL comme par MariaDB
+        // (qui ne connaît pas CAST(… AS JSON)).
         foreach (self::VALUES as [$path, $value]) {
             $this->addSql(
-                "UPDATE content_document SET data = JSON_SET(data, '{$path}', CAST(:value AS JSON)) WHERE id = 'page:home' AND JSON_EXTRACT(data, '{$path}') IS NULL",
+                "UPDATE content_document SET data = JSON_SET(data, '{$path}', JSON_EXTRACT(:value, '$')) WHERE id = 'page:home' AND JSON_EXTRACT(data, '{$path}') IS NULL",
                 ['value' => $value],
             );
         }

@@ -1,6 +1,7 @@
 # Déploiement et exploitation
 
-Ce guide couvre la mise en place de la production et les opérations courantes.
+Ce guide couvre la mise en place de la production sur un VPS avec Docker et les opérations
+courantes. Hébergement actuel (Apache, PHP 8.4, MariaDB, sans Docker) : `deploiement-apache.md`.
 Rien n'est déployé tant que la variable de dépôt `DEPLOY_ENABLED` ne vaut pas `true`.
 
 ## Vue d'ensemble
@@ -9,11 +10,22 @@ Rien n'est déployé tant que la variable de dépôt `DEPLOY_ENABLED` ne vaut pa
 | ------------- | --------------------------------- | --------------------------------------------------------------------- |
 | Site (Astro)  | Cloudflare Workers Static Assets  | `wrangler deploy` depuis GitHub Actions                               |
 | API (Symfony) | VPS dans l'UE, Docker Compose     | image GHCR, SSH à travers Cloudflare Tunnel, `infra/deploy/deploy.sh` |
-| MySQL, Valkey | même VPS, volumes Docker nommés   | jamais exposés sur Internet                                           |
+| MySQL         | même VPS, volume Docker nommé     | jamais exposé sur Internet                                            |
 | Accès entrant | Cloudflare Tunnel (`cloudflared`) | aucun port ouvert sur le VPS                                          |
 
 Pipeline sur `main` : CI complète → site en préproduction (automatique) → site et API en
 production (approbation manuelle dans l'environnement GitHub `production`).
+
+## Base de données
+
+L'API fonctionne sur **MySQL 8.4** (Docker, ce guide) et sur **MariaDB 11.8** (hébergement
+mutualisé). La CI applique les migrations et lance toute la suite de tests sur les deux. Avec
+MariaDB, `DATABASE_URL` doit le dire : `…?serverVersion=11.8.6-MariaDB&charset=utf8mb4`.
+
+Dans une migration, du JSON se passe par `JSON_EXTRACT(:valeur, '$')`, jamais par
+`CAST(:valeur AS JSON)`, que MariaDB ne connaît pas. Pour lancer les tests sur une vraie base
+plutôt que sur SQLite : `TEST_DATABASE_URL=… bin/phpunit`, avec une base dédiée aux tests, car
+elle est vidée à chaque test.
 
 ## Règles de sécurité du pipeline
 

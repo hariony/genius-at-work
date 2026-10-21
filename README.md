@@ -20,7 +20,7 @@ Prérequis : Node 24 (`nvm use`), pnpm 10, Docker.
 
 ```sh
 pnpm install
-docker compose up -d --wait     # API, worker, scheduler, MySQL, Valkey, Mailpit
+docker compose up -d --wait     # API, worker, scheduler, MySQL, Mailpit
 docker compose exec api php bin/console doctrine:migrations:migrate -n
 docker compose exec api php bin/console app:content:import    # contenu initial du site
 pnpm --filter @gaw/web dev      # http://localhost:4321
@@ -67,3 +67,4 @@ SEO et sécurité du site (générés au build) :
 - `docs/proposal/02-architecture-technique.md` : architecture, données, SEO, performance, parcours
 - `docs/back-office.md` : back-office (demandes, contenu du site), comptes, sécurité
 - `docs/deploiement.md` : mise en production, règles du pipeline, opérations courantes
+- `docs/deploiement-apache.md` : hébergement actuel (Apache, PHP, MariaDB, sans Docker), `infra/apache/deploy.sh`

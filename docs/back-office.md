@@ -12,7 +12,7 @@ code métier n'est dupliqué.
 | Cas d'usage       | `Application/Crm` : `ChangeLeadStatus`, `AnonymizeLead`, port de lecture `LeadFinder`                               |
 | Infrastructure    | `DoctrineLeadFinder` (recherche, filtres, compteurs), `Security/AdminUser` (comptes, table `admin_user`)            |
 | Interface         | `UserInterface/Admin` (contrôleurs, libellés, en-têtes), `templates/admin`, `public/admin/assets` (CSS, police, JS) |
-| Ligne de commande | `app:admin:create`                                                                                                  |
+| Ligne de commande | `app:admin:create`, `app:admin:password`, `app:admin:2fa-reset`                                                     |
 
 ## Fonctions
 
@@ -104,6 +104,24 @@ Puis http://office.localhost:8088. Mot de passe oublié ou à changer (saisie ma
 ```sh
 docker compose exec api php bin/console app:admin:password vous@genius-at-work.com
 ```
+
+## Double authentification
+
+Obligatoire pour chaque compte (exigence de l'hébergeur). À la première connexion, le back-office
+n'affiche que la page d'activation : QR code (ou clé à saisir) pour une application
+d'authentification (Google Authenticator, Microsoft Authenticator, 1Password…), puis un premier
+code pour confirmer. Ensuite, le code à 6 chiffres est demandé après le mot de passe à chaque
+connexion. Les essais (mot de passe et code) sont limités : 5 par quart d'heure.
+
+Téléphone perdu ou changé : la réactivation est redemandée à la connexion suivante après
+
+```sh
+php bin/console app:admin:2fa-reset vous@genius-at-work.com
+```
+
+Mise en œuvre : `scheb/2fa-bundle` (TOTP standard : SHA-1, 30 s, 6 chiffres), clé dans
+`admin_user.totp_secret`, QR code dessiné sur le serveur (`endroid/qr-code`, jamais envoyé à un
+service extérieur), `TwoFactorSetupController` et `RequireTwoFactor`.
 
 ## Production
 

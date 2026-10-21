@@ -1,0 +1,45 @@
+{# Deuxième étape de la connexion (scheb/2fa-bundle) : code de l'application d'authentification. #}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Code de vérification{% endblock %}
+{% block body_class %}login{% endblock %}
+
+{% block body %}
+    <span class="login-shape login-shape--circle" aria-hidden="true"></span>
+    <span class="login-shape login-shape--square" aria-hidden="true"></span>
+    <main class="login-card">
+        <p class="brand brand--dark">
+            {% include 'admin/_logo.html.twig' with {size: 34} %}
+            <span class="brand-name">genius<span class="brand-at">@</span>work</span>
+        </p>
+        <h1 class="login-title">Code de vérification</h1>
+        <p class="muted">Saisissez le code à 6 chiffres affiché par votre application d’authentification.</p>
+
+        {% if authenticationError %}
+            <p class="flash flash--error" role="alert">
+                {%- if authenticationError starts with 'Too many' -%}
+                    Trop de tentatives. Réessayez dans quelques minutes.
+                {%- elseif authenticationError starts with 'Invalid CSRF' -%}
+                    La page a expiré. Rechargez-la et réessayez.
+                {%- else -%}
+                    Code incorrect. Vérifiez l’heure de votre téléphone et réessayez.
+                {%- endif -%}
+            </p>
+        {% endif %}
+
+        <form method="post" action="{{ checkPathUrl ? checkPathUrl : path(checkPathRoute) }}" class="stack">
+            <label class="field">
+                <span class="field-label">Code</span>
+                <input class="input" type="text" name="{{ authCodeParameterName }}" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required autofocus>
+            </label>
+            {% if isCsrfProtectionEnabled %}
+                <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+            {% endif %}
+            <button class="button button--primary button--block" type="submit">Valider</button>
+        </form>
+        <form method="post" action="{{ path('admin_logout') }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+            <button class="link-button" type="submit">Annuler</button>
+        </form>
+    </main>
+{% endblock %}

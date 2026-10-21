@@ -36,8 +36,8 @@ export API_IMAGE="$NEW_IMAGE"
 log 'Téléchargement de l’image…'
 "${COMPOSE[@]}" pull api
 
-log 'Démarrage de MySQL et Valkey (sans effet s’ils tournent déjà)…'
-"${COMPOSE[@]}" up -d --wait mysql redis
+log 'Démarrage de MySQL (sans effet s’il tourne déjà)…'
+"${COMPOSE[@]}" up -d --wait mysql
 
 # 1. Sauvegarde, vérifiée avant de continuer.
 mkdir -p backups

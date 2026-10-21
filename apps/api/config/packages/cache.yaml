@@ -2,11 +2,7 @@ framework:
     cache:
         # Préfixe stable des clés : le cache survit aux déploiements.
         prefix_seed: genius-at-work/api
-
-when@prod:
-    framework:
-        cache:
-            # Redis (Valkey) partagé par l'API, le worker et le scheduler : limites d'envoi
-            # et état du scheduler restent cohérents entre les conteneurs.
-            app: cache.adapter.redis
-            default_redis_provider: '%env(REDIS_URL)%'
+        # Cache applicatif en fichiers (var/cache), sans serveur de cache : limites d'envoi du
+        # formulaire (lues par l'API) et état des tâches planifiées (lu par le worker). Vidé à
+        # chaque déploiement, sans conséquence : les limites repartent de zéro, et une tâche
+        # nocturne manquée est rattrapée (Schedule::processOnlyLastMissedRun).

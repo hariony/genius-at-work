@@ -2058,3 +2058,37 @@ a.ref:hover {
     transition: none !important;
   }
 }
+
+/* Double authentification : QR code et clé de secours. */
+.totp-qr {
+  align-self: center;
+  width: 200px;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: #fff;
+}
+
+.totp-qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.totp-key summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.totp-secret {
+  display: block;
+  margin-top: 6px;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  word-break: break-all;
+  user-select: all;
+}
+
+.login-card .link-button {
+  margin-top: 4px;
+}

@@ -11,16 +11,13 @@ x-api: &api
   depends_on:
     mysql:
       condition: service_healthy
-    redis:
-      condition: service_healthy
   environment:
     APP_ENV: prod
     APP_SECRET: ${APP_SECRET:?}
     DEFAULT_URI: https://api.genius-at-work.com
     SITE_URL: ${SITE_URL:-https://genius-at-work.com}
     DATABASE_URL: mysql://${MYSQL_USER:?}:${MYSQL_PASSWORD:?}@mysql:3306/${MYSQL_DATABASE:?}?serverVersion=8.4.0&charset=utf8mb4
-    MESSENGER_TRANSPORT_DSN: redis://redis:6379/messages
-    REDIS_URL: redis://redis:6379
+    MESSENGER_TRANSPORT_DSN: doctrine://default?auto_setup=0
     MAILER_DSN: ${MAILER_DSN:?}
     MAILER_FROM: ${MAILER_FROM:-noreply@genius-at-work.com}
     ADMIN_HOST: ${ADMIN_HOST:-office.genius-at-work.com}
@@ -97,28 +94,6 @@ services:
       retries: 30
       start_period: 30s
 
-  # Valkey : cache, limites d'envoi, file Messenger. AOF activé pour ne pas perdre la file.
-  redis:
-    image: valkey/valkey:9.1-alpine
-    restart: unless-stopped
-    command:
-      [
-        'valkey-server',
-        '--appendonly',
-        'yes',
-        '--maxmemory',
-        '256mb',
-        '--maxmemory-policy',
-        'noeviction',
-      ]
-    volumes:
-      - redis-data:/data
-    healthcheck:
-      test: ['CMD', 'valkey-cli', 'ping']
-      interval: 10s
-      timeout: 3s
-      retries: 10
-
   # api.genius-at-work.com → http://api:8080 (route configurée dans le tableau de bord Zero Trust).
   cloudflared:
     image: cloudflare/cloudflared:2026.10.1
@@ -132,5 +107,4 @@ services:
 
 volumes:
   mysql-data:
-  redis-data:
   media-data:

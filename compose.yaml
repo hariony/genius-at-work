@@ -16,8 +16,6 @@ x-api: &api
   depends_on:
     mysql:
       condition: service_healthy
-    redis:
-      condition: service_healthy
   volumes:
     - ./apps/api:/app
     # Cache et logs propres au conteneur (ceux de l'hôte contiennent ses chemins).
@@ -26,8 +24,7 @@ x-api: &api
     APP_ENV: dev
     APP_SECRET: dev-only-not-a-secret
     DATABASE_URL: mysql://gaw:gaw@mysql:3306/gaw?serverVersion=8.4.0&charset=utf8mb4
-    MESSENGER_TRANSPORT_DSN: redis://redis:6379/messages
-    REDIS_URL: redis://redis:6379
+    MESSENGER_TRANSPORT_DSN: doctrine://default?auto_setup=0
     # Mailpit par défaut ; une autre boîte de test peut être définie dans .env (non versionné).
     MAILER_DSN: ${MAILER_DSN:-smtp://mailpit:1025}
     TRUSTED_PROXIES: private_ranges
@@ -77,15 +74,6 @@ services:
       timeout: 5s
       retries: 30
       start_period: 20s
-
-  redis:
-    image: valkey/valkey:9.1-alpine
-    restart: unless-stopped
-    healthcheck:
-      test: ['CMD', 'valkey-cli', 'ping']
-      interval: 5s
-      timeout: 3s
-      retries: 10
 
   mailpit:
     image: axllent/mailpit:v1.31

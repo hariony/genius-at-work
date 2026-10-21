@@ -1,0 +1,13 @@
+# Double authentification du back-office (obligatoire) : code TOTP d'une application
+# d'authentification. Les essais sont limités par le login_throttling du pare-feu.
+scheb_two_factor:
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
+    totp:
+        enabled: true
+        issuer: 'genius@work'
+        server_name: '%env(ADMIN_HOST)%'
+        # Décalage d'horloge toléré entre le téléphone et le serveur.
+        leeway: 15
+        template: admin/two_factor.html.twig

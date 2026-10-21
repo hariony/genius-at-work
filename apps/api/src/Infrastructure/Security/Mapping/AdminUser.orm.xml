@@ -13,6 +13,7 @@
 
         <field name="email" type="string" length="180"/>
         <field name="password" type="string" length="255"/>
+        <field name="totpSecret" column="totp_secret" type="string" length="64" nullable="true"/>
         <field name="createdAt" type="datetime_immutable"/>
     </entity>
 </doctrine-mapping>

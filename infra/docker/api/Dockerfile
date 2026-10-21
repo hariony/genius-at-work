@@ -14,7 +14,7 @@ WORKDIR /app
 RUN <<-SH
 	apt-get update
 	apt-get install -y --no-install-recommends file
-	install-php-extensions @composer apcu intl opcache pdo_mysql redis zip
+	install-php-extensions @composer apcu intl opcache pdo_mysql zip
 	rm -rf /var/lib/apt/lists/*
 SH
 

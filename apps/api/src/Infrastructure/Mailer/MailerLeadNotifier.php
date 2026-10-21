@@ -36,6 +36,10 @@ final readonly class MailerLeadNotifier implements LeadNotifier
         );
     }
 
+    /**
+     * Envoyé à l'adresse saisie par le visiteur : aucun texte saisi par lui (nom, message) n'y
+     * figure, pour que le formulaire ne puisse pas servir à envoyer du spam.
+     */
     public function acknowledge(Lead $lead): void
     {
         $locale = $lead->locale()->value;
@@ -46,7 +50,7 @@ final readonly class MailerLeadNotifier implements LeadNotifier
         $this->mailer->send(
             new TemplatedEmail()
                 ->from(new Address($this->from, 'Genius At Work'))
-                ->to(new Address($lead->email(), $lead->fullName()))
+                ->to($lead->email())
                 ->subject($subject)
                 ->htmlTemplate(\sprintf('emails/acknowledgement.%s.html.twig', $locale))
                 ->textTemplate(\sprintf('emails/acknowledgement.%s.txt.twig', $locale))

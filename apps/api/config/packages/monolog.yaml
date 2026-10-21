@@ -32,24 +32,15 @@ when@test:
 when@prod:
     monolog:
         handlers:
+            # Un fichier par jour dans var/log, sept jours gardés : la taille reste bornée (quota de
+            # l'hébergement). Seuls les avertissements et les erreurs sont écrits.
             main:
-                type: fingers_crossed
-                action_level: error
-                handler: nested
-                excluded_http_codes: [404, 405]
+                type: rotating_file
+                path: "%kernel.logs_dir%/%kernel.environment%.log"
+                level: warning
+                max_files: 7
                 channels: ["!deprecation"]
-                buffer_size: 50 # How many messages should be saved? Prevent memory leaks
-            nested:
-                type: stream
-                path: php://stderr
-                level: debug
-                formatter: monolog.formatter.json
             console:
                 type: console
                 process_psr_3_messages: false
                 channels: ["!event", "!doctrine"]
-            deprecation:
-                type: stream
-                channels: [deprecation]
-                path: php://stderr
-                formatter: monolog.formatter.json

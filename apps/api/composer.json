@@ -13,7 +13,10 @@
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.7",
         "dragonmantank/cron-expression": "^3.6",
+        "endroid/qr-code": "^6.1",
         "nelmio/cors-bundle": "^2.6",
+        "scheb/2fa-bundle": "^8.6",
+        "scheb/2fa-totp": "^8.6",
         "symfony/brevo-mailer": "7.4.*",
         "symfony/console": "7.4.*",
         "symfony/doctrine-messenger": "7.4.*",
@@ -25,7 +28,6 @@
         "symfony/messenger": "7.4.*",
         "symfony/monolog-bundle": "^4.1",
         "symfony/rate-limiter": "7.4.*",
-        "symfony/redis-messenger": "7.4.*",
         "symfony/runtime": "7.4.*",
         "symfony/scheduler": "7.4.*",
         "symfony/security-bundle": "7.4.*",
@@ -43,10 +45,7 @@
         },
         "bump-after-update": true,
         "sort-packages": true,
-        "platform-check": "php-only",
-        "platform": {
-            "ext-redis": "6.2.0"
-        }
+        "platform-check": "php-only"
     },
     "autoload": {
         "psr-4": {

@@ -3,7 +3,7 @@ framework:
         failure_transport: failed
 
         transports:
-            # Redis en production (MESSENGER_TRANSPORT_DSN=redis://…), Doctrine en local.
+            # File dans la base (table messenger_messages), partout : pas de serveur de file.
             async:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 retry_strategy:

@@ -44,10 +44,12 @@ final class Version20261021140000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        // JSON_EXTRACT(…, '$') : la valeur est lue comme du JSON par MySQL comme par MariaDB
+        // (qui ne connaît pas CAST(… AS JSON)).
         foreach (self::LABELS as $locale => $labels) {
             $this->addSql(
-                "UPDATE content_document SET data = JSON_SET(data, '$.{$locale}.categoryLabels', CAST(:labels AS JSON)) WHERE id = 'page:projects-page' AND JSON_EXTRACT(data, '$.{$locale}.categoryLabels') IS NULL",
-                ['labels' => json_encode($labels, \JSON_THROW_ON_ERROR | \JSON_UNESCAPED_UNICODE)],
+                "UPDATE content_document SET data = JSON_SET(data, '$.{$locale}.categoryLabels', JSON_EXTRACT(:labels, '$')) WHERE id = 'page:projects-page' AND JSON_EXTRACT(data, '$.{$locale}.categoryLabels') IS NULL",
+                ['labels' => json_encode($labels, \JSON_THROW_ON_ERROR | \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES)],
             );
         }
     }

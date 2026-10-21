@@ -15,6 +15,7 @@ use App\Domain\Lead\ProjectType;
 use App\Infrastructure\Security\AdminUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
+use OTPHP\TOTP;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -23,6 +24,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class AdminLeadTest extends WebTestCase
 {
     private const string PASSWORD = 'test-password-not-secret';
+    private const string TOTP_SECRET = 'JBSWY3DPEHPK3PXP';
     private const string LEAD_ID = '01JABCDEFGHJKMNPQRSTVWXYZ0';
 
     private KernelBrowser $client;
@@ -56,6 +58,12 @@ final class AdminLeadTest extends WebTestCase
         $this->createAdmin();
         $this->client->request('GET', '/admin/login');
         $this->client->submitForm('Se connecter', ['_username' => 'admin@example.com', '_password' => self::PASSWORD]);
+
+        self::assertResponseRedirects('/admin/leads');
+        $this->client->followRedirect();
+        self::assertResponseRedirects('/admin/2fa');
+        $this->client->followRedirect();
+        $this->client->submitForm('Valider', ['_auth_code' => TOTP::createFromSecret(self::TOTP_SECRET)->now()]);
 
         self::assertResponseRedirects('/admin/leads');
         $this->client->followRedirect();
@@ -137,6 +145,7 @@ final class AdminLeadTest extends WebTestCase
         $hasher = static::getContainer()->get(UserPasswordHasherInterface::class);
         $admin = new AdminUser('01JABCDEFGHJKMNPQRSTVWXYZA', 'admin@example.com', new \DateTimeImmutable());
         $admin->setPassword($hasher->hashPassword($admin, self::PASSWORD));
+        $admin->enableTotp(self::TOTP_SECRET);
         $this->em()->persist($admin);
         $this->em()->flush();
 

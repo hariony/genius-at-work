@@ -1,0 +1,42 @@
+{# Activation de la double authentification, imposée avant tout accès au back-office. #}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Double authentification{% endblock %}
+{% block body_class %}login{% endblock %}
+
+{% block body %}
+    <span class="login-shape login-shape--circle" aria-hidden="true"></span>
+    <span class="login-shape login-shape--square" aria-hidden="true"></span>
+    <main class="login-card">
+        <p class="brand brand--dark">
+            {% include 'admin/_logo.html.twig' with {size: 34} %}
+            <span class="brand-name">genius<span class="brand-at">@</span>work</span>
+        </p>
+        <h1 class="login-title">Double authentification</h1>
+        <p class="muted">Obligatoire pour accéder au back-office. Dans votre application d’authentification (Google Authenticator, Microsoft Authenticator, 1Password…), ajoutez un compte en scannant ce code :</p>
+
+        <div class="totp-qr">{{ qr_code|raw }}</div>
+        <details class="totp-key">
+            <summary>Impossible de scanner ?</summary>
+            <p class="muted">Saisissez cette clé dans l’application :</p>
+            <code class="totp-secret">{{ secret|split('')|batch(4)|map(group => group|join)|join(' ') }}</code>
+        </details>
+
+        {% if error %}
+            <p class="flash flash--error" role="alert">{{ error }}</p>
+        {% endif %}
+
+        <form method="post" action="{{ path('admin_2fa_setup') }}" class="stack">
+            <label class="field">
+                <span class="field-label">Code affiché par l’application</span>
+                <input class="input" type="text" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required autofocus>
+            </label>
+            <input type="hidden" name="_token" value="{{ csrf_token('admin-2fa-setup') }}">
+            <button class="button button--primary button--block" type="submit">Activer</button>
+        </form>
+        <form method="post" action="{{ path('admin_logout') }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+            <button class="link-button" type="submit">Se déconnecter</button>
+        </form>
+    </main>
+{% endblock %}

@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Security;
 
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
+use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/** Compte du back-office. Créé uniquement en ligne de commande (app:admin:create). */
-class AdminUser implements UserInterface, PasswordAuthenticatedUserInterface
+/**
+ * Compte du back-office. Créé uniquement en ligne de commande (app:admin:create). La double
+ * authentification (code TOTP d'une application d'authentification) est obligatoire : tant
+ * qu'elle n'est pas activée, le back-office mène à son activation.
+ */
+class AdminUser implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
 {
     private string $password = '';
+    private ?string $totpSecret = null;
 
     public function __construct(
         private string $id,
@@ -48,6 +56,33 @@ class AdminUser implements UserInterface, PasswordAuthenticatedUserInterface
     {
     }
 
+    public function isTotpAuthenticationEnabled(): bool
+    {
+        return null !== $this->totpSecret;
+    }
+
+    public function getTotpAuthenticationUsername(): string
+    {
+        return $this->getUserIdentifier();
+    }
+
+    /** Réglages standard (SHA-1, 30 s, 6 chiffres) : compris par toutes les applications. */
+    public function getTotpAuthenticationConfiguration(): ?TotpConfigurationInterface
+    {
+        return null === $this->totpSecret ? null : new TotpConfiguration($this->totpSecret, TotpConfiguration::ALGORITHM_SHA1, 30, 6);
+    }
+
+    public function enableTotp(string $secret): void
+    {
+        $this->totpSecret = $secret;
+    }
+
+    /** Téléphone perdu : l'activation sera redemandée à la prochaine connexion. */
+    public function resetTotp(): void
+    {
+        $this->totpSecret = null;
+    }
+
     public function id(): string
     {
         return $this->id;
@@ -63,7 +98,10 @@ class AdminUser implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->createdAt;
     }
 
-    /** Ne garde pas le hachage dans la session sérialisée (Symfony 7.3+). */
+    /**
+     * Ne garde ni le hachage ni la clé TOTP dans la session sérialisée (Symfony 7.3+) : le compte
+     * est rechargé depuis la base à chaque requête.
+     */
     public function __serialize(): array
     {
         return [

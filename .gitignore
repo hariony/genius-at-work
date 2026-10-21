@@ -16,3 +16,10 @@ test-results/
 !/apps/api/.env
 !/apps/api/.env.test
 /apps/api/public/bundles/
+
+# Sauvegardes de la base rapatriées par infra/apache/deploy.sh.
+/backups/
+/infra/apache/deploy.env
+
+# Notes locales sur les accès serveur (le dépôt est public).
+/specs/acces-serveur-genius.md

@@ -1,0 +1,10 @@
+# Dans le pare-feu du back-office (^/admin), donc seulement sur ADMIN_HOST.
+admin_2fa_login:
+    path: /admin/2fa
+    methods: [GET]
+    defaults:
+        _controller: "scheb_two_factor.form_controller::form"
+
+admin_2fa_check:
+    path: /admin/2fa/check
+    methods: [POST]
