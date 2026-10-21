@@ -28,7 +28,8 @@ x-api: &api
     DATABASE_URL: mysql://gaw:gaw@mysql:3306/gaw?serverVersion=8.4.0&charset=utf8mb4
     MESSENGER_TRANSPORT_DSN: redis://redis:6379/messages
     REDIS_URL: redis://redis:6379
-    MAILER_DSN: smtp://mailpit:1025
+    # Mailpit par défaut ; une autre boîte de test peut être définie dans .env (non versionné).
+    MAILER_DSN: ${MAILER_DSN:-smtp://mailpit:1025}
     TRUSTED_PROXIES: private_ranges
 
 services:

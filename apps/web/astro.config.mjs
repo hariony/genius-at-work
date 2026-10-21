@@ -155,6 +155,9 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
+    // Développement : zod (formulaire de contact) préparé dès le démarrage. Découvert en cours
+    // de route, il déclenche une réoptimisation qui casse l'hydratation de l'îlot (504).
+    optimizeDeps: { include: ['zod'] },
     // Aucune ressource inlinée en data: (polices, images) : font-src et img-src restent 'self'.
     build: { assetsInlineLimit: 0 },
   },

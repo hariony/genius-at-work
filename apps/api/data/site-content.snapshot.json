@@ -2241,16 +2241,6 @@
                     "hint": "Contexte, objectifs, fonctionnalités, contraintes… Pas besoin d’être technique.",
                     "counter": "{count} / {max} caractères"
                 },
-                "budget": {
-                    "legend": "Budget envisagé",
-                    "options": {
-                        "lt-10k": "Moins de 10 k€",
-                        "10k-30k": "10 à 30 k€",
-                        "30k-80k": "30 à 80 k€",
-                        "gt-80k": "Plus de 80 k€",
-                        "undefined": "À définir ensemble"
-                    }
-                },
                 "timeline": {
                     "legend": "Échéance souhaitée",
                     "options": {
@@ -2337,16 +2327,6 @@
                     "label": "Your needs",
                     "hint": "Context, goals, features, constraints… No need to be technical.",
                     "counter": "{count} / {max} characters"
-                },
-                "budget": {
-                    "legend": "Expected budget",
-                    "options": {
-                        "lt-10k": "Under €10k",
-                        "10k-30k": "€10k to €30k",
-                        "30k-80k": "€30k to €80k",
-                        "gt-80k": "Over €80k",
-                        "undefined": "To be defined together"
-                    }
                 },
                 "timeline": {
                     "legend": "Desired timeline",
@@ -2634,7 +2614,7 @@
                         "items": [
                             "votre nom et votre adresse e-mail ;",
                             "votre téléphone et votre organisation, si vous choisissez de les indiquer ;",
-                            "le contenu de votre demande : type de projet, message, budget et échéance (facultatifs) ;",
+                            "le contenu de votre demande : type de projet, message, échéance (facultative) ;",
                             "la langue du site, la page d’où vous écrivez et la date de votre accord."
                         ]
                     },
@@ -2706,7 +2686,7 @@
                         "items": [
                             "your name and e-mail address;",
                             "your phone number and organisation, if you choose to provide them;",
-                            "the content of your request: project type, message, budget and timeline (optional);",
+                            "the content of your request: project type, message, timeline (optional);",
                             "the site language, the page you wrote from and the date of your consent."
                         ]
                     },

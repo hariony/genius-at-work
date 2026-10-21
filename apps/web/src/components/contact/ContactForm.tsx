@@ -1,5 +1,4 @@
 import {
-  BUDGET_RANGES,
   CONTACT_LIMITS,
   PROJECT_TYPES,
   TIMELINES,
@@ -30,7 +29,6 @@ interface Props {
 type Values = {
   projectType: string;
   message: string;
-  budgetRange: string;
   timeline: string;
   fullName: string;
   email: string;
@@ -50,7 +48,7 @@ type Status =
 
 const STEP_FIELDS: Field[][] = [
   ['projectType', 'message'],
-  ['budgetRange', 'timeline'],
+  ['timeline'],
   ['fullName', 'email', 'phone', 'company', 'consent'],
 ];
 
@@ -68,7 +66,6 @@ const SERVICE_TO_PROJECT_TYPE: Record<string, string> = {
 const INITIAL: Values = {
   projectType: '',
   message: '',
-  budgetRange: '',
   timeline: '',
   fullName: '',
   email: '',
@@ -93,7 +90,6 @@ function toPayload(
   return {
     projectType: values.projectType,
     message: values.message,
-    budgetRange: optional(values.budgetRange),
     timeline: optional(values.timeline),
     fullName: values.fullName,
     email: values.email,
@@ -351,15 +347,6 @@ export default function ContactForm({
 
       {step === 1 && (
         <>
-          <ChoiceGroup
-            {...fieldProps('budgetRange')}
-            name="budgetRange"
-            legend={copy.budget.legend}
-            optional={copy.optional}
-            options={BUDGET_RANGES.map((value) => ({ value, label: copy.budget.options[value] }))}
-            value={values.budgetRange}
-            onChange={set('budgetRange')}
-          />
           <ChoiceGroup
             {...fieldProps('timeline')}
             name="timeline"

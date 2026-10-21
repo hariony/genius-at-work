@@ -1,4 +1,4 @@
-import type { BudgetRange, ContactErrorCode, ProjectType, Timeline } from '@gaw/types/contact';
+import type { ContactErrorCode, ProjectType, Timeline } from '@gaw/types/contact';
 
 /** Textes du formulaire de contact, transmis à l'îlot React (qui n'a pas accès à Astro). */
 export interface ContactFormCopy {
@@ -6,7 +6,6 @@ export interface ContactFormCopy {
   stepCounter: string; // « Étape {current} sur {total} »
   projectType: { legend: string; options: Record<ProjectType, string> };
   message: { label: string; hint: string; counter: string };
-  budget: { legend: string; options: Record<BudgetRange, string> };
   timeline: { legend: string; options: Record<Timeline, string> };
   optional: string;
   fullName: string;

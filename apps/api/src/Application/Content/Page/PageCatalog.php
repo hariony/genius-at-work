@@ -294,16 +294,6 @@ final class PageCatalog
                     Field::line('hint', 'Aide'),
                     Field::line('counter', 'Compteur')->hint('{count} et {max} sont remplacés par les nombres.'),
                 ]),
-                Field::group('budget', 'Budget', [
-                    Field::line('legend', 'Question'),
-                    Field::group('options', 'Choix', [
-                        Field::line('lt-10k', 'Moins de 10 k€'),
-                        Field::line('10k-30k', '10 à 30 k€'),
-                        Field::line('30k-80k', '30 à 80 k€'),
-                        Field::line('gt-80k', 'Plus de 80 k€'),
-                        Field::line('undefined', 'À définir'),
-                    ]),
-                ]),
                 Field::group('timeline', 'Échéance', [
                     Field::line('legend', 'Question'),
                     Field::group('options', 'Choix', [
