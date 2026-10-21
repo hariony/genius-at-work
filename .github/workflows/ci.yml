@@ -146,7 +146,8 @@ jobs:
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
       - name: Vulnérabilités de l'image (Trivy)
-        uses: aquasecurity/trivy-action@0.36.0
+        # Épinglée sur le commit de la v0.36.0 (le tag « 0.36.0 » sans « v » n'existe pas).
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           image-ref: gaw-api:ci
           severity: CRITICAL,HIGH

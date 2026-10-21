@@ -3,6 +3,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "env": ["PUBLIC_*", "CONTENT_API_URL", "CONTENT_SNAPSHOT"],
       "outputs": ["dist/**", ".astro/**"],
       "cache": false
     },
