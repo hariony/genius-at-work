@@ -141,11 +141,11 @@ const activePath = activeNavPath(stripLocale(Astro.url.pathname));
 
   /* L'action passe en couleur d'action dans la barre compacte. */
   [data-scrolled] :global(.header-cta) {
-    background: var(--surface-accent);
-    color: var(--surface-accent-fg);
+    background: #00c2ff;
+    color: var(--color-white);
   }
   [data-scrolled] :global(.header-cta:hover) {
-    background: color-mix(in srgb, var(--surface-accent) 90%, transparent);
+    background: color-mix(in srgb, #00c2ff 90%, transparent);
   }
 </style>
 

@@ -88,7 +88,7 @@ const strip = copy.strip;
             <span>
               {lead}
               {rotating && (
-                <span class="hero-verb text-highlight" data-hero-verb>
+                <span class="hero-verb text-[#00C2FF]" data-hero-verb>
                   {verbs.map((verb, i) => (
                     <span class:list={['hero-verb__word', i === 0 && 'is-active']}>{verb}</span>
                   ))}
@@ -115,7 +115,11 @@ const strip = copy.strip;
           data-anim-trigger="load"
           data-anim-delay="0.4"
         >
-          <Button href={localizePath(CONTACT_PATH, locale)} variant="accent">
+          <Button
+            href={localizePath(CONTACT_PATH, locale)}
+            variant="accent"
+            class="bg-[#00C2FF]! text-white! hover:bg-[#00C2FF]/90!"
+          >
             {t('cta.discussProject')}
           </Button>
           <Button href={localizePath('/projects/', locale)} variant="secondary" icon={false}>
