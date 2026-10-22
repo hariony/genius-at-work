@@ -246,19 +246,28 @@ export default function ContactForm({
 
   if (status.kind === 'success') {
     return (
-      <div className="flex flex-col gap-8" role="status">
-        <h2 ref={headingRef} tabIndex={-1} className="type-h2 outline-none">
-          {copy.success.title}
-        </h2>
-        <p className="type-label text-fg-muted">
-          {copy.success.reference} ·{' '}
-          <span className="text-fg tabular-nums">{status.reference}</span>
+      <div className="contact-success" role="status">
+        <svg className="contact-success-check" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" />
+          <path d="M20 33.5 28.5 42 45 24" />
+        </svg>
+        <div className="flex flex-col gap-5">
+          <h2 ref={headingRef} tabIndex={-1} className="type-h2 outline-none">
+            {copy.success.title}
+          </h2>
+          <p className="max-w-[48ch] type-lead text-fg-muted">{copy.success.body}</p>
+        </div>
+        <p className="contact-success-ref">
+          <span className="type-label text-fg-muted">{copy.success.reference}</span>
+          <span className="contact-success-ref-value">{status.reference}</span>
         </p>
-        <p className="max-w-[48ch] type-lead text-fg-muted">{copy.success.body}</p>
-        <p className="flex flex-col gap-2">
+        <p className="contact-success-next">
           <span className="type-label text-fg-muted">{copy.success.next}</span>
-          <a href={projectsHref} className="self-start type-h3">
-            {copy.success.projects}
+          <a href={projectsHref} className="contact-success-link">
+            <span>{copy.success.projects}</span>
+            <span className="contact-success-link-icon" aria-hidden="true">
+              →
+            </span>
           </a>
         </p>
       </div>
