@@ -84,8 +84,8 @@
     min-height: 2.875rem;
     padding: 0 1.375rem;
     border-radius: var(--radius-pill);
-    background-color: #00c2ff;
-    color: var(--color-white);
+    background-color: var(--surface-accent);
+    color: var(--surface-accent-fg);
     font-size: var(--text-small);
     font-weight: 600;
     cursor: pointer;
@@ -94,7 +94,7 @@
       box-shadow var(--duration-base) var(--ease-out);
   }
   .contact-submit:hover {
-    background-color: color-mix(in srgb, #00c2ff 90%, transparent);
+    background-color: var(--color-blue-deep);
     box-shadow: var(--shadow-sm);
   }
   .contact-submit:disabled {
@@ -131,13 +131,13 @@
     width: 4rem;
     height: 4rem;
     fill: none;
-    stroke: #00c2ff;
+    stroke: var(--surface-accent);
     stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
   .contact-success-check circle {
-    fill: color-mix(in srgb, #00c2ff 10%, transparent);
+    fill: color-mix(in srgb, var(--surface-accent) 10%, transparent);
     stroke-dasharray: 189;
     stroke-dashoffset: 189;
     animation: contact-success-draw 0.8s var(--ease-out) 0.1s forwards;
@@ -161,7 +161,7 @@
   .contact-success-ref-value {
     padding: 0.25rem 0.875rem;
     border-radius: var(--radius-pill);
-    background: color-mix(in srgb, #00c2ff 12%, transparent);
+    background: color-mix(in srgb, var(--surface-accent) 12%, transparent);
     color: var(--color-fg);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
@@ -190,8 +190,8 @@
     width: 2.75rem;
     height: 2.75rem;
     border-radius: var(--radius-pill);
-    background: #00c2ff;
-    color: var(--color-white);
+    background: var(--surface-accent);
+    color: var(--surface-accent-fg);
     font-size: 1.125rem;
     transition: transform var(--duration-base) var(--ease-out);
   }

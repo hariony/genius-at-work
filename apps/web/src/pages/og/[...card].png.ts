@@ -13,7 +13,7 @@ const COLORS = {
   paper: '#f5f4ef',
   ink: '#0b1033',
   slate: '#575a6c',
-  blue: '#2a45ff',
+  blue: '#00c2ff',
   /** Réservé au monogramme du logo. */
   cyan: '#00c2ff',
   lime: '#c8f031',

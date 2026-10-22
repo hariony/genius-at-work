@@ -9,7 +9,7 @@
  *      [data-surface="base|subtle|night|blue|lime"].
  *
  * Palette (contrastes WCAG mesurés, texte normal) :
- *   Primary    bleu électrique #2A45FF : action, liens, aplat « blue »
+ *   Primary    cyan #00C2FF (celui du monogramme) : action, liens, aplat « blue »
  *              (5,6:1 sur papier ; blanc dessus 6,2:1)
  *   Signature  citron #C8F031 : mot clé, chiffres, survols, action sur sombre
  *              (encre dessus 14,8:1 ; sur navy 14:1 ; sur bleu 4,7:1)
@@ -33,13 +33,14 @@
   --color-line: #dedcd4;
   --color-line-strong: #c9c6bb;
 
-  --color-blue: #2a45ff;
-  --color-blue-deep: #1d34d6;
-  --color-blue-soft: #e5e9ff;
-  /* Bleu clair, lisible sur navy (8,4:1) : liens et traits actifs sur sombre. */
-  --color-blue-light: #9aa9ff;
-  /* Texte secondaire sur l'aplat bleu (4,8:1). */
-  --color-blue-mist: #dde2ff;
+  /* Les noms « blue » restent (classes et rôles existants) ; la teinte est le cyan du logo. */
+  --color-blue: #00c2ff;
+  --color-blue-deep: #00a3d9;
+  --color-blue-soft: #e0f7ff;
+  /* Cyan clair, lisible sur navy : liens et traits actifs sur sombre. */
+  --color-blue-light: #7fdcff;
+  /* Texte secondaire sur l'aplat cyan. */
+  --color-blue-mist: #e0f7ff;
 
   --color-lime: #c8f031;
   /* Texte secondaire sur l'aplat citron (6,5:1). */
